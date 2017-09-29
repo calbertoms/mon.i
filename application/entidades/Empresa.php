@@ -13,6 +13,10 @@
  */
 class Empresa {
     
+    /**
+     *ATRIBUTOS
+     */
+    
     private $id;
      
     public function getId() {
@@ -23,6 +27,11 @@ class Empresa {
         $this->id = $id;
     }
 
+    
+    /**
+     * METODOS
+     */
+    
     public function cadastrar(){
         
     }
