@@ -17,16 +17,16 @@ abstract class Empresa {
      *ATRIBUTOS
      */
     
-    private $id;
-    private $nome;
-    private $nomeFantasia;
-    private $cnpj;
-    private $email;
-    private $telefone;
-    private $inscEstadual;
-    private $contatoEmail;
-    private $contatoNome;
-    private $contatoTel;
+    protected $id;
+    protected $nome;
+    protected $nomeFantasia;
+    protected $cnpj;
+    protected $email;
+    protected $telefone;
+    protected $inscEstadual;
+    protected $contatoEmail;
+    protected $contatoNome;
+    protected $contatoTel;
 
     //geters e settes
     
