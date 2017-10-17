@@ -31,7 +31,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo base_url();?>"><img class="img-responsive" src="<?php echo base_url('assets/img/logo.png');?>" alt="logo"></a>
+                <!--<a class="navbar-brand" href="<?php echo base_url();?>"><img class="img-responsive" src="<?php echo base_url('assets/img/logo.png');?>" alt="logo"></a>-->
             </div>
             
             <div class="collapse navbar-collapse">
@@ -39,7 +39,7 @@
                     
                     <li <?php if (isset($menuprincipal)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url();?>"><i class="fa fa-home"></i> Home</a></li>
                     
-                    <?php if($this->permission->checkPermission($this->session->userdata('permissao'),'gGestaoDispositivos')){ ?>
+                    <!--<?php if($this->permission->checkPermission($this->session->userdata('permissao'),'gGestaoDispositivos')){ ?>
                         <li class="dropdown <?php if (isset($menudispositivos)) { echo 'active'; } ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-wrench"></i> Gestão Dispositivos <i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu">
@@ -91,7 +91,7 @@
                             </ul>
                         </li> 
                     <?php } ?>
-                    <li <?php if (isset($menusobre)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Sobre');?>"><i class="fa fa-book"></i> Sobre</a></li>
+                    <li <?php if (isset($menusobre)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Sobre');?>"><i class="fa fa-book"></i> Sobre</a></li>-->
                     
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <i class="fa fa-angle-down"></i></a>
@@ -233,7 +233,7 @@
     <footer class="navbar  navbar-inverse navbar-fixed-bottom"> 
         <div class="container">
             <div class="navbar-text">
-                <p> ©  GC Automação 2002-<?php echo date('Y'); ?> - Todos os Direitos Reservados.</p>
+                <p> ©  Monitores Inteligentes Mon.I - <?php echo date('Y'); ?> - Todos os Direitos Reservados.</p>
             </div>
         </div>
     </footer>

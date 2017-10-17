@@ -1,5 +1,5 @@
 <?php
-class Transporte extends CI_Model {
+class Empresa_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();

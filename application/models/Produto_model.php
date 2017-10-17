@@ -1,5 +1,5 @@
 <?php
-class Rota extends CI_Model {
+class Produto_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();

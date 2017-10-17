@@ -1,5 +1,5 @@
 <?php
-class Fabrica extends CI_Model {
+class Tanque_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();

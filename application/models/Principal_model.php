@@ -1,5 +1,5 @@
 <?php
-class Empresa extends CI_Model {
+class Principal_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
