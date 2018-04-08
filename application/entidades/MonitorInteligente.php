@@ -105,7 +105,7 @@ class MonitorInteligente{
     }
     
     public function setLeitura(Leitura $leitura) {
-        $this->leitura[] = $leitura;
+        $this->leitura = $leitura;
     }
     
     private function selecionaMonitor($mac){
@@ -142,8 +142,8 @@ class MonitorInteligente{
         
         $data = array(
             'idMonitor' => $this->getId(),
-            'nivel' => $this->getLeitura()[0]->getNivel(),
-            'dataHora' => $this->getLeitura()[0]->getDataHora()
+            'nivel' => $this->getLeitura()->getNivel(),
+            'dataHora' => $this->getLeitura()->getDataHora()
         );
         
         if ($this->model->adicionar('leitura', $data) == TRUE) {
