@@ -136,6 +136,7 @@ class MonitorInteligente{
         
         return $this->selecionaMonitor($mac);
         
+        
     }
     
     public function insereLeitura(){
