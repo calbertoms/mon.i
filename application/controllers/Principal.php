@@ -34,6 +34,76 @@ class Principal extends CI_Controller {
         
     }
     
+    public function verificarLogin() {
+        
+        $this->load->library('encrypt'); 
+
+        $useremail = $this->input->post('useremail');
+        $senha = $this->encrypt->hash($this->input->post('password'));
+
+        $usuario = $this->Principal_model->usuarioSenha($useremail,$senha);
+
+        if (count($usuario) > 0) {
+            $dados = array('usuario' => $usuario->usuario, 'email' => $usuario->email, 'id' => $usuario->idUsuario, 'permissao' => $usuario->idPermissao, 'logado' => TRUE);
+            $this->session->set_userdata($dados);
+
+            $json = array('result' => true);
+            echo json_encode($json);
+
+        } else {
+            
+            $usuario = $this->Principal_model->emailSenha($useremail,$senha);
+            
+            if (count($usuario) > 0) {
+                $dados = array('usuario' => $usuario->usuario, 'email' => $usuario->email, 'id' => $usuario->idUsuario, 'permissao' => $usuario->idPermissao, 'logado' => TRUE);
+                $this->session->set_userdata($dados);
+
+                $json = array('result' => true);
+                echo json_encode($json);
+
+            }
+            else{
+               
+                $json = array('result' => false);
+                echo json_encode($json);
+                
+            }
+                
+        }
+        
+    }
+    
+    public function sair() {
+        $this->session->sess_destroy();
+        redirect('Principal/login');
+    }
+    
+    //metodo usado para alterar a senha
+    public function alterarSenha() {
+        if((!$this->session->userdata('id')) || (!$this->session->userdata('logado'))){
+            redirect('Principal/login');
+        }
+        
+        $this->load->library('encrypt'); 
+        
+        $url = $this->input->post('url');
+        $oldSenha = $this->encrypt->hash($this->input->post('oldSenha'));
+        $senha = $this->encrypt->hash($this->input->post('novaSenha'));
+        $result = $this->Principal_model->alterarSenha($senha,$oldSenha,$this->session->userdata('id'));
+        
+        if($result){
+            $this->session->set_flashdata('success','Senha Alterada com sucesso!');
+            redirect($url);
+        }
+        else{
+            $this->session->set_flashdata('error','Ocorreu um erro ao tentar alterar a senha!');
+            redirect($url);
+            
+        }
+        
+    }
+    
+    
     public function geraGrafico(){
         
         $id = $this->input->post('monitor');

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>GC Automação</title> 
+    <title>Mon.I</title> 
 	
 	<!-- core CSS -->
     <link href="<?php echo base_url('assets/css/bootstrap.min.css');?>" rel="stylesheet">
@@ -39,13 +39,13 @@
                     
                     <li <?php if (isset($menuprincipal)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url();?>"><i class="fa fa-home"></i> Home</a></li>
                     
-                    <!--<?php if($this->permission->checkPermission($this->session->userdata('permissao'),'gGestaoDispositivos')){ ?>
+                    <?php //if($this->permission->checkPermission($this->session->userdata('permissao'),'gGestaoDispositivos')){ ?>
                         <li class="dropdown <?php if (isset($menudispositivos)) { echo 'active'; } ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-wrench"></i> Gestão Dispositivos <i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li <?php if (isset($dis_gclix_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Dispositivos/LixI');?>">GC Lix.I</a></li>
-                                <li <?php if (isset($dis_gcesc_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Dispositivos/EscI');?>">GC Esc.I</a></li>
-                                <li <?php if (isset($dis_gctel_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Dispositivos/TelI');?>">GC Tel.I</a></li>
+                                <li <?php //if (isset($dis_gclix_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Dispositivos/LixI');?>">GC Lix.I</a></li>
+                                <li <?php //if (isset($dis_gcesc_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Dispositivos/EscI');?>">GC Esc.I</a></li>
+                                <li <?php //if (isset($dis_gctel_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Dispositivos/TelI');?>">GC Tel.I</a></li>
                                 <li class="dropdown dropdown-submenu <?php if (isset($submenulocais)) { echo 'active'; } ?>">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Localização</a>
                                     <ul class="dropdown-menu">
@@ -71,7 +71,7 @@
                                 </li>
                             </ul>
                         </li>
-                    <?php } ?>
+                    <?php // } ?>
                     <?php if($this->permission->checkPermission($this->session->userdata('permissao'),'gGraficos')){ ?>
                         <li class="dropdown <?php if (isset($menugraficos)) { echo 'active'; } ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-area-chart"></i> Gráficos <i class="fa fa-angle-down"></i></a>
@@ -82,7 +82,7 @@
                             </ul>
                         </li> 
                     <?php } ?>
-                    <?php if($this->permission->checkPermission($this->session->userdata('permissao'),'gConfiguracoes')){ ?>
+                    <!--<?php // if($this->permission->checkPermission($this->session->userdata('permissao'),'gConfiguracoes')){ ?> -->
                         <li class="dropdown <?php if (isset($menuconfiguracao)) { echo 'active'; } ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> Configurações <i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu">
@@ -90,8 +90,8 @@
                                 <li <?php if (isset($conf_permissoes)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Permissoes');?>">Permissões</a></li>                           
                             </ul>
                         </li> 
-                    <?php } ?>
-                    <li <?php if (isset($menusobre)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Sobre');?>"><i class="fa fa-book"></i> Sobre</a></li>-->
+                    <?php // } ?>
+                    <li <?php if (isset($menusobre)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Sobre');?>"><i class="fa fa-book"></i> Sobre</a></li>
                     
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <i class="fa fa-angle-down"></i></a>
