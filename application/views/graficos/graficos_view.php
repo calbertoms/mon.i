@@ -138,7 +138,7 @@ $(document).ready(function () {
 
             $.ajax({
                type: "POST",
-               url: "<?php echo base_url('Principal/geraGrafico'); ?>",
+               url: "<?php echo base_url('Principal_ctrl/geraGrafico'); ?>",
                data: dados,
                dataType: 'text',
                success: function (data)

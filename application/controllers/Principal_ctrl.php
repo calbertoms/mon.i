@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once(APPPATH . 'entidades/MonitorInteligente.php');
 
-class Principal extends CI_Controller {
+class Principal_ctrl extends CI_Controller {
 
     private $model;
     
@@ -23,14 +23,14 @@ class Principal extends CI_Controller {
         $monitor = new MonitorInteligente($this->model);
                 
         $this->data['monitor'] = $monitor->buscaMonitores();
-        $this->data['view'] = 'graficos/grafico';
-        $this->load->view('principal/tema',  $this->data);
+        $this->data['view'] = 'graficos/graficos_view';
+        $this->load->view('principal/tema_view',  $this->data);
             
     }
     
     public  function login(){
         
-        $this->load->view('principal/login');
+        $this->load->view('principal/login_view');
         
     }
     
@@ -75,13 +75,13 @@ class Principal extends CI_Controller {
     
     public function sair() {
         $this->session->sess_destroy();
-        redirect('Principal/login');
+        redirect('Principal/login_view');
     }
     
     //metodo usado para alterar a senha
     public function alterarSenha() {
         if((!$this->session->userdata('id')) || (!$this->session->userdata('logado'))){
-            redirect('Principal/login');
+            redirect('Principal/login_view');
         }
         
         $this->load->library('encrypt'); 

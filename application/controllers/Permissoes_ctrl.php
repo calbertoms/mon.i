@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Permissoes extends CI_Controller {
+class Permissoes_ctrl extends CI_Controller {
 	
 public function __construct() {
         parent::__construct();
         
        /* if ((!$this->session->userdata('id')) || (!$this->session->userdata('logado'))) {
-            redirect('Principal/login');
+            redirect('Principal_ctrl/login');
         }
         */
         $this->data['menuconfiguracao'] = 'menuconfiguracao';
@@ -55,8 +55,8 @@ public function __construct() {
         
         $this->data['permissoes'] = $this->Permissoes_model->buscaPermissoes($limit,$start);
         
-        $this->data['view'] = 'permissoes/permissoes';  
-        $this->load->view('principal/tema',  $this->data);
+        $this->data['view'] = 'permissoes/permissoes_view';  
+        $this->load->view('principal/tema_view',  $this->data);
         
     }
     
@@ -132,7 +132,7 @@ public function __construct() {
             $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
         }
         
-        redirect(base_url('Permissoes'));
+        redirect(base_url('Permissoes_ctrl'));
         
     }
     
@@ -166,7 +166,7 @@ public function __construct() {
             $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
         }
         
-        redirect(base_url('Permissoes'));
+        redirect(base_url('Permissoes_ctrl'));
         
     }
     
@@ -212,7 +212,7 @@ public function __construct() {
             if(count($result) > 0 ){
                 
                 $this->session->set_flashdata('error','Não é possível excluir a Permissão, pois existe usuários associados, Tenha certeza de editá-los ou excluí-los antes.');
-                redirect(base_url('Permissoes'));
+                redirect(base_url('Permissoes_ctrl'));
                 
             }
                         
@@ -225,7 +225,7 @@ public function __construct() {
             
         }
      
-        redirect(base_url('Permissoes'));        
+        redirect(base_url('Permissoes_ctrl'));        
 
         
     }

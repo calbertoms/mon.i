@@ -73,7 +73,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="ModalLabelAdd">Mon.I - Adicionar Permissões</h4>
             </div>
-            <form id="formCad" action="<?php echo base_url('Permissoes/adicionar'); ?>" method="post">
+            <form id="formCad" action="<?php echo base_url('Permissoes_ctrl/adicionar'); ?>" method="post">
                 <div class="modal-body">                    
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12">
@@ -144,7 +144,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="ModalLabelAdd">Mon.I - Editar Permissões</h4>
             </div>
-            <form id="formEdit" action="<?php echo base_url('Permissoes/editar'); ?>" method="post">
+            <form id="formEdit" action="<?php echo base_url('Permissoes_ctrl/editar'); ?>" method="post">
                 <div class="modal-body">                    
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12">
@@ -216,7 +216,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="ModalLabelExcl">Mon.I - Excluir Permissões</h4>
             </div>
-            <form id="formExcluir" action="<?php echo base_url('Permissoes/excluir'); ?>" method="post">
+            <form id="formExcluir" action="<?php echo base_url('Permissoes_ctrl/excluir'); ?>" method="post">
                 <div class="modal-body">
                     <h5 style="text-align: center">Deseja realmente excluir essa Permissão ?</h5>
                     <input name="id" id="idExcluir" type="hidden" value=""/>
@@ -257,7 +257,7 @@ $(document).ready(function () {
         $.ajax({
             type: 'POST',
             dataType: 'json',
-            url: '<?php echo base_url('Permissoes/buscaPermissao');?>',
+            url: '<?php echo base_url('Permissoes_ctrl/buscaPermissao');?>',
             data: 'idPermissao='+idPermissao,
             success: function (data)
             {
@@ -306,7 +306,7 @@ $(document).ready(function () {
         rules:
                 {
                     permissaoCad: {required: true,
-                               remote: "<?php echo base_url('Permissoes/verificaPermissao'); ?>"}
+                               remote: "<?php echo base_url('Permissoes_ctrl/verificaPermissao'); ?>"}
                 },                        
         messages: 
                 {

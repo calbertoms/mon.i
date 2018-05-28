@@ -15,17 +15,33 @@ class Usuario {
     //put your code here
     
     private $id;
-    private $nome;
+    private $nomeCompleto;
     private $email;
     private $usuario;
     private $senha;
+    private $tipo;
+    private $situacao;
+    private $permissao;
+    private $dataCadastro;
+    private $dataAlterado;
+    
+    
+    private $model;
+
+
+    public function __construct($model) {
+        
+        $this->model = $model;
+        
+    }
+    
     
     public function getId() {
         return $this->id;
     }
 
-    public function getNome() {
-        return $this->nome;
+    public function getNomeCompleto() {
+        return $this->nomeCompleto;
     }
 
     public function getEmail() {
@@ -39,13 +55,34 @@ class Usuario {
     public function getSenha() {
         return $this->senha;
     }
+    
+    public function getTipo() {
+        return $this->tipo;
+    }
+    
+    public function getSituacao() {
+        return $this->situacao;
+    }
+    
+    public function getPermissao() {
+        return $this->permissao;
+    }
 
+    public function getdataCadastro() {
+        return $this->dataCadastro;
+    }
+
+    public function getdataAlterado() {
+        return $this->dataAlterado;
+    }   
+    
+    
     public function setId($id) {
         $this->id = $id;
     }
 
-    public function setNome($nome) {
-        $this->nome = $nome;
+    public function setNomeCompleto($nomeCompleto) {
+        $this->nomeCompleto = $nomeCompleto;
     }
 
     public function setEmail($email) {
@@ -59,6 +96,77 @@ class Usuario {
     public function setSenha($senha) {
         $this->senha = $senha;
     }
-
     
+    public function setTipo($tipo) {
+        $this->tipo = $tipo;
+    }
+    
+    public function setSituacao($situacao) {
+        $this->situacao = $situacao;
+    }
+    
+    public function setPermissao($permissao) {
+        $this->permissao = $permissao;
+    }
+    
+    public function setdataCadastro($dataCadastro) {
+        $this->dataCadastro = $dataCadastro;
+    }
+   
+    public function setdataAlterado($dataAlterado) {
+        $this->dataAlterado = $dataAlterado;
+    }    
+    
+    public function cadastrar() {
+        
+                
+        $nomeCompleto = $this->getNomeCompleto();
+        $usuario = $this->getUsuario();
+        $email = $this->getEmail();
+        $permissao = $this->getPermissao();
+        $senha = $this->getSenha();
+        $situacao = $this->getSituacao();
+        
+        $cadastro = date('Y-m-d H:i:s');
+        $alterado = date('Y-m-d H:i:s');
+        
+        $data = array(
+            
+            'idPermissao' => $permissao,
+            'nomeCompleto' => $nomeCompleto,
+            'usuario'  => $usuario,
+            'email'   => $email,
+            'senha'     => $senha,
+            'situacao'       => $situacao,
+            'dataCadastro'  => $cadastro,
+            'dataAlterado'=> $alterado
+        );
+
+        if ($this->model->adicionar('usuario', $data) == TRUE) {
+            $result = TRUE;
+                      
+        } else {
+            $result = FALSE;
+        }
+        
+         return $result;
+
+    }
+    
+    public function editar() {
+        
+    }
+
+    public function visualizar() {
+        
+    }
+
+    public function logar() {
+        
+    }
+
+    public function deslogar() {
+        
+    }
+
 }

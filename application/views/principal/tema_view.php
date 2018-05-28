@@ -86,8 +86,8 @@
                         <li class="dropdown <?php if (isset($menuconfiguracao)) { echo 'active'; } ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> Configurações <i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li <?php if (isset($conf_usuarios)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Usuarios');?>">Usuários</a></li>
-                                <li <?php if (isset($conf_permissoes)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Permissoes');?>">Permissões</a></li>                           
+                                <li <?php if (isset($conf_usuarios)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Usuario_ctrl');?>">Usuários</a></li>
+                                <li <?php if (isset($conf_permissoes)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Permissoes_ctrl');?>">Permissões</a></li>                           
                             </ul>
                         </li> 
                     <?php // } ?>
