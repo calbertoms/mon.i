@@ -305,16 +305,19 @@ $(document).ready(function () {
     //carrega os dados do totem
     $('#modalEdit').on('shown.bs.modal', function () {
         var idUsuario = $('#idUsuario').val();
-        
         $.ajax({
             type: 'POST',
             dataType: 'json',
-            url: '<?php echo base_url('Usuarios_ctrl/buscaUsuario');?>',
+            url: '<?php echo base_url('Usuario_ctrl/buscaUsuario');?>',
             data: 'idUsuario='+idUsuario,
+           
             success: function (data)
             {
+
+
                 if (data.result === true)
                 {
+  
                     $("#nomeCompletoEdit").val(data.nomeCompleto);
                     $("#usuarioEdit").val(data.usuario);
                     $("#emailEdit").val(data.email);
@@ -322,6 +325,7 @@ $(document).ready(function () {
                     $("#permissaoEdit").val(data.permissao);
 
                 }
+
             }
         });
     });

@@ -53,4 +53,12 @@ class Usuario_model extends CI_Model {
         return $this->db->query($query, array($limit,$start))->result();
         
     }
+    
+    public function buscaUsuarioPorId($id) {
+        
+        $query = 'Select * from usuario WHERE idUsuario = ? LIMIT 1 ';
+                                      
+        return $this->db->query($query, array($id))->row();
+        
+    }
 }

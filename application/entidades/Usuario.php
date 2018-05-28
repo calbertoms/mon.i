@@ -28,7 +28,6 @@ class Usuario {
     
     private $model;
 
-
     public function __construct($model) {
         
         $this->model = $model;
@@ -166,6 +165,50 @@ class Usuario {
     }
 
     public function deslogar() {
+        
+    }
+
+     public function buscaUsuario(){
+        
+        //pega os dados passados por parametros via post ajax
+        $id =$this->getId();
+        
+        //verifica se algum veio nulo, caso aconteça sai da função retornando nulo
+        if($id == null){
+            
+            $json = array('result'=>  false);
+            echo json_encode($json);
+
+    	}
+        
+    	else{
+
+            $result = $this->model->buscaUsuarioPorId($id);
+            
+            if(count($result) > 0 ){
+                
+                
+                $json = array('result'=>  TRUE,
+                              'permissao'=> $result->idPermissao,
+                              'nomeCompleto' => $result->nomeCompleto,
+                              'usuario'=> $result->usuario,
+                              'email'=> $result->email, 
+                              'situacao'=> $result->situacao);
+                $dados = json_encode($json);
+
+
+            }
+            
+            else{
+                
+                $json = array('result'=>  false);
+                $dados = json_encode($json);
+                
+            }
+            
+            return $dados;
+    	}
+        
         
     }
 

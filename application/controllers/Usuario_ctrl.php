@@ -77,12 +77,26 @@ class Usuario_ctrl extends CI_Controller {
         $usuario->setSituacao($this->input->post('situacaoCad'));
         
         if($usuario->cadastrar() == TRUE){
+            
             $this->session->set_flashdata('success', 'Usuário adicionado  com sucesso!');
+            
         }else{
+            
             $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
         }
                 
         redirect(base_url('Usuario_ctrl'));
+    }
+    
+    public function buscaUsuario() {
+
+        $usuario = new Usuario($this->model);
+        
+        $usuario->setId($this->input->post('idUsuario'));
+                  
+        $result = $usuario->buscaUsuario();
+        echo $result;
+
     }
 }
 
