@@ -152,7 +152,54 @@ class Usuario {
 
     }
     
-    public function editar() {
+    public function editarClass() {
+        
+
+        $id = $this->getId();
+        $nomeCompleto = $this->getNomeCompleto();
+        $usuario = $this->getUsuario();
+        $email = $this->getEmail();
+        $permissao = $this->getPermissao();
+        $senha = $this->getSenha();
+        $situacao = $this->getSituacao();
+        
+        $alterado = date('Y-m-d H:i:s');
+        
+        if($senha != ''){
+        
+        $data = array(
+            'idPermissao' => $permissao,
+            'nomeCompleto'=> $nomeCompleto,
+            'usuario'     => $usuario,
+            'email'       => $email,
+            'senha'       => $senha,
+            'situacao'    => $situacao,
+            'dataAlterado'=> $alterado
+        );
+        }
+        else
+        {
+            $data = array(
+            'idPermissao' => $permissao,
+            'nomeCompleto'=> $nomeCompleto,
+            'usuario'      => $usuario,
+            'email'        => $email,
+            'situacao'    => $situacao,
+            'dataAlterado'=> $alterado
+        );
+        }
+
+       if ($this->model->editar('usuario', $data,'idUsuario',$id)) {
+  
+            $result = TRUE;
+     
+        } else {
+ 
+            $result = FALSE;
+           
+        }
+        
+        return $result;
         
     }
 

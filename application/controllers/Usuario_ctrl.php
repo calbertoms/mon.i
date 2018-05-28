@@ -98,5 +98,34 @@ class Usuario_ctrl extends CI_Controller {
         echo $result;
 
     }
+    
+    public function editar() {
+        
+        $this->load->library('encrypt');
+        
+        $usuario = new Usuario($this->model);
+        
+        $usuario->setId($this->input->post('idUsuario'));
+        $usuario->setNomeCompleto($this->input->post('nomeCompletoEdit'));
+        $usuario->setUsuario($this->input->post('usuarioEdit'));
+        $usuario->setEmail($this->input->post('emailEdit'));
+        $usuario->setPermissao($this->input->post('permissaoEdit'));
+        if ($this->input->post('senhaEdit')!=''){
+           $usuario->setSenha($this->encrypt->hash($this->input->post('senhaEdit'))); 
+        }
+        $usuario->setSituacao($this->input->post('situacaoEdit'));
+        
+        if($usuario->editarClass() == TRUE){
+            
+            $this->session->set_flashdata('success', 'Usuário alterado com sucesso!');
+            
+        }else{
+            
+            $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
+        }
+             
+
+        redirect(base_url('Usuario_ctrl'));
+    }
 }
 

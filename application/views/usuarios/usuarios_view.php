@@ -174,7 +174,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="ModalLabelAdd">Mon.I - Editar Usuário</h4>
             </div>
-            <form id="formEdit" action="<?php echo base_url('Usuarios_ctrl/editar'); ?>" method="post">
+            <form id="formEdit" action="<?php echo base_url('Usuario_ctrl/editar'); ?>" method="post">
                 <div class="modal-body">                    
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12">
