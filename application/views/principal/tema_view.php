@@ -98,7 +98,7 @@
                         <ul class="dropdown-menu">
                             <li class="dropdown-header"><?php echo $this->session->userdata('usuario');?></li>
                             <li><a href="#modalAlterar" data-toggle="modal" data-target="#modalAlterar"><i class="fa fa-cog"></i> Alterar Senha</a></li> 
-                            <li><a href="<?php echo base_url('Principal/sair');?>"><i class="fa fa-sign-out"></i> Sair</a></li>                          
+                            <li><a href="<?php echo base_url('Principal_ctrl/sair');?>"><i class="fa fa-sign-out"></i> Sair</a></li>                          
                         </ul>
                     </li>
                     

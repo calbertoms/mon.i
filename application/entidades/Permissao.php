@@ -12,5 +12,18 @@
  * @author Suporte
  */
 class Permissao {
-    //put your code here
+    //atributos
+    
+    private $idPermissao;
+    
+    //atributos especiais
+    
+    public function getIdPermissao() {
+        
+        return $this->idPermissao;
+    }
+    
+    public function setIdPermissao($idPermissao){
+        $this->idPermissao = $idPermissao;
+    }
 }

@@ -82,15 +82,16 @@ $(document).ready(function () {
           var dados = $( form ).serialize();
 
 
+
          $.ajax({
            type: "POST",
-           url: "<?php echo base_url('Principal/verificarLogin');?>",
+           url: "<?php echo base_url('Principal_ctrl/verificarLogin');?>",
            data: dados,
            dataType: 'json',
            success: function(data)
            {                   
-             if(data.result === true){
-                 window.location.href = "<?php echo base_url('Principal');?>";
+             if(data === true){
+                 window.location.href = "<?php echo base_url('Principal_ctrl');?>";
              }
              else{
                  $('#call-modal').trigger('click');

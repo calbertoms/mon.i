@@ -1,3 +1,4 @@
+<!-- GERENCIAR USUARIO -->
 <div class="row">
     <div class="col-sm-12 col-md-12">        
         <?php
@@ -51,7 +52,7 @@
                             echo '<td style="text-align: center; vertical-align: middle;">Desativo</td>'; 
                         }
                         echo '<td style="text-align: center; vertical-align: middle;">';
-                            if (($u->idUsuario) != 0) {
+                            if (($u->idUsuario) != 1) {
                                 echo '<a style="margin-right: 1%" href="#modalEdit" class="btn btn-info editar" role="button" data-toggle="modal" usuario="'.$u->idUsuario.'" title="Editar Usuário"><i class="fa fa-fw fa-pencil"></i></a>';                    
                                 echo '<a style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idUsuario="'.$u->idUsuario.'" title="Excluir Usuário"><i class="fa fa-fw fa-remove"></i></a>';
                             }
@@ -65,7 +66,7 @@
 </div>
 
 <?php }?>
-
+<!-- Paginador -->
 <div class="row">
     <div class="col-sm-12 col-md-12 text-center">
         <?php echo $this->pagination->create_links();?>
@@ -99,13 +100,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-12 col-md-6 col-lg-6">
-                                    <div class="form-group">
-                                        <label for="usuarioCad">Usuário<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="usuarioCad" name="usuarioCad" maxlength="100"/>                       
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-group">
                                         <label for="emailCad">Email<span class="required" style="color: #EE0000">*</span>: </label>
                                         <input type="email" class="form-control" id="emailCad" name="emailCad" maxlength="100"/>                       
@@ -113,6 +108,20 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="usuarioCad">Usuário (Apelido)<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="usuarioCad" name="usuarioCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="telefoneCad">Telefone<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="telefone" class="form-control" id="telefoneCad" name="telefoneCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="senhaCad">Senha<span class="required" style="color: #EE0000">*</span>: </label>
@@ -193,16 +202,25 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="emailEdit">Email<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="email" class="form-control" id="emailEdit" name="emailEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                             
+                            <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <label for="usuarioEdit">Usuário<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <label for="usuarioEdit">Usuário (Apleido)<span class="required" style="color: #EE0000">*</span>: </label>
                                         <input type="text" class="form-control" id="usuarioEdit" name="usuarioEdit" maxlength="100"/>                       
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <label for="emailEdit">Email<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="email" class="form-control" id="emailEdit" name="emailEdit" maxlength="100"/>                       
+                                        <label for="telefoneEdit">Telefone<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="telefoneEdit" name="telefoneEdit" maxlength="100"/>                       
                                     </div>
                                 </div>
                             </div>
@@ -239,8 +257,8 @@
                                         <label for="situacaoEdit">Situação<span class="required" style="color: #EE0000">*</span>: </label>
                                         <select id="situacaoEdit" class="form-control" name="situacaoEdit" title="Selecione a situação">
                                             <option value="">Selecione...</option>
-                                            <option value="1">Ativo</option>
-                                            <option value="0">Desativo</option>
+                                            <option value="1.0">Ativo</option>
+                                            <option value="0.0">Desativo</option>
                                         </select>                    
                                     </div>
                                 </div>
@@ -259,7 +277,7 @@
     </div>
 </div>
 
-<!-- Excluir -->
+<!-- Excluir Virtualmente -->
 
 <div id="modalExcluir" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ModalLabelExcl">
     <div class="modal-dialog" role="document">
@@ -268,7 +286,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="ModalLabelExcl">Mon.I - Excluir Usuário</h4>
             </div>
-            <form id="formExcluir" action="<?php echo base_url('Usuarios_ctrl/excluir'); ?>" method="post">
+            <form id="formExcluir" action="<?php echo base_url('Usuario_ctrl/excluir'); ?>" method="post">
                 <div class="modal-body">
                     <h5 style="text-align: center">Deseja realmente excluir esse Usuário ?</h5>
                     <input name="id" id="idExcluir" type="hidden" value=""/>
@@ -320,6 +338,7 @@ $(document).ready(function () {
   
                     $("#nomeCompletoEdit").val(data.nomeCompleto);
                     $("#usuarioEdit").val(data.usuario);
+                    $("#telefoneEdit").val(data.telefone);
                     $("#emailEdit").val(data.email);
                     $("#situacaoEdit").val(data.situacao);
                     $("#permissaoEdit").val(data.permissao);
@@ -336,6 +355,7 @@ $(document).ready(function () {
                 {
                     nomeCompletoEdit: {required: true},
                     usuarioEdit: {required: true},
+                    telefoneEdit: {required: true},
                     emailEdit: {required: true},
                     situacaoEdit: {required: true},
                     permissaoEdit: {required: true},
@@ -345,6 +365,7 @@ $(document).ready(function () {
                 {
                     nomeCompletoEdit: {required: 'Campo Requerido'},
                     usuarioEdit: {required: 'Campo Requerido'},
+                    telefoneEdit: {required: 'Campo Requerido'},
                     emailEdit: {required: 'Campo Requerido'},
                     situacaoEdit: {required: 'Campo Requerido.'},
                     permissaoEdit: {required: 'Campo Requerido.'},
@@ -374,6 +395,7 @@ $(document).ready(function () {
                 {
                     nomeCompletoCad: {required: true},
                     usuarioCad: {required: true},
+                    telefoneCad: {required: true},
                     emailCad: {required: true},
                     situacaoCad: {required: true},
                     permissaoCad: {required: true},
@@ -385,6 +407,7 @@ $(document).ready(function () {
                 {
                     nomeCompletoCad: {required: 'Campo Requerido.'},
                     usuarioCad: {required: 'Campo Requerido'},
+                    telefoneCad: {required: 'Campo Requerido'},
                     emailCad: {required: 'Campo Requerido'},
                     situacaoCad: {required: 'Campo Requerido.'},
                     permissaoCad: {required: 'Campo Requerido.'},

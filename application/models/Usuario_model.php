@@ -61,4 +61,47 @@ class Usuario_model extends CI_Model {
         return $this->db->query($query, array($id))->row();
         
     }
+    
+    public function usuarioSenha($user, $password) {
+        $this->db->select('t1.*,t2.permissao');
+        $this->db->from('usuario t1');
+        $this->db->join('permissoes t2', 't1.idPermissao = t2.idPermissao', 'inner');
+        $this->db->where('t1.usuario', $user);
+        $this->db->where('t1.senha', $password);
+        $this->db->where('t1.situacao', 1);
+        $this->db->limit(1);
+        
+        $usuario = $this->db->get()->row();
+        return $usuario;
+    }
+    
+    public function emailSenha($email, $password) {
+        $this->db->select('t1.*,t2.permissao');
+        $this->db->from('usuario t1');
+        $this->db->join('permissoes t2', 't1.idPermissao = t2.idPermissao', 'inner');
+        $this->db->where('t1.email', $email);
+        $this->db->where('t1.senha', $password);
+        $this->db->where('t1.situacao', 1);
+        $this->db->limit(1);
+        
+        $usuario = $this->db->get()->row();
+        return $usuario;
+    }
+    
+    public function alterarSenha($senha,$oldSenha,$id){
+
+        $this->db->where('idUsuario', $id);
+        $this->db->limit(1);
+        $usuario = $this->db->get('usuario')->row();
+
+        if($usuario->senha != $oldSenha){
+            return false;
+        }
+        else{
+            $this->db->set('senha',$senha);
+            $this->db->where('idUsuario',$id);
+            return $this->db->update('usuario');    
+        }       
+    }
+    
 }

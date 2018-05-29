@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once(APPPATH . 'entidades/MonitorInteligente.php');
-//require_once(APPPATH . 'entidades/Leitura.php');
+require_once(APPPATH . 'entidades/Leitura.php');
 
 class Driver_ctrl extends CI_Controller {
     

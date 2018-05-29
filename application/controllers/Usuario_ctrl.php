@@ -2,11 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once(APPPATH . 'entidades/Usuario.php');
+require_once(APPPATH . 'entidades/Permissao.php');
 
 class Usuario_ctrl extends CI_Controller {
 
     private $model;
-    
+        
     public function __construct() {
         
         parent::__construct();
@@ -17,12 +18,12 @@ class Usuario_ctrl extends CI_Controller {
     }
     
     public function index(){
-        
+         
        $this->gerenciar(); 
             
     }
 
-       public function gerenciar() {
+    public function gerenciar() {
         
         $this->load->library('pagination');
         
@@ -49,6 +50,7 @@ class Usuario_ctrl extends CI_Controller {
         $config['last_tag_close'] = '</li>';
         
         $limit = $config['per_page'];
+        
         $start = ($this->uri->segment(3) == NULL) ? 0 : intval($this->uri->segment(3));
 
         $this->pagination->initialize($config);
@@ -58,25 +60,33 @@ class Usuario_ctrl extends CI_Controller {
         $this->data['permissoes'] = $this->Usuario_model->buscaPermissoes();
         
         $this->data['view'] = 'usuarios/usuarios_view';  
+        
         $this->load->view('principal/tema_view',  $this->data);
         
         
     }
     
+   
+    
     public function adicionar() {
         
         $this->load->library('encrypt');
+        
+        $permissao = new Permissao();
+        $permissao->setIdPermissao($this->input->post('permissaoCad'));
+        
         
         $usuario = new Usuario($this->model);
         
         $usuario->setNomeCompleto($this->input->post('nomeCompletoCad'));
         $usuario->setUsuario($this->input->post('usuarioCad'));
+        $usuario->setTelefone($this->input->post('telefoneCad'));
         $usuario->setEmail($this->input->post('emailCad'));
-        $usuario->setPermissao($this->input->post('permissaoCad'));
+        $usuario->setPermissao($permissao);
         $usuario->setSenha($this->encrypt->hash($this->input->post('senhaCad')));
         $usuario->setSituacao($this->input->post('situacaoCad'));
-        
-        if($usuario->cadastrar() == TRUE){
+
+        if($usuario->cadastrarClass() == TRUE){
             
             $this->session->set_flashdata('success', 'Usuário adicionado  com sucesso!');
             
@@ -94,7 +104,8 @@ class Usuario_ctrl extends CI_Controller {
         
         $usuario->setId($this->input->post('idUsuario'));
                   
-        $result = $usuario->buscaUsuario();
+        $result = $usuario->buscaUsuarioClass();
+        
         echo $result;
 
     }
@@ -104,16 +115,22 @@ class Usuario_ctrl extends CI_Controller {
         $this->load->library('encrypt');
         
         $usuario = new Usuario($this->model);
+        $permissao = new Permissao();
+        $permissao->setIdPermissao($this->input->post('permissaoEdit'));
         
         $usuario->setId($this->input->post('idUsuario'));
         $usuario->setNomeCompleto($this->input->post('nomeCompletoEdit'));
         $usuario->setUsuario($this->input->post('usuarioEdit'));
+        $usuario->setTelefone($this->input->post('telefoneEdit'));
         $usuario->setEmail($this->input->post('emailEdit'));
-        $usuario->setPermissao($this->input->post('permissaoEdit'));
+        $usuario->setPermissao($permissao);
         if ($this->input->post('senhaEdit')!=''){
-           $usuario->setSenha($this->encrypt->hash($this->input->post('senhaEdit'))); 
+           
+            $usuario->setSenha($this->encrypt->hash($this->input->post('senhaEdit'))); 
+            
         }
-        $usuario->setSituacao($this->input->post('situacaoEdit'));
+        
+            $usuario->setSituacao($this->input->post('situacaoEdit'));
         
         if($usuario->editarClass() == TRUE){
             
@@ -126,6 +143,41 @@ class Usuario_ctrl extends CI_Controller {
              
 
         redirect(base_url('Usuario_ctrl'));
+    }
+    
+    public function excluir() {
+        
+        $usuario = new Usuario($this->model);
+        $usuario->setId($this->input->post('id'));
+        
+        if ($usuario->getId() == null){
+
+            $this->session->set_flashdata('error','Erro ao tentar excluir Permissao.');            
+
+        } else{
+            if ($usuario->getId() == 1){
+
+                    $this->session->set_flashdata('error','Não é possível excluir esse Usuário.');
+
+                    redirect(base_url('Usuario_ctrl'));
+            }
+
+        
+      //  $usuario->setId($this->input->post('idUsuario'));
+                  
+                        
+            if ($usuario->deletarUsuarioClass() == TRUE) {
+                
+                $this->session->set_flashdata('success', 'Usuário excluído com sucesso!');
+            } else {
+                $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
+            }
+            
+        }
+     
+        redirect(base_url('Usuario_ctrl'));        
+
+        
     }
 }
 
