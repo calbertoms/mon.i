@@ -237,28 +237,6 @@ class Usuario {
         }
     }
 
-    public function deletarUsuarioClass() {
-
-        $id = $this->getId();
-        $situacao = FALSE;
-        $alterado = date('Y-m-d H:i:s');
-
-        $data = array(
-            'situacao' => $situacao,
-            'dataAlterado' => $alterado
-        );
-
-        if ($this->model->editar('usuario', $data, 'idUsuario', $id)) {
-
-            $result = TRUE;
-        } else {
-
-            $result = FALSE;
-        }
-
-        return $result;
-    }
-
     public function logarClass() {
         
     }
