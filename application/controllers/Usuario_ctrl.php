@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once(APPPATH . 'entidades/Usuario.php');
-require_once(APPPATH . 'entidades/Permissao.php');
+require_once(APPPATH . 'entidades/Permissoes.php');
 
 class Usuario_ctrl extends CI_Controller {
 
@@ -72,7 +72,7 @@ class Usuario_ctrl extends CI_Controller {
         
         $this->load->library('encrypt');
         
-        $permissao = new Permissao();
+        $permissao = new Permissoes($this->model);
         $permissao->setIdPermissao($this->input->post('permissaoCad'));
         
         
@@ -85,6 +85,8 @@ class Usuario_ctrl extends CI_Controller {
         $usuario->setPermissao($permissao);
         $usuario->setSenha($this->encrypt->hash($this->input->post('senhaCad')));
         $usuario->setSituacao($this->input->post('situacaoCad'));
+        $usuario->setDataCadastro(date("Y-m-d H:i:s"));       
+        $usuario->setDataAlterado(date("Y-m-d H:i:s"));
 
         if($usuario->cadastrarClass() == TRUE){
             

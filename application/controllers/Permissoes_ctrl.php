@@ -1,8 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require_once(APPPATH . 'entidades/Permissoes.php');
 class Permissoes_ctrl extends CI_Controller {
-	
+
+     private $model;
+     
 public function __construct() {
         parent::__construct();
         
@@ -13,6 +15,8 @@ public function __construct() {
         $this->data['menuconfiguracao'] = 'menuconfiguracao';
         $this->data['conf_permissoes'] = 'conf_permissoes';
         $this->load->model('Permissoes_model','',TRUE);
+        
+        $this->model = $this->Permissoes_model;
         
     }
     
@@ -102,8 +106,18 @@ public function __construct() {
     
     public function adicionar() {
         
-        $permissao = $this->input->post('permissaoCad');
-        
+       
+        $permissao = new Permissoes($this->model);        
+        $permissao->setPermissao($this->input->post('permissaoCad'));
+        $permissao->setCodigo($this->input->post('codigoCad'));
+        $permissao->setSigla($this->input->post('siglaCad'));
+        $permissao->setSetor($this->input->post('setorCad'));
+        $permissao->setCategoria($this->input->post('categoriaCad'));
+        $permissao->setEfetivo($this->input->post('efetivoCad'));
+        $permissao->setDescricao($this->input->post('descricaoCad'));
+        $permissao->setObservacao($this->input->post('observacaoCad'));
+        $permissao->setStatus($this->input->post('statusCad'));
+
         $permissoes = array(
             
             'gGestaoDispositivos' => $this->input->post('gGestaoDispositivosCad'),
@@ -112,20 +126,15 @@ public function __construct() {
             
         );
         
-        $permissoes = serialize($permissoes);
-        $usuario = $this->session->userdata('usuario');
-        $dataCadastro = date("Y-m-d H:i:s");
-        $dataAlterado = date("Y-m-d H:i:s");
         
-        $data = array(
-            'permissao' => $permissao,
-            'permissoes' => $permissoes,
-            'usuario' => $usuario,
-            'dataCadastro' => $dataCadastro,
-            'dataAlterado' => $dataAlterado
-        );
+        
+        $permissao->setPermissoes($permissoes);
+        $permissao->setDataCadastro(date("Y-m-d H:i:s"));       
+        $permissao->setDataAlterado(date("Y-m-d H:i:s"));
+        
+   
 
-        if ($this->Permissoes_model->adicionar('permissoes', $data) == TRUE) {
+        if ($permissao->cadastrarClass() == TRUE) {
 
             $this->session->set_flashdata('success', 'Permissão adicionada com sucesso!');
         } else {

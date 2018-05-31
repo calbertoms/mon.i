@@ -14,22 +14,24 @@
 class Permissoes {
     //atributos
     
-    private $id;
+    private $idPermissao;
     private $permissao;
     private $permissoes;
-    private $ususario;
+    private $usuario;
     private $status;
     private $codigo;
     private $sigla;
     private $setor;
     private $categoria;
     private $descricao;
-    private $obseracao;
+    private $observacao;
+    private $efetivo;
     private $dataCadastro;
     private $dataAlterado;
     
     private $model;
   
+    
     
     public function __construct($model) {
         
@@ -38,8 +40,8 @@ class Permissoes {
 
     //atributos especiais
     
-    public function getId() {
-        return $this->id;
+    public function getIdPermissao() {
+        return $this->idPermissao;
     }
 
     public function getPermissao() {
@@ -50,8 +52,8 @@ class Permissoes {
         return $this->permissoes;
     }
 
-    public function getUsusario() {
-        return $this->ususario;
+    public function getUsuario() {
+        return $this->usuario;
     }
 
     public function getStatus() {
@@ -78,8 +80,12 @@ class Permissoes {
         return $this->descricao;
     }
 
-    public function getObseracao() {
-        return $this->obseracao;
+    public function getObservacao() {
+        return $this->observacao;
+    }
+    
+      public function getEfetivo() {
+        return $this->efetivo;
     }
 
     public function getDataCadastro() {
@@ -90,8 +96,8 @@ class Permissoes {
         return $this->dataAlterado;
     }
     
-        public function setId($id) {
-        $this->id = $id;
+        public function setIdPermissao($idPermissao) {
+        $this->idPermissao = $idPermissao;
     }
 
     public function setPermissao($permissao) {
@@ -102,8 +108,8 @@ class Permissoes {
         $this->permissoes = $permissoes;
     }
 
-    public function setUsusario($ususario) {
-        $this->ususario = $ususario;
+    public function setUsuario($usuario) {
+        $this->usuario = $usuario;
     }
 
     public function setStatus($status) {
@@ -130,8 +136,12 @@ class Permissoes {
         $this->descricao = $descricao;
     }
 
-    public function setObseracao($obseracao) {
-        $this->obseracao = $obseracao;
+    public function setObservacao($observacao) {
+        $this->observacao = $observacao;
+    }
+    
+    public function setEfetivo($efetivo) {
+        $this->efetivo = $efetivo;
     }
 
     public function setDataCadastro($dataCadastro) {
@@ -143,7 +153,46 @@ class Permissoes {
     }
     
     public function cadastrarClass() {
+     
+        $permissao = $this->getPermissao();
+        $codigo = $this->getCodigo();
+        $sigla = $this->getSigla();
+        $setor = $this->getSetor();
+        $categoria = $this->getCategoria();
+        $efetivo = $this->getEfetivo();
+        $descricao = $this->getDescricao();
+        $observacao = $this->getObservacao();
+        $status = $this->getStatus();
+        $permissoes = $this->getPermissoes(); 
+        $permissoes = serialize($permissoes);
+        $cadastro = $this->getDataCadastro();
+        $alterado = $this->getDataAlterado();
         
+        $data = array(
+            
+            "permissao" => $permissao,
+            'permissoes' => $permissoes,
+            'codigo' => $codigo,
+            'sigla' => $sigla,
+            'setor' => $setor,
+            'categoria' => $categoria,
+            'efetivado' => $efetivo,
+            'descricao' => $descricao,
+            'observacao' => $observacao,
+            'status' => $status,        
+            'dataCadastro' => $cadastro,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->model->adicionar("permissoes", $data) == TRUE) {
+
+            $result = TRUE;
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
     }
     
     public function editarClass() {
@@ -161,4 +210,6 @@ class Permissoes {
     public function deletarClass() {
         
     }
+    
+
 }

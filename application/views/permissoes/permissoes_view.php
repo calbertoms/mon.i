@@ -45,8 +45,8 @@
                         echo '<td style="text-align: center; vertical-align: middle;">'.date("d/m/Y H:i:s", strtotime($p->dataAlterado)).'</td>';
                         echo '<td style="text-align: center; vertical-align: middle;">'.$p->usuario.'</td>';
                         echo '<td style="text-align: center; vertical-align: middle;">';                   
-                            echo '<a style="margin-right: 1%" href="#modalEdit" class="btn btn-info editar" role="button" data-toggle="modal" permissao="'.$p->idPermissao.'" title="Editar Permissão"><i class="fa fa-fw fa-pencil"></i></a>';                    
-                            echo '<a  style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idPermissao="'.$p->idPermissao.'" title="Excluir Permissão"><i class="fa fa-fw fa-remove"></i></a>';                    
+                        echo '<a style="margin-right: 1%" href="#modalEdit" class="btn btn-info editar" role="button" data-toggle="modal" permissao="'.$p->idPermissao.'" title="Editar Permissão"><i class="fa fa-fw fa-pencil"></i></a>';                    
+                        echo '<a  style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idPermissao="'.$p->idPermissao.'" title="Excluir Permissão"><i class="fa fa-fw fa-remove"></i></a>';                    
                         echo '</td>';
                         echo '</tr>';
                     }?>
@@ -66,8 +66,8 @@
 
 <!-- Modal -->
 <!-- Cadastro -->
-<div id="modalCad" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ModalLabelAdd">
-    <div class="modal-dialog" role="document">
+<div id="modalCad" class="modal fade lg" tabindex="-1" role="dialog" aria-labelledby="ModalLabelAdd">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -83,10 +83,72 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
                                     <div class="form-group">
                                         <label for="permissaoCad">Permissão<span class="required" style="color: #EE0000">*</span>: </label>
                                         <input type="text" class="form-control" id="permissaoCad" name="permissaoCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">    
+                                    <div class="form-group">
+                                        <label for="codigoCad">Codigo<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="codigoCad" name="codigoCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">    
+                                    <div class="form-group">
+                                        <label for="siglaCad">Sigla<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="siglaCad" name="siglaCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="setorCad">Setor<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="setorCad" name="setorCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="categoriaCad">Categoria<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="categoriaCad" name="categoriaCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="efetivoCad">Efetivo<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="efetivoCad" class="form-control" name="efetivoCad" title="Selecione a situação">
+                                            <option value="">Selecione...</option>
+                                            <option value="1">Sim</option>
+                                            <option value="0">Não</option>
+                                        </select>                    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="descricaoCad">Descrição<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="descricaoCad" name="descricaoCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-8 col-lg-8">
+                                    <div class="form-group">
+                                        <label for="observacaoCad">OBS<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="observacaoCad" name="observacaoCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="statusCad">Status<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="statusCad" class="form-control" name="statusCad" title="Selecione a situação">
+                                            <option value="">Selecione...</option>
+                                            <option value="1">Ativo</option>
+                                            <option value="0">Desativo</option>
+                                        </select>                    
                                     </div>
                                 </div>
                             </div>
@@ -137,8 +199,8 @@
 
 <!-- Modal -->
 <!-- edição -->
-<div id="modalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ModalLabelAdd">
-    <div class="modal-dialog" role="document">
+<div id="modalEdit" class="modal fade lg" tabindex="-1" role="dialog" aria-labelledby="ModalLabelAdd">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -155,10 +217,72 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
                                     <div class="form-group">
                                         <label for="permissaoEdit">Permissão<span class="required" style="color: #EE0000">*</span>: </label>
                                         <input type="text" class="form-control" id="permissaoEdit" name="permissaoEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">    
+                                    <div class="form-group">
+                                        <label for="codigoEdit">Codigo<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="codigoEdit" name="codigoEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">    
+                                    <div class="form-group">
+                                        <label for="siglaEdit">Sigla<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="siglaEdit" name="siglaEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="setorEdit">Setor<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="setorEdit" name="setorEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="categoriaEdit">Categoria<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="categoriaEdit" name="categoriaEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="efetivoEdit">Efetivo<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="efetivoEdit" class="form-control" name="efetivoEdit" title="Selecione a situação">
+                                            <option value="">Selecione...</option>
+                                            <option value="1">Sim</option>
+                                            <option value="0">Não</option>
+                                        </select>                    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="descricaoEdit">Descrição<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="descricaoEdit" name="descricaoEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-8 col-lg-8">
+                                    <div class="form-group">
+                                        <label for="obsEdit">OBS<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="obsEdit" name="obsEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="statusEdit">Status<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="statusEdit" class="form-control" name="statusEdit" title="Selecione a situação">
+                                            <option value="">Selecione...</option>
+                                            <option value="1">Ativo</option>
+                                            <option value="0">Desativo</option>
+                                        </select>                    
                                     </div>
                                 </div>
                             </div>
@@ -264,6 +388,14 @@ $(document).ready(function () {
                 if (data.result === true)
                 {
                     $("#permissaoEdit").val(data.permissao);
+                    $("#codigoEdit").val(data.codigo);
+                    $("#siglaEdit").val(data.sigla);
+                    $("#setorEdit").val(data.setor);
+                    $("#categoriaEdit").val(data.categoria);
+                    $("#efetivoEdit").val(data.efetivo);
+                    $("#descricaoEdit").val(data.descricao);
+                    $("#observacaoEdit").val(data.observacao);
+                    $("#statusEdit").val(data.status);
                     $('#gGestaoDispositivosEdit').prop("checked", check(data.permissoes.gGestaoDispositivos));
                     $('#gGraficosEdit').prop("checked", check(data.permissoes.gGraficos));
                     $('#gConfiguracoesEdit').prop("checked", check(data.permissoes.gConfiguracoes));
@@ -277,11 +409,27 @@ $(document).ready(function () {
         
         rules:
                 {
-                    permissaoEdit: {required: true}
+                    permissaoEdit: {required: true},
+                    codigoEdit: {required: true},
+                    siglaEdit: {required: true},
+                    setorEdit: {required: true},
+                    categoriaEdit: {required: true},
+                    efetivoEdit: {required: true},
+                    descricaoEdit: {required: false},
+                    observacaoEdit: {required: false},
+                    statusEdit: {required: true}
                 },
         messages: 
                 {
-                    permissaoEdit: {required: 'Campo Requerido'}
+                    permissaoEdit: {required: 'Campo Requerido'},
+                    codigoEdit: {required: 'Campo Requerido'},
+                    siglaEdit: {required: 'Campo Requerido'},
+                    setorEdit: {required: 'Campo Requerido'},
+                    categoriaEdit: {required: 'Campo Requerido'},
+                    efetivoEdit: {required: 'Campo Requerido'},
+                    descricaoEdit: {required: 'Campo Requerido'},
+                    observacaoEdit: {required: 'Campo Requerido'},
+                    statusEdit: {required: 'Campo Requerido'}
                 },
 
         highlight: function(element) {
@@ -305,13 +453,27 @@ $(document).ready(function () {
         
         rules:
                 {
-                    permissaoCad: {required: true,
-                               remote: "<?php echo base_url('Permissoes_ctrl/verificaPermissao'); ?>"}
+                    permissaoCad: {required: true},
+                    codigoCad: {required: true},
+                    siglaCad: {required: true},
+                    setorCad: {required: true},
+                    categoriaCad: {required: true},
+                    efetivoCad: {required: true},
+                    descricaoCad: {required: false},
+                    observacaoCad: {required: false},
+                    statusCad: {required: true}
                 },                        
         messages: 
                 {
-                    permissaoCad: {required: 'Campo Requerido',
-                               remote: 'Permissao já existe.'}
+                    permissaoCad: {required: 'Campo Requerido'},
+                    codigoCad: {required: 'Campo Requerido'},
+                    siglaCad: {required: 'Campo Requerido'},
+                    setorCad: {required: 'Campo Requerido'},
+                    categoriaCad: {required: 'Campo Requerido'},
+                    efetivoCad: {required: 'Campo Requerido'},
+                    descricaoCad: {required: 'Campo Requerido'},
+                    observacaoCad: {required: 'Campo Requerido'},
+                    statusCad: {required: 'Campo Requerido'}
                 },
 
         highlight: function(element) {

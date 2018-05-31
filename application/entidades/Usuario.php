@@ -11,7 +11,7 @@
  *
  * @author Suporte
  */
-require_once(APPPATH . 'entidades/Permissao.php');
+require_once(APPPATH . 'entidades/Permissoes.php');
 
 class Usuario {
 
@@ -131,8 +131,8 @@ class Usuario {
         $permissao = $this->getPermissao()->getIdPermissao();
         $senha = $this->getSenha();
         $situacao = $this->getSituacao();
-        $cadastro = date('Y-m-d H:i:s');
-        $alterado = date('Y-m-d H:i:s');
+        $cadastro = $this->getdataCadastro();
+        $alterado = $this->getdataAlterado();
         $data = array(
             'idPermissao' => $permissao,
             'nomeCompleto' => $nomeCompleto,
