@@ -11,10 +11,19 @@
  *
  * @author Suporte
  */
-class TanqueLiquido {
+
+class TanquesLiquidos extends Tanques{
     //put your code here
     
     private $nivel;
+    
+    private $model;
+  
+    
+    public function __construct($model) {
+        
+        $this->model = $model;
+    }
     
     public function getNivel() {
         return $this->nivel;

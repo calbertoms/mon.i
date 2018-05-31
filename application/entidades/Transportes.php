@@ -11,7 +11,7 @@
  *
  * @author Suporte
  */
-class Transporte {
+class Transportes {
     //put your code here
     
     private $id;
@@ -19,10 +19,22 @@ class Transporte {
     private $placa;
     private $antt;
     private $modelo;
+    private $cor;
+    private $anoFabricacao;
     private $tara;
     private $bruto;
     private $dataManutencao;
     private $tipo;
+    private $dataCadastro;
+    private $dataAlterado;
+    
+    private $model;
+  
+    
+    public function __construct($model) {
+        
+        $this->model = $model;
+    }
     
     public function getId() {
         return $this->id;
@@ -44,6 +56,14 @@ class Transporte {
         return $this->modelo;
     }
 
+    public function getCor() {
+        return $this->cor;
+    }
+
+    public function getAnoFabricacao() {
+        return $this->anoFabricacao;
+    }
+
     public function getTara() {
         return $this->tara;
     }
@@ -58,6 +78,14 @@ class Transporte {
 
     public function getTipo() {
         return $this->tipo;
+    }
+
+    public function getDataCadastro() {
+        return $this->dataCadastro;
+    }
+
+    public function getDataAlterado() {
+        return $this->dataAlterado;
     }
 
     public function setId($id) {
@@ -80,6 +108,14 @@ class Transporte {
         $this->modelo = $modelo;
     }
 
+    public function setCor($cor) {
+        $this->cor = $cor;
+    }
+
+    public function setAnoFabricacao($anoFabricacao) {
+        $this->anoFabricacao = $anoFabricacao;
+    }
+
     public function setTara($tara) {
         $this->tara = $tara;
     }
@@ -95,5 +131,14 @@ class Transporte {
     public function setTipo($tipo) {
         $this->tipo = $tipo;
     }
-    
+
+    public function setDataCadastro($dataCadastro) {
+        $this->dataCadastro = $dataCadastro;
+    }
+
+    public function setDataAlterado($dataAlterado) {
+        $this->dataAlterado = $dataAlterado;
+    }
+
+
 }

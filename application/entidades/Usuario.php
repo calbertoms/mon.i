@@ -26,6 +26,7 @@ class Usuario {
     private $permissao;
     private $dataCadastro;
     private $dataAlterado;
+    
     private $model;
 
     public function __construct($model) {

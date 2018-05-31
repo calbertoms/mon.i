@@ -11,11 +11,20 @@
  *
  * @author Suporte
  */
-class TanqueGasoso extends Tanque{
+
+class TanquesGasosos extends Tanques{
     //put your code here
     
     private $pressao;
     private $temperatura;
+    
+    private $model;
+  
+    
+    public function __construct($model) {
+        
+        $this->model = $model;
+    }
     
     public function getPressao() {
         return $this->pressao;

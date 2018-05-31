@@ -11,7 +11,7 @@
  *
  * @author Suporte
  */
-class Produto {
+class Produtos {
     //put your code here
     
     private $id;
@@ -24,8 +24,17 @@ class Produto {
     private $validade;
     private $temperatura;
     private $densidade;
+    private $dataCadastro;
+    private $dataAlterado;
     
+    private $model;
+  
+    
+    public function __construct($model) {
         
+        $this->model = $model;
+    }
+    
     public function getId() {
         return $this->id;
     }
@@ -57,13 +66,21 @@ class Produto {
     public function getValidade() {
         return $this->validade;
     }
-    
+
     public function getTemperatura() {
         return $this->temperatura;
     }
 
     public function getDensidade() {
         return $this->densidade;
+    }
+
+    public function getDataCadastro() {
+        return $this->dataCadastro;
+    }
+
+    public function getDataAlterado() {
+        return $this->dataAlterado;
     }
 
     public function setId($id) {
@@ -105,5 +122,15 @@ class Produto {
     public function setDensidade($densidade) {
         $this->densidade = $densidade;
     }
+
+    public function setDataCadastro($dataCadastro) {
+        $this->dataCadastro = $dataCadastro;
+    }
+
+    public function setDataAlterado($dataAlterado) {
+        $this->dataAlterado = $dataAlterado;
+    }
+
+
     
 }

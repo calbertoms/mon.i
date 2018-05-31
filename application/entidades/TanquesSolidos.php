@@ -7,10 +7,20 @@
  */
 
 /**
- * Description of Cliente
+ * Description of TanqueSolido
  *
  * @author Suporte
  */
-class Cliente extends Usuario {
+
+class TanquesSolidos extends Tanques{
     //put your code here
+    private $model;
+  
+    
+    public function __construct($model) {
+        
+        $this->model = $model;
+    }
+    
+    
 }
