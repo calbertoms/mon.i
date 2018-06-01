@@ -7,6 +7,7 @@ require_once(APPPATH . 'entidades/Permissoes.php');
 class Usuario_ctrl extends CI_Controller {
 
     private $model;
+
         
     public function __construct() {
         
@@ -14,7 +15,10 @@ class Usuario_ctrl extends CI_Controller {
     
         $this->data['menuconfiguracao'] = 'menuconfiguracao';
         $this->load->model('Usuario_model','',TRUE);
+        $this->load->model('Permissoes_model','',TRUE);
         $this->model = $this->Usuario_model;
+ 
+        
     }
     
     public function index(){
@@ -81,6 +85,8 @@ class Usuario_ctrl extends CI_Controller {
         $usuario->setNomeCompleto($this->input->post('nomeCompletoCad'));
         $usuario->setUsuario($this->input->post('usuarioCad'));
         $usuario->setTelefone($this->input->post('telefoneCad'));
+        $usuario->setCpf($this->input->post('cpfCad'));
+        $usuario->setRg($this->input->post('rgCad'));
         $usuario->setEmail($this->input->post('emailCad'));
         $usuario->setPermissao($permissao);
         $usuario->setSenha($this->encrypt->hash($this->input->post('senhaCad')));
@@ -101,15 +107,34 @@ class Usuario_ctrl extends CI_Controller {
     }
     
     public function buscaUsuario() {
+        
+        if(!empty($this->input->post('idUsuario'))){
+            
+            $usuario = new Usuario($this->model);
 
-        $usuario = new Usuario($this->model);
-        
-        $usuario->setId($this->input->post('idUsuario'));
-                  
-        $result = $usuario->buscaUsuarioClass();
-        
+            $usuario->setId($this->input->post('idUsuario'));
+
+            $usuario->buscaUsuarioClass();
+
+
+                $dados = array('result'      => TRUE,
+                               'nomeCompleto'=> $usuario->getNomeCompleto(),
+                               'usuario'     => $usuario->getUsuario(),
+                               'telefone'    => $usuario->getTelefone(),
+                               'cpf'         => $usuario->getCpf(),
+                               'rg'          => $usuario->getRg(),
+                               'email'       => $usuario->getEmail(),
+                               'situacao'    => $usuario->getSituacao(),
+                               'permissao'   => $usuario->getPermissao()->getIdPermissao()
+                                );
+            $result = json_encode($dados);
+        }
+        else{
+            
+            $dados = array('result' => FALSE);
+            $result = json_encode($dados);
+        }
         echo $result;
-
     }
     
     public function editar() {
@@ -117,15 +142,18 @@ class Usuario_ctrl extends CI_Controller {
         $this->load->library('encrypt');
         
         $usuario = new Usuario($this->model);
-        $permissao = new Permissao();
+        $permissao = new Permissoes($this->model);
         $permissao->setIdPermissao($this->input->post('permissaoEdit'));
         
         $usuario->setId($this->input->post('idUsuario'));
         $usuario->setNomeCompleto($this->input->post('nomeCompletoEdit'));
         $usuario->setUsuario($this->input->post('usuarioEdit'));
         $usuario->setTelefone($this->input->post('telefoneEdit'));
+        $usuario->setCpf($this->input->post('cpfEdit'));
+        $usuario->setRg($this->input->post('rgEdit'));
         $usuario->setEmail($this->input->post('emailEdit'));
         $usuario->setPermissao($permissao);
+        
         if ($this->input->post('senhaEdit')!=''){
            
             $usuario->setSenha($this->encrypt->hash($this->input->post('senhaEdit'))); 

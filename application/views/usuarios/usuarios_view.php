@@ -121,6 +121,20 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="cpfCad">CPF<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="cpfCad" name="cpfCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="rgCad">RG<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="rgCad" name="rgCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
                              <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="form-group">
@@ -221,6 +235,20 @@
                                     <div class="form-group">
                                         <label for="telefoneEdit">Telefone<span class="required" style="color: #EE0000">*</span>: </label>
                                         <input type="text" class="form-control" id="telefoneEdit" name="telefoneEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="cpfEdit">CPF<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="cpfEdit" name="cpfEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="rgEdit">RG<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="rgEdit" name="rgEdit" maxlength="100"/>                       
                                     </div>
                                 </div>
                             </div>
@@ -332,19 +360,19 @@ $(document).ready(function () {
             success: function (data)
             {
 
-
                 if (data.result === true)
                 {
   
                     $("#nomeCompletoEdit").val(data.nomeCompleto);
                     $("#usuarioEdit").val(data.usuario);
                     $("#telefoneEdit").val(data.telefone);
+                    $("#cpfEdit").val(data.cpf);
+                    $("#rgEdit").val(data.rg);
                     $("#emailEdit").val(data.email);
                     $("#situacaoEdit").val(data.situacao);
                     $("#permissaoEdit").val(data.permissao);
 
                 }
-
             }
         });
     });
@@ -356,6 +384,8 @@ $(document).ready(function () {
                     nomeCompletoEdit: {required: true},
                     usuarioEdit: {required: true},
                     telefoneEdit: {required: true},
+                    cpfEdit: {required: true},
+                    rgEdit: {required: true},
                     emailEdit: {required: true},
                     situacaoEdit: {required: true},
                     permissaoEdit: {required: true},
@@ -366,6 +396,8 @@ $(document).ready(function () {
                     nomeCompletoEdit: {required: 'Campo Requerido'},
                     usuarioEdit: {required: 'Campo Requerido'},
                     telefoneEdit: {required: 'Campo Requerido'},
+                    cpfEdit: {required: 'Campo Requerido'},
+                    rgEdit: {required: 'Campo Requerido'},
                     emailEdit: {required: 'Campo Requerido'},
                     situacaoEdit: {required: 'Campo Requerido.'},
                     permissaoEdit: {required: 'Campo Requerido.'},
@@ -396,6 +428,8 @@ $(document).ready(function () {
                     nomeCompletoCad: {required: true},
                     usuarioCad: {required: true},
                     telefoneCad: {required: true},
+                    cpfCad: {required: true},
+                    rgCad: {required: true},
                     emailCad: {required: true},
                     situacaoCad: {required: true},
                     permissaoCad: {required: true},
@@ -408,6 +442,8 @@ $(document).ready(function () {
                     nomeCompletoCad: {required: 'Campo Requerido.'},
                     usuarioCad: {required: 'Campo Requerido'},
                     telefoneCad: {required: 'Campo Requerido'},
+                    cpfCad: {required: 'Campo Requerido'},
+                    rgCad: {required: 'Campo Requerido'},
                     emailCad: {required: 'Campo Requerido'},
                     situacaoCad: {required: 'Campo Requerido.'},
                     permissaoCad: {required: 'Campo Requerido.'},

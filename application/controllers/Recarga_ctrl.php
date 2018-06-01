@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Monitor_ctrl extends CI_Controller {
+class Recarga_ctrl extends CI_Controller {
 
     //atributo
     
@@ -18,8 +18,8 @@ class Monitor_ctrl extends CI_Controller {
         }
        
         $this->data['menuprincipal'] = 'principal';
-        $this->load->model('Monitor_model','',TRUE);
-        $this->model = $this->Monitor_model;
+        $this->load->model('Transporte_model','',TRUE);
+        $this->model = $this->Transporte_model;
  
     }
     
@@ -40,7 +40,7 @@ class Monitor_ctrl extends CI_Controller {
         $this->load->library('pagination');
         
         $config['base_url'] = base_url('Permissoes/gerenciar');
-        $config['total_rows'] = $this->Monitor_model->count('permissoes');
+        $config['total_rows'] = $this->Transporte_model->count('permissoes');
         $config['per_page'] = 10;
         $config['next_link'] = '&raquo';
         $config['prev_link'] = '&laquo';
@@ -67,9 +67,9 @@ class Monitor_ctrl extends CI_Controller {
         $this->pagination->initialize($config);
         
         
-        $this->data['monitores'] = '';
+        $this->data['recargas'] = '';
         
-        $this->data['view'] = 'monitores/monitores_view';  
+        $this->data['view'] = 'recargas/recargas_view';  
         $this->load->view('principal/tema_view',  $this->data);
         
     }

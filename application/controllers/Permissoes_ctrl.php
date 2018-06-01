@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 require_once(APPPATH . 'entidades/Permissoes.php');
+
 class Permissoes_ctrl extends CI_Controller {
 
      private $model;
@@ -66,43 +67,40 @@ public function __construct() {
     
     public function buscaPermissao(){
         
-        //pega os dados passados por parametros via post ajax
-        $id =$this->input->post("idPermissao");
         
-        //verifica se algum veio nulo, caso aconteça sai da função retornando nulo
-        if($id == null){
+        if(!empty($this->input->post('idPermissao'))){
             
-            $json = array('result'=>  false);
-            echo json_encode($json);
+            $permissao = new Permissoes($this->model);
 
-    	}
-        
-    	else{
+            $permissao->setIdPermissao($this->input->post('idPermissao'));
 
-            $result = $this->Permissoes_model->buscaPermissaoPorId($id);
-            if(count($result) > 0 ){
-                
-                $permissoes = unserialize($result->permissoes);  
-                
-                $json = array('result'=>  TRUE,
-                              'permissao'=> $result->permissao,
-                              'permissoes'=> $permissoes);
-                echo json_encode($json);
-
-
-            }
-            else{
-                
-                $json = array('result'=>  false);
-                echo json_encode($json);
-                
-            }
+            $permissao->buscaPermissaoClass();
             
-    		
-    	}
-        
-        
+            $permissaoUnserialized=unserialize($permissao->getPermissao());
+
+
+                $dados = array('result'         => TRUE,
+                               'codigoEdit'     => $permissao->getCodigo(),
+                               'siglaEdit'      => $permissao->getSigla(),
+                               'setor'          => $permissao->getSetor(),
+                               'categoria'      => $permissao->getCategoria(),
+                               'efetivo'        => $permissao->getEfetivo(),
+                               'descricao'      => $permissao->getDescricao(),
+                               'observacao'     => $permissao->getObservacao(),
+                               'status'         => $permissao->getStatus(),
+                               'permissoes'     => $permissaoUnserialized
+                                );
+                
+            $result = json_encode($dados);
+        }
+        else{
+            
+            $dados = array('result' => FALSE);
+            $result = json_encode($dados);
+        }
+        echo $result;
     }
+
     
     public function adicionar() {
         
@@ -128,7 +126,7 @@ public function __construct() {
         
         
         
-        $permissao->setPermissoes($permissoes);
+        $permissao->setPermissoes(serialize($permissoes));
         $permissao->setDataCadastro(date("Y-m-d H:i:s"));       
         $permissao->setDataAlterado(date("Y-m-d H:i:s"));
         

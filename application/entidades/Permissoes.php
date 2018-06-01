@@ -203,8 +203,21 @@ class Permissoes {
         
     }
     
-    public function buscarPermissaoClass() {
+    public function buscaPermissaoClass() {
+       
+
+        $result = $this->model->buscaPermissaoPorId($this->getIdPermissao());
         
+                
+        $this->setCodigo($result->codigo);
+        $this->setSigla($result->sigla);
+        $this->setSetor($result->setor);
+        $this->setCategoria($result->categoria);
+        $this->setEfetivo($result->efetivado);
+        $this->setDescricao($result->descricao);
+        $this->setObservacao($result->observacao);
+        $this->setStatus($result->status);
+        $this->setPermissoes($result->permissoes);
     }
     
     public function deletarClass() {

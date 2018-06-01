@@ -20,6 +20,8 @@ class Usuario {
     private $email;
     private $usuario;
     private $telefone;
+    private $cpf;
+    private $rg;
     private $senha;
     private $tipo;
     private $situacao;
@@ -52,6 +54,14 @@ class Usuario {
 
     public function getTelefone() {
         return $this->telefone;
+    }
+    
+    public function getCpf() {
+        return $this->cpf;
+    }
+    
+    public function getRg() {
+        return $this->rg;
     }
 
     public function getSenha() {
@@ -97,6 +107,14 @@ class Usuario {
     public function setTelefone($telefone) {
         $this->telefone = $telefone;
     }
+    
+    public function setCpf($cpf) {
+        $this->cpf = $cpf;
+    }
+    
+    public function setRg($rg) {
+        $this->rg = $rg;
+    }
 
     public function setSenha($senha) {
         $this->senha = $senha;
@@ -110,7 +128,7 @@ class Usuario {
         $this->situacao = $situacao;
     }
 
-    public function setPermissao(Permissao $permissao) {
+    public function setPermissao(Permissoes $permissao) {
         $this->permissao = $permissao;
     }
 
@@ -127,17 +145,22 @@ class Usuario {
         $nomeCompleto = $this->getNomeCompleto();
         $usuario = $this->getUsuario();
         $telefone = $this->getTelefone();
+        $cpf = $this->getCpf();
+        $rg = $this->getRg();
         $email = $this->getEmail();
         $permissao = $this->getPermissao()->getIdPermissao();
         $senha = $this->getSenha();
         $situacao = $this->getSituacao();
         $cadastro = $this->getdataCadastro();
         $alterado = $this->getdataAlterado();
+        
         $data = array(
             'idPermissao' => $permissao,
             'nomeCompleto' => $nomeCompleto,
             'usuario' => $usuario,
             'telefone' => $telefone,
+            'cpf' => $cpf,
+            'rg' => $rg,
             'email' => $email,
             'senha' => $senha,
             'situacao' => $situacao,
@@ -162,6 +185,8 @@ class Usuario {
         $nomeCompleto = $this->getNomeCompleto();
         $usuario = $this->getUsuario();
         $telefone = $this->getTelefone();
+        $cpf = $this->getCpf();
+        $rg = $this->getRg();
         $email = $this->getEmail();
         $permissao = $this->getPermissao()->getIdPermissao();
         $senha = $this->getSenha();
@@ -175,6 +200,8 @@ class Usuario {
                 'nomeCompleto' => $nomeCompleto,
                 'usuario' => $usuario,
                 'telefone' => $telefone,
+                'cpf' => $cpf,
+                'rg' => $rg,
                 'email' => $email,
                 'senha' => $senha,
                 'situacao' => $situacao,
@@ -186,6 +213,8 @@ class Usuario {
                 'nomeCompleto' => $nomeCompleto,
                 'usuario' => $usuario,
                 'telefone' => $telefone,
+                'cpf' => $cpf,
+                'rg' => $rg,
                 'email' => $email,
                 'situacao' => $situacao,
                 'dataAlterado' => $alterado
@@ -205,37 +234,19 @@ class Usuario {
 
     public function buscaUsuarioClass() {
 
-        //pega os dados passados por parametros via post ajax
-        $id = $this->getId();
-
-        //verifica se algum veio nulo, caso aconteça sai da função retornando nulo
-        if ($id == null) {
-
-            $json = array('result' => false);
-            echo json_encode($json);
-        } else {
-
-            $result = $this->model->buscaUsuarioPorId($id);
-
-            if (count($result) > 0) {
-
-
-                $json = array('result' => TRUE,
-                    'permissao' => $result->idPermissao,
-                    'nomeCompleto' => $result->nomeCompleto,
-                    'usuario' => $result->usuario,
-                    'telefone' => $result->telefone,
-                    'email' => $result->email,
-                    'situacao' => $result->situacao);
-                $dados = json_encode($json);
-            } else {
-
-                $json = array('result' => false);
-                $dados = json_encode($json);
-            }
-
-            return $dados;
-        }
+        $result = $this->model->buscaUsuarioPorId($this->getId());
+        
+        $permissao = new Permissoes($this->model);
+        $permissao->setIdPermissao($result->idPermissao);
+        
+        $this->setPermissao($permissao);
+        $this->setNomeCompleto($result->nomeCompleto);
+        $this->setUsuario($result->usuario);
+        $this->setTelefone($result->telefone);
+        $this->setCpf($result->cpf);
+        $this->setRg($result->rg);
+        $this->setEmail($result->email);
+        $this->setSituacao($result->situacao);
     }
 
     public function logarClass() {
