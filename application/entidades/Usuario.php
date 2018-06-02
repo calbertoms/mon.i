@@ -284,4 +284,28 @@ class Usuario {
          return $dados;
     }
 
+    
+    //delete virtual
+        public function deletarUsuarioClass() {
+
+        $id = $this->getId();
+        $alterado = date('Y-m-d H:i:s');
+
+
+        $data = array(
+            'situacao' => FALSE,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->model->editar('usuario', $data, 'idUsuario', $id)) {
+
+            $result = TRUE;
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+
 }

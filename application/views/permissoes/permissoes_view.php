@@ -10,6 +10,7 @@
                         <th class="col-md-2" style="text-align: center; vertical-align: middle;">Data Criação</th>
                         <th class="col-md-2" style="text-align: center; vertical-align: middle;">Data Alteração</th>
                         <th class="col-md-2" style="text-align: center; vertical-align: middle;">Usuário</th>
+                        <th class="col-md-2" style="text-align: center; vertical-align: middle;">Situação</th>
                         <th class="col-md-2" style="text-align: center; vertical-align: middle;">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCad"><i class="fa fa-fw fa-plus"></i> Permissão</button>
                         </th>
@@ -32,6 +33,7 @@
                         <th class="col-md-2" style="text-align: center; vertical-align: middle;">Data Criação</th>
                         <th class="col-md-2" style="text-align: center; vertical-align: middle;">Data Alteração</th>
                         <th class="col-md-2" style="text-align: center; vertical-align: middle;">Usuário</th>
+                        <th class="col-md-2" style="text-align: center; vertical-align: middle;">Situação</th>
                         <th class="col-md-2" style="text-align: center; vertical-align: middle;">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCad"><i class="fa fa-fw fa-plus"></i> Permissão</button>
                         </th>
@@ -44,9 +46,19 @@
                         echo '<td style="text-align: center; vertical-align: middle;">'.date("d/m/Y H:i:s", strtotime($p->dataCadastro)).'</td>';
                         echo '<td style="text-align: center; vertical-align: middle;">'.date("d/m/Y H:i:s", strtotime($p->dataAlterado)).'</td>';
                         echo '<td style="text-align: center; vertical-align: middle;">'.$p->usuario.'</td>';
-                        echo '<td style="text-align: center; vertical-align: middle;">';                   
+                        if (($p->status) == 1) {
+                            echo '<td style="text-align: center; vertical-align: middle;">Ativo</td>';                            
+                        }
+                        else{
+                            echo '<td style="text-align: center; vertical-align: middle;">Desativo</td>'; 
+                        }
+                        echo '<td style="text-align: center; vertical-align: middle;">';
+                        
+                        if (($p->idPermissao) != 1) {
+                        
                         echo '<a style="margin-right: 1%" href="#modalEdit" class="btn btn-info editar" role="button" data-toggle="modal" permissao="'.$p->idPermissao.'" title="Editar Permissão"><i class="fa fa-fw fa-pencil"></i></a>';                    
                         echo '<a  style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idPermissao="'.$p->idPermissao.'" title="Excluir Permissão"><i class="fa fa-fw fa-remove"></i></a>';                    
+                        };
                         echo '</td>';
                         echo '</tr>';
                     }?>
@@ -271,8 +283,8 @@
                             <div class="row">
                                 <div class="col-sm-12 col-md-8 col-lg-8">
                                     <div class="form-group">
-                                        <label for="obsEdit">OBS<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="obsEdit" name="obsEdit" maxlength="100"/>                       
+                                        <label for="observacaoEdit">OBS<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="observacaoEdit" name="observacaoEdit" maxlength="100"/>                       
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-4 col-lg-4">
@@ -331,7 +343,7 @@
     </div>
 </div>
 
-<!-- Excluir -->
+<!-- Excluir Virtualmente -->
 
 <div id="modalExcluir" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ModalLabelExcl">
     <div class="modal-dialog" role="document">
@@ -362,15 +374,15 @@
     
 $(document).ready(function () {
     
-    //pega o id do funcionario que deseja excluir e envia para o modal excluir
+    //pega o id da permissao que deseja excluir e envia para o modal excluir
     $(document).on('click', '.excluir', function () {
         var permissao = $(this).attr('idPermissao');   
         $("#idExcluir").val(permissao);        
     });
     
-    //pega o id do funcionario que deseja editar e envia para o modal editar
+    //pega o id da permissao que deseja editar e envia para o modal editar
     $(document).on('click', '.editar', function () {
-        var permissao = $(this).attr('permissao');
+        var permissao = $(this).attr('Permissao');
         $("#idPermissao").val(permissao); 
     });
     

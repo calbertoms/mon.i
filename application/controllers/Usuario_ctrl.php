@@ -175,6 +175,9 @@ class Usuario_ctrl extends CI_Controller {
         redirect(base_url('Usuario_ctrl'));
     }
     
+    
+    
+    //delete virtual
     public function excluir() {
         
         $usuario = new Usuario($this->model);
@@ -191,10 +194,7 @@ class Usuario_ctrl extends CI_Controller {
 
                     redirect(base_url('Usuario_ctrl'));
             }
-
-        
-      //  $usuario->setId($this->input->post('idUsuario'));
-                  
+    
                         
             if ($usuario->deletarUsuarioClass() == TRUE) {
                 

@@ -196,9 +196,47 @@ class Permissoes {
     }
     
     public function editarClass() {
+
+        $id = $this->getIdPermissao();
+        $permissao = $this->getPermissao();
+        $codigo = $this->getCodigo();
+        $sigla = $this->getSigla();
+        $setor = $this->getSetor();
+        $categoria = $this->getCategoria();
+        $efetivo = $this->getEfetivo();
+        $descricao = $this->getDescricao();
+        $observacao = $this->getObservacao();
+        $status = $this->getStatus();
+        $permissoes = $this->getPermissoes();
+        $alterado = $this->getDataAlterado();
+
+        $data = array(
+            "permissao" => $permissao,
+            'permissoes' => $permissoes,
+            'codigo' => $codigo,
+            'sigla' => $sigla,
+            'setor' => $setor,
+            'categoria' => $categoria,
+            'efetivado' => $efetivo,
+            'descricao' => $descricao,
+            'observacao' => $observacao,
+            'status' => $status,
+            'dataAlterado' => $alterado
+        );
+
         
+        if ($this->model->editar('permissoes', $data, 'idPermissao', $id)) {
+
+            $result = TRUE;
+            
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
     }
-    
+
     public function desativarClass() {
         
     }
@@ -208,7 +246,7 @@ class Permissoes {
 
         $result = $this->model->buscaPermissaoPorId($this->getIdPermissao());
         
-                
+        $this->setPermissao($result->permissao);
         $this->setCodigo($result->codigo);
         $this->setSigla($result->sigla);
         $this->setSetor($result->setor);
@@ -220,9 +258,31 @@ class Permissoes {
         $this->setPermissoes($result->permissoes);
     }
     
-    public function deletarClass() {
-        
+    //delete virtual
+        public function deletarPermissaoClass() {
+
+        $id = $this->getIdPermissao();
+        $alterado = date('Y-m-d H:i:s');
+
+
+        $data = array(
+            'status' => FALSE,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->model->editar('Permissoes', $data, 'idPermissao', $id)) {
+
+            $result = TRUE;
+            
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
     }
+
+
     
 
 }
