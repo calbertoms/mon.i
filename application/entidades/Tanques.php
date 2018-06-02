@@ -20,7 +20,7 @@ require_once(APPPATH . 'entidades/Produtos.php');
 abstract class Tanques {
     //put your code here
     
-    private $id;
+    private $idTanque;
     private $idFornecedor;
     private $idClientes;
     private $idMonitor;
@@ -35,14 +35,21 @@ abstract class Tanques {
     private $largura;
     private $nivel;
     private $peso;
+    private $status;
     private $dataCadastro;
     private $dataAlterado;
-    
-    
-    public function getId() {
-        return $this->id;
+ 
+    private $model;
+
+    public function __construct($model) {
+        
+        $this->model = $model;
     }
     
+    public function getIdTanque() {
+        return $this->idTanque;
+    }
+
     public function getIdFornecedor() {
         return $this->idFornecedor;
     }
@@ -58,7 +65,7 @@ abstract class Tanques {
     public function getIdProduto() {
         return $this->idProduto;
     }
-    
+
     public function getIdentificacao() {
         return $this->identificacao;
     }
@@ -99,6 +106,10 @@ abstract class Tanques {
         return $this->peso;
     }
 
+    public function getStatus() {
+        return $this->status;
+    }
+
     public function getDataCadastro() {
         return $this->dataCadastro;
     }
@@ -107,26 +118,26 @@ abstract class Tanques {
         return $this->dataAlterado;
     }
 
-    public function setId($id) {
-        $this->id = $id;
+    public function setIdTanque($idTanque) {
+        $this->idTanque = $idTanque;
     }
-    
-    public function setIdFornecedor(Fornecedores $idFornecedor) {
+
+    public function setIdFornecedor($idFornecedor) {
         $this->idFornecedor = $idFornecedor;
     }
 
-    public function setIdClientes(Clientes $idClientes) {
+    public function setIdClientes($idClientes) {
         $this->idClientes = $idClientes;
     }
 
-    public function setIdMonitor(MonitorInteligente $idMonitor) {
+    public function setIdMonitor($idMonitor) {
         $this->idMonitor = $idMonitor;
     }
 
-    public function setIdProduto(Produtos $idProduto) {
+    public function setIdProduto($idProduto) {
         $this->idProduto = $idProduto;
-    } 
-    
+    }
+
     public function setIdentificacao($identificacao) {
         $this->identificacao = $identificacao;
     }
@@ -167,6 +178,10 @@ abstract class Tanques {
         $this->peso = $peso;
     }
 
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
     public function setDataCadastro($dataCadastro) {
         $this->dataCadastro = $dataCadastro;
     }
@@ -174,33 +189,5 @@ abstract class Tanques {
     public function setDataAlterado($dataAlterado) {
         $this->dataAlterado = $dataAlterado;
     }
-
-    public function cadastrarClass() {
-        
-    }
     
-    public function editarClass() {
-        
-    }
-    
-    public function desativarClass() {
-        
-    }
-    
-    public function buscarTanqueClass() {
-        
-    }
-    
-    public function deletarClass() {
-        
-    }
-    
-
-    
-
-    
-
-
-
-        
 }

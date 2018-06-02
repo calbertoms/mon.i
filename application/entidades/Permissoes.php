@@ -237,10 +237,6 @@ class Permissoes {
         return $result;
     }
 
-    public function desativarClass() {
-        
-    }
-    
     public function buscaPermissaoClass() {
        
 
@@ -259,7 +255,7 @@ class Permissoes {
     }
     
     //delete virtual
-        public function deletarPermissaoClass() {
+    public function deletarPermissaoClass() {
 
         $id = $this->getIdPermissao();
         $alterado = date('Y-m-d H:i:s');

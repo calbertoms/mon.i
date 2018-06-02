@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Produto_ctrl extends CI_Controller {
+class TanqueGasoso_ctrl extends CI_Controller {
     //atributo
     
     private $model;
@@ -15,8 +15,8 @@ class Produto_ctrl extends CI_Controller {
         }
        
         $this->data['menuprincipal'] = 'principal';
-        $this->load->model('Produto_model','',TRUE);
-        $this->model = $this->Produto_model;
+        $this->load->model('TanqueGasoso_model','',TRUE);
+        $this->model = $this->TanqueGasoso_model;
     }
 
     public function index(){
@@ -30,7 +30,7 @@ class Produto_ctrl extends CI_Controller {
         $this->load->library('pagination');
         
         $config['base_url'] = base_url('Permissoes/gerenciar');
-        $config['total_rows'] = $this->Produto_model->count('permissoes');
+        $config['total_rows'] = $this->TanqueGasoso_model->count('permissoes');
         $config['per_page'] = 10;
         $config['next_link'] = '&raquo';
         $config['prev_link'] = '&laquo';
@@ -57,10 +57,11 @@ class Produto_ctrl extends CI_Controller {
         $this->pagination->initialize($config);
         
         
-        $this->data['produtos'] = '';
+        $this->data['TanqueGasosos'] = '';
         
-        $this->data['view'] = 'produtos/produtos_view';  
+        $this->data['view'] = 'tanques/TanquesGasosos_view';  
         $this->load->view('principal/tema_view',  $this->data);
         
-    }    
+    } 
+    
 }

@@ -14,16 +14,17 @@
 class Produtos {
     //put your code here
     
-    private $id;
+    private $idProduto;
     private $nome;
-    private $tipo;
     private $codigo;
+    private $tipo;
     private $unidade;
     private $tipoTransporte;
-    private $tipoArmazenagem;
-    private $validade;
+    private $status;
     private $temperatura;
     private $densidade;
+    private $inflamavel;
+    private $descricao;
     private $dataCadastro;
     private $dataAlterado;
     
@@ -35,20 +36,20 @@ class Produtos {
         $this->model = $model;
     }
     
-    public function getId() {
-        return $this->id;
+    public function getIdProduto() {
+        return $this->idProduto;
     }
 
     public function getNome() {
         return $this->nome;
     }
 
-    public function getTipo() {
-        return $this->tipo;
-    }
-
     public function getCodigo() {
         return $this->codigo;
+    }
+
+    public function getTipo() {
+        return $this->tipo;
     }
 
     public function getUnidade() {
@@ -59,12 +60,8 @@ class Produtos {
         return $this->tipoTransporte;
     }
 
-    public function getTipoArmazenagem() {
-        return $this->tipoArmazenagem;
-    }
-
-    public function getValidade() {
-        return $this->validade;
+    public function getStatus() {
+        return $this->status;
     }
 
     public function getTemperatura() {
@@ -75,6 +72,14 @@ class Produtos {
         return $this->densidade;
     }
 
+    public function getInflamavel() {
+        return $this->inflamavel;
+    }
+
+    public function getDescricao() {
+        return $this->descricao;
+    }
+
     public function getDataCadastro() {
         return $this->dataCadastro;
     }
@@ -83,20 +88,20 @@ class Produtos {
         return $this->dataAlterado;
     }
 
-    public function setId($id) {
-        $this->id = $id;
+    public function setIdProduto($idProduto) {
+        $this->idProduto = $idProduto;
     }
 
     public function setNome($nome) {
         $this->nome = $nome;
     }
 
-    public function setTipo($tipo) {
-        $this->tipo = $tipo;
-    }
-
     public function setCodigo($codigo) {
         $this->codigo = $codigo;
+    }
+
+    public function setTipo($tipo) {
+        $this->tipo = $tipo;
     }
 
     public function setUnidade($unidade) {
@@ -107,12 +112,8 @@ class Produtos {
         $this->tipoTransporte = $tipoTransporte;
     }
 
-    public function setTipoArmazenagem($tipoArmazenagem) {
-        $this->tipoArmazenagem = $tipoArmazenagem;
-    }
-
-    public function setValidade($validade) {
-        $this->validade = $validade;
+    public function setStatus($tipoArmazenagem) {
+        $this->status = $status;
     }
 
     public function setTemperatura($temperatura) {
@@ -123,6 +124,14 @@ class Produtos {
         $this->densidade = $densidade;
     }
 
+    public function setInflamavel($inflamavel) {
+        $this->inflamavel = $inflamavel;
+    }
+
+    public function setDescricao($descricao) {
+        $this->descricao = $descricao;
+    }
+
     public function setDataCadastro($dataCadastro) {
         $this->dataCadastro = $dataCadastro;
     }
@@ -131,6 +140,137 @@ class Produtos {
         $this->dataAlterado = $dataAlterado;
     }
 
+    
 
+    public function cadastrarClass() {
+     
+        
+        $nome = $this->getNome();
+        $codigo = $this->getCodigo();
+        $tipo = $this->getTipo();
+        $unidade = $this->getUnidadea();
+        $tipoTransporte = $this->getTipoTransporteo();
+        $status = $this->getStatus();
+        $temperatura = $this->getTemperatura();
+        $densidade = $this->getDensidade(); 
+        $inflamavel = $this->getInflamavel();
+        $descricao = $this->getDescricao();
+        $cadastro = $this->getDataCadastro();
+        $alterado = $this->getDataAlterado();
+        
+        
+        
+        $data = array(
+            
+            "nome" => $nome,
+            'codigo' => $codigo,
+            'tipo' => $tipo,
+            'unidade' => $unidade,
+            'tipoTransporte' => $tipoTransporte,
+            'status' => $status,
+            'temperatura' => $temperatura,
+            'densidade' => $densidade,
+            'inflamavel' => $inflamavel,
+            'descricao' => $descricao,        
+            'dataCadastro' => $cadastro,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->model->adicionar("produtos", $data) == TRUE) {
+
+            $result = TRUE;
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+    
+    public function editarClass() {
+
+        $id = $this->getIdProduto();
+        $nome = $this->getNome();
+        $codigo = $this->getCodigo();
+        $tipo = $this->getTipo();
+        $unidade = $this->getUnidadea();
+        $tipoTransporte = $this->getTipoTransporteo();
+        $status = $this->getStatus();
+        $temperatura = $this->getTemperatura();
+        $densidade = $this->getDensidade(); 
+        $inflamavel = $this->getInflamavel();
+        $descricao = $this->getDescricao();
+        $alterado = $this->getDataAlterado();
+       
+
+        $data = array(
+            "nome" => $nome,
+            'codigo' => $codigo,
+            'tipo' => $tipo,
+            'unidade' => $unidade,
+            'tipoTransporte' => $tipoTransporte,
+            'status' => $status,
+            'temperatura' => $temperatura,
+            'densidade' => $densidade,
+            'inflamavel' => $inflamavel,
+            'descricao' => $descricao,        
+            'dataAlterado' => $alterado
+        );
+
+        
+        if ($this->model->editar('produtos', $data, 'idProduto', $id)) {
+
+            $result = TRUE;
+            
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+
+    
+    public function buscaProdutoClass() {
+       
+
+        $result = $this->model->buscaProdutoPorId($this->getIdProduto());
+        
+        $this->setNome($result->nome);
+        $this->setCodigo($result->codigo);
+        $this->setTipo($result->tipo);
+        $this->setUnidade($result->unidade);
+        $this->setTipoTransporte($result->tipoTransporte);
+        $this->setStatus($result->status);
+        $this->setTemperatura($result->temperatura);
+        $this->setInflamavel($result->inflamavel);
+        $this->setDescricao($result->descricao);
+        $this->setDataCadastro($result->dataCadastro);
+        $this->setDataAlterado($result->dataAlterado);
+    }
+    
+    //delete virtual
+    public function deletarProdutoClass() {
+
+        $id = $this->getIdProduto();
+        $alterado = date('Y-m-d H:i:s');
+
+
+        $data = array(
+            'status' => FALSE,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->model->editar('produtos', $data, 'idProduto', $id)) {
+
+            $result = TRUE;
+            
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
     
 }

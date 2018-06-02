@@ -14,8 +14,8 @@
 class Transportes {
     //put your code here
     
-    private $id;
-    private $status;
+    private $idTransporte;
+    private $disponibilidade;
     private $placa;
     private $antt;
     private $modelo;
@@ -25,6 +25,7 @@ class Transportes {
     private $bruto;
     private $dataManutencao;
     private $tipo;
+    private $status;
     private $dataCadastro;
     private $dataAlterado;
     
@@ -36,12 +37,12 @@ class Transportes {
         $this->model = $model;
     }
     
-    public function getId() {
-        return $this->id;
+    public function getIdTransporte() {
+        return $this->idTransporte;
     }
 
-    public function getStatus() {
-        return $this->status;
+    public function getDisponibilidade() {
+        return $this->disponibilidade;
     }
 
     public function getPlaca() {
@@ -80,6 +81,10 @@ class Transportes {
         return $this->tipo;
     }
 
+    public function getStatus() {
+        return $this->status;
+    }
+
     public function getDataCadastro() {
         return $this->dataCadastro;
     }
@@ -88,12 +93,12 @@ class Transportes {
         return $this->dataAlterado;
     }
 
-    public function setId($id) {
-        $this->id = $id;
+    public function setIdTransporte($idTransporte) {
+        $this->idTransporte = $idTransporte;
     }
 
-    public function setStatus($status) {
-        $this->status = $status;
+    public function setDisponibilidade($disponibilidade) {
+        $this->disponibilidade = $disponibilidade;
     }
 
     public function setPlaca($placa) {
@@ -132,6 +137,10 @@ class Transportes {
         $this->tipo = $tipo;
     }
 
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
     public function setDataCadastro($dataCadastro) {
         $this->dataCadastro = $dataCadastro;
     }
@@ -140,5 +149,139 @@ class Transportes {
         $this->dataAlterado = $dataAlterado;
     }
 
+     public function cadastrarClass() {
+     
+        
+        $disponibilidade = $this->getDisponibilidade();
+        $placa = $this->getPlaca();
+        $antt = $this->getAntt();
+        $modelo = $this->getModelo();
+        $cor = $this->getCor();
+        $anoFabricacao = $this->getAnoFabricacao();
+        $tara = $this->getTara();
+        $bruto = $this->getBruto(); 
+        $dataManutencao = $this->getDataManutencao();
+        $tipo = $this->getTipo();
+        $status =$this->getStatus();
+        $cadastro = $this->getDataCadastro();
+        $alterado = $this->getDataAlterado();
+        
+        $data = array(
+            
+            "disponibilidade" => $disponibilidade,
+            'placa' => $placa,
+            'antt' => $antt,
+            'modelo' => $modelo,
+            'cor' => $cor,
+            'anoFabricacao' => $anoFabricacao,
+            'tara' => $tara,
+            'bruto' => $bruto,
+            'dataManutencao' => $dataManutencao,
+            'tipo' => $tipo,  
+            'status' => $status,
+            'dataCadastro' => $cadastro,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->model->adicionar("transportes", $data) == TRUE) {
+
+            $result = TRUE;
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+    
+    public function editarClass() {
+
+        $id = $this->getIdTransporte();
+        $disponibilidade = $this->getDisponibilidade();
+        $placa = $this->getPlaca();
+        $antt = $this->getAntt();
+        $modelo = $this->getModelo();
+        $cor = $this->getCor();
+        $anoFabricacao = $this->getAnoFabricacao();
+        $tara = $this->getTara();
+        $bruto = $this->getBruto(); 
+        $dataManutencao = $this->getDataManutencao();
+        $tipo = $this->getTipo();
+        $status =$this->getStatus();
+        $alterado = $this->getDataAlterado();
+        
+        $data = array(
+            
+            "disponibilidade" => $disponibilidade,
+            'placa' => $placa,
+            'antt' => $antt,
+            'modelo' => $modelo,
+            'cor' => $cor,
+            'anoFabricacao' => $anoFabricacao,
+            'tara' => $tara,
+            'bruto' => $bruto,
+            'dataManutencao' => $dataManutencao,
+            'tipo' => $tipo,  
+            'status' => $status,
+            'dataAlterado' => $alterado
+        );
+
+        
+        if ($this->model->editar('transportes', $data, 'idTransporte', $id)) {
+
+            $result = TRUE;
+            
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+
+    
+    public function buscaTransporteClass() {
+       
+
+        $result = $this->model->buscaTransportePorId($this->getIdTransporte());
+        
+        $this->setDisponibilidade($result->disponibilidade);
+        $this->setPlaca($result->placa);
+        $this->setAntt($result->antt);
+        $this->setModelo($result->modelo);
+        $this->setCor($result->cor);
+        $this->setAnoFabricacao($result->anoFabricacao);
+        $this->setTara($result->tara);
+        $this->setBruto($result->bruto);
+        $this->setDataManutencao($result->dataManutencao);
+        $this->setStatus($result->status);
+        $this->setDataCadastro($result->dataCadastro);
+        $this->setDataAlterado($result->dataAlterado);
+    }
+    
+    //delete virtual
+    public function deletarTransporteClass() {
+
+        $id = $this->getIdTransporte();
+        $alterado = date('Y-m-d H:i:s');
+
+
+        $data = array(
+            'status' => FALSE,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->model->editar('transportes', $data, 'idTransporte', $id)) {
+
+            $result = TRUE;
+            
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+    
 
 }
