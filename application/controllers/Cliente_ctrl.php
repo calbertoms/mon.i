@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once(APPPATH . 'entidades/Clientes.php');
 require_once(APPPATH . 'entidades/Empresas.php');
+require_once(APPPATH . 'entidades/Usuario.php');
 
 class Cliente_ctrl extends CI_Controller {
     //atributo
@@ -13,13 +14,14 @@ class Cliente_ctrl extends CI_Controller {
         
         parent::__construct();
         
-      //   if ((!$this->session->userdata('id')) || (!$this->session->userdata('logado'))) {
+         if ((!$this->session->userdata('id')) || (!$this->session->userdata('logado'))) {
 
-      //      redirect('Principal_ctrl/login');
-      //  }
+            redirect('Principal_ctrl/login');
+        }
        
         $this->data['menuprincipal'] = 'principal';
         $this->load->model('Empresa_model','',TRUE);
+        $this->load->model('Usuario_model','',TRUE);
         $this->model = $this->Empresa_model;
         
     }
@@ -65,22 +67,24 @@ class Cliente_ctrl extends CI_Controller {
         
         $this->data['permissoes'] = $this->Empresa_model->buscaPermissoes();
         
+        $this->data['usuarios'] = $this->Empresa_model->buscaUsuarios();
+        
         $this->data['view'] = 'empresas/clientes_view';  
         
         $this->load->view('principal/tema_view',  $this->data);
         
     }   
     
-     public function buscaCliente() {
+    public function buscaCliente() {
 
 
         if (!empty($this->input->post('idCliente'))) {
 
             $cliente = new Clientes($this->model);
 
-            $cliente->setIdEmpresa(1);            
+            $cliente->setIdEmpresa(1);
 
-            $cliente->buscaEmpresaClass('clientes','idCliente');
+            $cliente->buscaEmpresaClass('clientes', 'idCliente');
 
             $dados = array('result' => TRUE,
                 'nome' => $cliente->getNome(),
@@ -104,42 +108,37 @@ class Cliente_ctrl extends CI_Controller {
 
             $dados = array('result' => FALSE);
             $result = json_encode($dados);
-            
         }
-        
+
         echo $result;
     }
 
     public function adicionar() {
 
 
-        $permissao = new Permissoes($this->model);
-        $permissao->setPermissao($this->input->post('permissaoCad'));
-        $permissao->setCodigo($this->input->post('codigoCad'));
-        $permissao->setSigla($this->input->post('siglaCad'));
-        $permissao->setSetor($this->input->post('setorCad'));
-        $permissao->setCategoria($this->input->post('categoriaCad'));
-        $permissao->setEfetivo($this->input->post('efetivoCad'));
-        $permissao->setDescricao($this->input->post('descricaoCad'));
-        $permissao->setObservacao($this->input->post('observacaoCad'));
-        $permissao->setStatus($this->input->post('statusCad'));
-
-        $permissoes = array(
-            'gGestaoDispositivos' => $this->input->post('gGestaoDispositivosCad'),
-            'gGraficos' => $this->input->post('gGraficosCad'),
-            'gConfiguracoes' => $this->input->post('gConfiguracoesCad')
-        );
-
-        $permissao->setPermissoes(serialize($permissoes));
-        $permissao->setUsuario($this->session->userdata('usuario'));
-        $permissao->setDataCadastro(date("Y-m-d H:i:s"));
-        $permissao->setDataAlterado(date("Y-m-d H:i:s"));
+        $cliente = new Clientes($this->model);
+        $usuario = new Usuario($this->model);
+        $usuario->setId($this->input->post('usuarioCad'));
+        
+        $cliente->setNome($this->input->post('nomeCad'));
+        $cliente->setNomeFantasia($this->input->post('nomeFantasiaCad'));
+        $cliente->setCnpj($this->input->post('cnpjCad'));
+        $cliente->setEmail($this->input->post('emailCad'));
+        $cliente->setTelefone($this->input->post('telefoneCad'));
+        $cliente->setInscEstadual($this->input->post('inscEstadualCad'));
+        $cliente->setAreaUtilm2($this->input->post('areaUtilm2Cad'));
+        $cliente->setCep($this->input->post('cepCad'));
+        $cliente->setNumero($this->input->post('numeroCad'));
+        $cliente->setComplemento($this->input->post('complementoCad'));
+        $cliente->setUf($this->input->post('ufCad'));  
+        $cliente->setStatus($this->input->post('statusCad')); 
+        $cliente->setDataCadastro(date("Y-m-d H:i:s"));
+        $cliente->setDataAlterado(date("Y-m-d H:i:s"));
 
 
+        if ($cliente->cadastrarClass('clientes') == TRUE) {
 
-        if ($permissao->cadastrarClass() == TRUE) {
-
-            $this->session->set_flashdata('success', 'Permissão adicionada com sucesso!');
+            $this->session->set_flashdata('success', 'Cliente adicionada com sucesso!');
         } else {
             $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
         }

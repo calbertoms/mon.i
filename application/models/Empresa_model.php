@@ -13,6 +13,14 @@ class Empresa_model extends CI_Model {
         
     }
     
+     public function buscaUsuarios() {
+        
+        $query = 'Select * from usuario ORDER BY idUsuario ';
+                                      
+        return $this->db->query($query, array())->result();
+        
+    }
+    
     public function buscaClientes($limit,$start){
         
         $query = 'Select * from clientes ORDER BY idCliente ASC LIMIT ? OFFSET ? ';
@@ -65,6 +73,7 @@ class Empresa_model extends CI_Model {
     }
      
     function adicionar($table,$data,$returnId = false){
+        
         if ($this->db->insert($table, $data)) {
             if($returnId == true){
                 return $this->db->insert_id($table);

@@ -494,6 +494,7 @@ $(document).ready(function () {
                     areaUtilm2Cad: {equalTo: true},
                     cepCad: {equalTo: true},
                     numeroCad: {equalTo: true},
+                    logradouroCad: {equalTo: true},
                     complementoCad: {equalTo: true},
                     ufCad: {equalTo: true},
                     statusCad: {equalTo: true}
@@ -510,6 +511,7 @@ $(document).ready(function () {
                     areaUtilm2Cad: {equalTo: 'Campo Requerido'},
                     cepCad: {equalTo: 'Campo Requerido'},
                     numeroCad: {equalTo: 'Campo Requerido'},
+                    logradouroCad: {equalTo: 'Campo Requerido'},
                     complementoCad: {equalTo: 'Campo Requerido'},
                     ufCad: {equalTo: 'Campo Requerido'},
                     statusCad: {equalTo: 'Campo Requerido'}
