@@ -3,14 +3,14 @@
         <?php if(!$clientes){?>
         <div class="table-responsive">
             <table class="table table-condensed">
-                <caption><h2 class="text-center">Gerenciamento de Cliente</h2></caption>
+                <caption><h2 class="text-center">Gerenciamento de Clientes</h2></caption>
                 <thead>
                     <tr>                        
                         <th class="col-md-3" style="text-align: center; vertical-align: middle;">Nome Fantasia</th>
                         <th class="col-md-3" style="text-align: center; vertical-align: middle;">E-mail</th>
                         <th class="col-md-3" style="text-align: center; vertical-align: middle;">Telefone</th>
                         <th class="col-md-3" style="text-align: center; vertical-align: middle;">
-                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCad"><i class="fa fa-fw fa-plus"></i> Cliente</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCad"><i class="fa fa-fw fa-plus"></i> Cliente</button>
                         </th>
                     </tr>
                 </thead>
@@ -24,14 +24,14 @@
         <?php }else{ ?>
         <div class="table-responsive">
             <table class="table table-condensed">
-                <caption><h2 class="text-center">Gerenciamento de Recargas</h2></caption>
+                <caption><h2 class="text-center">Gerenciamento de Clientes</h2></caption>
                 <thead>
                     <tr>
                         <th class="col-md-3" style="text-align: center; vertical-align: middle;">Nome Fantasia</th>
                         <th class="col-md-3" style="text-align: center; vertical-align: middle;">E-mail</th>
                         <th class="col-md-3" style="text-align: center; vertical-align: middle;">Telefone</th>
                         <th class="col-md-2" style="text-align: center; vertical-align: middle;">
-                            
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCad"><i class="fa fa-fw fa-plus"></i> Cliente</button>   
                         </th>
                     </tr>
                 </thead>
@@ -79,13 +79,125 @@
                                     <div class="col-lg-12 alert alert-info">Obrigatorio o preenchimento dos campos com asterisco (<span style="color: #EE0000">*</span>).</div>
                                 </div>
                             </div>
-                            
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="nomeCad">Nome<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="nomeCad" name="nomeCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="nomeFantasiaCad">Nome Fantasia<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="nomeFantasiaCad" name="nomeFantasiaCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="cnpjCad">cnpj<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="cnpjCad" name="cnpjCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="emailCad">Email<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="email" class="form-control" id="emailCad" name="emailCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="telefoneCad">Telefone<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="telefone" class="form-control" id="telefoneCad" name="telefoneCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="inscEstadualCad">Inscrição Estadual<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="inscEstadualCad" name="inscEstadualCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="areaUtilm2Cad">Area Util M2<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="areaUtilm2Cad" name="areaUtilm2Cad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="cepCad">CEP<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="cepCad" name="cepCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="logradouroCad">Logradouro<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="logradouroCad" name="logradouroCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="complementoCad">Complemento<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="complementoCad" name="complementoCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="numeroCad">Numero<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="numeroCad" name="numeroCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="ufCad">UF<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="ufCad" name="ufCad" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="permissaoCad">Permissão<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="permissaoCad" class="form-control" name="permissaoCad" title="Selecione a permissão">
+                                            <option value="">Selecione...</option>
+                                            <?php
+                                            foreach ($permissoes as $p) {
+                                                echo '<option value=' . $p->idPermissao . '>' . $p->permissao . '</option>';
+                                            }
+                                            ?>
+                                        </select>                     
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="situacaoCad">Situação<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="situacaoCad" class="form-control" name="situacaoCad" title="Selecione a situação">
+                                            <option value="">Selecione...</option>
+                                            <option value="1">Ativo</option>
+                                            <option value="0">Desativo</option>
+                                        </select>                    
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="form-group">                       
-                        <button type="button" id="cancelar" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" id="cancelarCad" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                         <button class="btn btn-success">Adicionar</button>                        
                     </div>
                 </div>
@@ -113,13 +225,124 @@
                                     <div class="col-lg-12 alert alert-info">Obrigatorio o preenchimento dos campos com asterisco (<span style="color: #EE0000">*</span>).</div>
                                 </div>
                             </div>
-                           
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="nomeEdit">Nome<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="nomeEdit" name="nomeEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="nomeFantasiaEdit">Nome Fantasia<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="nomeFantasiaEdit" name="nomeFantasiaEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="cnpjEdit">cnpj<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="cnpjEdit" name="cnpjEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="emailEdit">Email<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="email" class="form-control" id="emailEdit" name="emailEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="telefoneEdit">Telefone<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="telefone" class="form-control" id="telefoneEdit" name="telefoneEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="inscEstadualEdit">Inscrição Estadual<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="inscEstadualEdit" name="inscEstadualEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="areaUtilm2Edit">Area Util M2<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="areaUtilm2Edit" name="areaUtilm2Edit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="cepEdit">CEP<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="cepEdit" name="cepEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="logradouroEdit">Logradouro<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="logradouroEdit" name="logradouroEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="complementoEdit">Complemento<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="complementoEdit" name="complementoEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="numeroEdit">Numero<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="numeroEdit" name="numeroEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="ufEdit">UF<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="ufEdit" name="ufEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="permissaoEdit">Permissão<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="permissaoEdit" class="form-control" name="permissaoEdit" title="Selecione a permissão">
+                                            <option value="">Selecione...</option>
+                                            <?php
+                                            foreach ($permissoes as $p) {
+                                                echo '<option value=' . $p->idPermissao . '>' . $p->permissao . '</option>';
+                                            }
+                                            ?>
+                                        </select>                     
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="situacaoEdit">Situação<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="situacaoEdit" class="form-control" name="situacaoEdit" title="Selecione a situação">
+                                            <option value="">Selecione...</option>
+                                            <option value="1">Ativo</option>
+                                            <option value="0">Desativo</option>
+                                        </select>                    
+                                    </div>
+                                </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+               </div> <div class="modal-footer">
                     <div class="form-group">                       
-                        <button type="button" id="cancelar" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" id="cancelarEdit" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                         <button class="btn btn-success">Editar</button>                        
                     </div>
                 </div>
@@ -186,12 +409,20 @@ $(document).ready(function () {
                 if (data.result === true)
                 {
   
-                    $("#nomeCompletoEdit").val(data.nomeCompleto);
-                    $("#usuarioEdit").val(data.usuario);
-                    $("#telefoneEdit").val(data.telefone);
+                    $("#nomeEdit").val(data.nome);
+                    $("#nomeFantasiaEdit").val(data.nomeFantasia);
+                    $("#cnpjEdit").val(data.cnpj);
                     $("#emailEdit").val(data.email);
-                    $("#situacaoEdit").val(data.situacao);
-                    $("#permissaoEdit").val(data.permissao);
+                    $("#telefoneEdit").val(data.telefone);
+                    $("#inscEstadualEdit").val(data.inscEstadual);
+                    $("#areaUtilm2Edit").val(data.areaUtilm2);
+                    $("#cepEdit").val(data.cep);
+                    $("#numeroEdit").val(data.numero);
+                    $("#logradouroEdit").val(data.logradouro);
+                    $("#complementoEdit").val(data.complemento);
+                    $("#ufEdit").val(data.uf);
+                    $("#statusEdit").val(data.status);
+                
 
                 }
             }
@@ -202,23 +433,35 @@ $(document).ready(function () {
         
         rules:
                 {
-                    nomeCompletoEdit: {required: true},
-                    usuarioEdit: {required: true},
-                    telefoneEdit: {required: true},
+                    nomeEdit: {required: true},
+                    nomeFantasiaEdit: {required: true},
+                    cnpjEdit: {required: true},
                     emailEdit: {required: true},
-                    situacaoEdit: {required: true},
-                    permissaoEdit: {required: true},
-                    confirmaEdit: {equalTo: '#senhaEdit'}
+                    telefoneEdit: {required: true},
+                    inscEstadualEdit: {required: true},
+                    areaUtilm2Edit: {equalTo: true},
+                    cepEdit: {equalTo: true},
+                    numeroEdit: {equalTo: true},
+                    complementoEdit: {equalTo: true},
+                    ufEdit: {equalTo: true},
+                    statusEdit: {equalTo: true}
+                    
                 },
         messages: 
                 {
-                    nomeCompletoEdit: {required: 'Campo Requerido'},
-                    usuarioEdit: {required: 'Campo Requerido'},
-                    telefoneEdit: {required: 'Campo Requerido'},
+                    nomeEdit: {required: 'Campo Requerido'},
+                    nomeFantasiaEdit: {required: 'Campo Requerido'},
+                    cnpjEdit: {required: 'Campo Requerido'},
                     emailEdit: {required: 'Campo Requerido'},
-                    situacaoEdit: {required: 'Campo Requerido.'},
-                    permissaoEdit: {required: 'Campo Requerido.'},
-                    confirmaEdit: {equalTo: 'Senhas diferentes'}
+                    telefoneEdit: {required: 'Campo Requerido'},
+                    inscEstadualEdit: {required: 'Campo Requerido'},
+                    areaUtilm2Edit: {equalTo: 'Campo Requerido'},
+                    cepEdit: {equalTo: 'Campo Requerido'},
+                    numeroEdit: {equalTo: 'Campo Requerido'},
+                    complementoEdit: {equalTo: 'Campo Requerido'},
+                    ufEdit: {equalTo: 'Campo Requerido'},
+                    statusEdit: {equalTo: 'Campo Requerido'}
+ 
                 },
 
         highlight: function(element) {
@@ -240,30 +483,39 @@ $(document).ready(function () {
     
     $('#formCad').validate({
         
-        rules:
+       rules:
                 {
-                    nomeCompletoCad: {required: true},
-                    usuarioCad: {required: true},
-                    telefoneCad: {required: true},
+                    nomeCad: {required: true},
+                    nomeFantasiaCad: {required: true},
+                    cnpjCad: {required: true},
                     emailCad: {required: true},
-                    situacaoCad: {required: true},
-                    permissaoCad: {required: true},
-                    senhaCad: {required: true},
-                    confirmaCad: {required: true,
-                               equalTo: '#senhaCad'}
-                },                        
+                    telefoneCad: {required: true},
+                    inscEstadualCad: {required: true},
+                    areaUtilm2Cad: {equalTo: true},
+                    cepCad: {equalTo: true},
+                    numeroCad: {equalTo: true},
+                    complementoCad: {equalTo: true},
+                    ufCad: {equalTo: true},
+                    statusCad: {equalTo: true}
+                    
+                },
         messages: 
                 {
-                    nomeCompletoCad: {required: 'Campo Requerido.'},
-                    usuarioCad: {required: 'Campo Requerido'},
-                    telefoneCad: {required: 'Campo Requerido'},
+                    nomeCad: {required: 'Campo Requerido'},
+                    nomeFantasiaCad: {required: 'Campo Requerido'},
+                    cnpjCad: {required: 'Campo Requerido'},
                     emailCad: {required: 'Campo Requerido'},
-                    situacaoCad: {required: 'Campo Requerido.'},
-                    permissaoCad: {required: 'Campo Requerido.'},
-                    senhaCad: {required: 'Campo Requerido.'},
-                    confirmaCad: {required: 'Campo Requerido.',
-                        equalTo: 'Senhas diferentes'}
+                    telefoneCad: {required: 'Campo Requerido'},
+                    inscEstadualCad: {required: 'Campo Requerido'},
+                    areaUtilm2Cad: {equalTo: 'Campo Requerido'},
+                    cepCad: {equalTo: 'Campo Requerido'},
+                    numeroCad: {equalTo: 'Campo Requerido'},
+                    complementoCad: {equalTo: 'Campo Requerido'},
+                    ufCad: {equalTo: 'Campo Requerido'},
+                    statusCad: {equalTo: 'Campo Requerido'}
+ 
                 },
+
 
         highlight: function(element) {
             $(element).closest('.form-group').addClass('has-error');

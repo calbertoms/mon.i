@@ -1,22 +1,27 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once(APPPATH . 'entidades/Clientes.php');
+require_once(APPPATH . 'entidades/Empresas.php');
+
 class Cliente_ctrl extends CI_Controller {
     //atributo
     
     private $model;
     
     public function __construct() {
+        
         parent::__construct();
         
-         if ((!$this->session->userdata('id')) || (!$this->session->userdata('logado'))) {
+      //   if ((!$this->session->userdata('id')) || (!$this->session->userdata('logado'))) {
 
-            redirect('Principal_ctrl/login');
-        }
+      //      redirect('Principal_ctrl/login');
+      //  }
        
         $this->data['menuprincipal'] = 'principal';
         $this->load->model('Empresa_model','',TRUE);
         $this->model = $this->Empresa_model;
+        
     }
 
     public function index(){
@@ -29,7 +34,7 @@ class Cliente_ctrl extends CI_Controller {
         
         $this->load->library('pagination');
         
-        $config['base_url'] = base_url('Permissoes/gerenciar');
+        $config['base_url'] = base_url('Empresa/gerenciar');
         $config['total_rows'] = $this->Empresa_model->count('permissoes');
         $config['per_page'] = 10;
         $config['next_link'] = '&raquo';
@@ -55,12 +60,167 @@ class Cliente_ctrl extends CI_Controller {
         $start = ($this->uri->segment(3) == NULL) ? 0 : intval($this->uri->segment(3));
 
         $this->pagination->initialize($config);
+       
+        $this->data['clientes'] = $this->Empresa_model->buscaClientes($limit,$start);
         
-        
-        $this->data['clientes'] = '';
+        $this->data['permissoes'] = $this->Empresa_model->buscaPermissoes();
         
         $this->data['view'] = 'empresas/clientes_view';  
+        
         $this->load->view('principal/tema_view',  $this->data);
         
-    }    
+    }   
+    
+     public function buscaCliente() {
+
+
+        if (!empty($this->input->post('idCliente'))) {
+
+            $cliente = new Clientes($this->model);
+
+            $cliente->setIdEmpresa(1);            
+
+            $cliente->buscaEmpresaClass('clientes','idCliente');
+
+            $dados = array('result' => TRUE,
+                'nome' => $cliente->getNome(),
+                'nomeFantasia' => $cliente->getNomeFantasia(),
+                'cnpj' => $cliente->getCnpj(),
+                'email' => $cliente->getEmail(),
+                'telefone' => $cliente->getTelefone(),
+                'inscEstadual' => $cliente->getInscEstadual(),
+                'areaUtilm2' => $cliente->getAreaUtilm2(),
+                'cep' => $cliente->getCep(),
+                'numero' => $cliente->getNumero(),
+                'logradouro' => $cliente->getLogradouro(),
+                'complemento' => $cliente->getComplemento(),
+                'uf' => $cliente->getUf(),
+                'status' => $cliente->getStatus()
+            );
+
+            $result = json_encode($dados);
+            
+        } else {
+
+            $dados = array('result' => FALSE);
+            $result = json_encode($dados);
+            
+        }
+        
+        echo $result;
+    }
+
+    public function adicionar() {
+
+
+        $permissao = new Permissoes($this->model);
+        $permissao->setPermissao($this->input->post('permissaoCad'));
+        $permissao->setCodigo($this->input->post('codigoCad'));
+        $permissao->setSigla($this->input->post('siglaCad'));
+        $permissao->setSetor($this->input->post('setorCad'));
+        $permissao->setCategoria($this->input->post('categoriaCad'));
+        $permissao->setEfetivo($this->input->post('efetivoCad'));
+        $permissao->setDescricao($this->input->post('descricaoCad'));
+        $permissao->setObservacao($this->input->post('observacaoCad'));
+        $permissao->setStatus($this->input->post('statusCad'));
+
+        $permissoes = array(
+            'gGestaoDispositivos' => $this->input->post('gGestaoDispositivosCad'),
+            'gGraficos' => $this->input->post('gGraficosCad'),
+            'gConfiguracoes' => $this->input->post('gConfiguracoesCad')
+        );
+
+        $permissao->setPermissoes(serialize($permissoes));
+        $permissao->setUsuario($this->session->userdata('usuario'));
+        $permissao->setDataCadastro(date("Y-m-d H:i:s"));
+        $permissao->setDataAlterado(date("Y-m-d H:i:s"));
+
+
+
+        if ($permissao->cadastrarClass() == TRUE) {
+
+            $this->session->set_flashdata('success', 'Permissão adicionada com sucesso!');
+        } else {
+            $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
+        }
+
+        redirect(base_url('Cliente_ctrl'));
+    }
+
+    public function editar() {
+
+
+        $permissao = new Permissoes($this->model);
+        $permissao->setIdPermissao($this->input->post('idPermissao'));
+
+        $permissao->setPermissao($this->input->post('permissaoEdit'));
+        $permissao->setCodigo($this->input->post('codigoEdit'));
+        $permissao->setSigla($this->input->post('siglaEdit'));
+        $permissao->setSetor($this->input->post('setorEdit'));
+        $permissao->setCategoria($this->input->post('categoriaEdit'));
+        $permissao->setEfetivo($this->input->post('efetivoEdit'));
+        $permissao->setDescricao($this->input->post('descricaoEdit'));
+        $permissao->setObservacao($this->input->post('observacaoEdit'));
+        $permissao->setStatus($this->input->post('statusEdit'));
+
+        $permissoes = array(
+            'gGestaoDispositivos' => $this->input->post('gGestaoDispositivosEdit'),
+            'gGraficos' => $this->input->post('gGraficosEdit'),
+            'gConfiguracoes' => $this->input->post('gConfiguracoesEdit')
+        );
+
+        $permissao->setPermissoes(serialize($permissoes));
+        //$permissao->setUsuario($this->session->userdata('usuario'));
+        $permissao->setDataAlterado(date("Y-m-d H:i:s"));
+
+
+
+        if ($permissao->editarClass() == TRUE) {
+
+            $this->session->set_flashdata('success', 'Permisão alterada com sucesso!');
+            
+            
+        } else {
+
+            $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
+        }
+        
+        redirect(base_url('Cliente_ctrl'));
+    }
+
+
+    //delete virtual
+    public function excluir() {
+        
+
+        $permissao = new Permissoes($this->model);
+        $permissao->setIdPermissao($this->input->post('id'));
+        
+        if ($permissao->getIdPermissao() == null){
+
+            $this->session->set_flashdata('error','Erro ao tentar excluir Permissao.');            
+
+        } else{
+            if ($permissao->getIdPermissao() == 1){
+
+                    $this->session->set_flashdata('error','Não é possível excluir essa Permissão.');
+
+                    redirect(base_url('Permissoes_ctrl'));
+            }
+                  
+                        
+            if ($permissao->deletarPermissaoClass() == TRUE) {
+                
+                $this->session->set_flashdata('success', 'Permissão excluído com sucesso!');
+            } else {
+                $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
+            }
+            
+        }
+     
+         redirect(base_url('Cliente_ctrl'));        
+
+
+    }
+    
 }

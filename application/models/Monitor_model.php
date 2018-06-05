@@ -62,5 +62,55 @@ class Monitor_model extends CI_Model {
         
     }
     
+    public function buscaUltimaLeitura($mac){
+        
+        $query = 'SELECT t1.*, t2.mac FROM leitura AS t1 INNER JOIN monitorinteligente AS t2 ON (t1.idMonitor = t2.idMonitor) WHERE t2.mac = ? ORDER BY t1.idLeitura DESC LIMIT 1';
+        
+         return $this->db->query($query, array($mac))->row();
+        
+    }
+    
+    public function buscaRecargaFinalizadaPorMedidor($mac){
+        
+        $query = 'SELECT t1.* FROM monitorinteligente AS t1 INNER JOIN recargas AS t2 ON (t1.idMonitor = t2.idMonitor) WHERE t1.mac = ? AND t2.situacaoRecarga != 2';
+        
+        return $this->db->query($query, array($mac))->row();
+    }    
+    
+    public function buscaTransporteDisponivelPorTipo($tipo){
+        $query = 'SELECT * FROM transportes WHERE disponibilidade = 0 AND tipo = ?';
+        return $this->db->query($query, array($tipo))->result();
+    }
+
+    public function buscaFornecedorCliente($tipo, $monitor){
+        $query = '';
+        switch ($tipo) {
+            case 0:
+                
+                $query = 'SELECT t2.idFornecedor, t3.idCliente FROM tanquesgasosos AS t1 '
+                    . 'INNER JOIN fornecedores AS t2 ON (t1.idFornecedor = t2.idFornecedor) '
+                    . 'INNER JOIN clientes AS t3 ON (t1.idCliente = t3.idCliente) '
+                    . 'WHERE t1.idMonitor = ?';
+                
+                break;            
+            case 1:
+                
+                $query = 'SELECT t2.idFornecedor, t3.idCliente FROM tanquesliquidos AS t1 '
+                    . 'INNER JOIN fornecedores AS t2 ON (t1.idFornecedor = t2.idFornecedor) '
+                    . 'INNER JOIN clientes AS t3 ON (t1.idCliente = t3.idCliente) '
+                    . 'WHERE t1.idMonitor = ?';
+                
+                break;
+            case 2:
+                
+                $query = 'SELECT t2.idFornecedor, t3.idCliente FROM tanquessolidos AS t1 '
+                    . 'INNER JOIN fornecedores AS t2 ON (t1.idFornecedor = t2.idFornecedor) '
+                    . 'INNER JOIN clientes AS t3 ON (t1.idCliente = t3.idCliente) '
+                    . 'WHERE t1.idMonitor = ?';
+                
+                break;
+        }
+        return $this->db->query($query, array($monitor))->row();
+    }
     
 }

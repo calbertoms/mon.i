@@ -11,13 +11,17 @@
  *
  * @author Suporte
  */
+
+require_once(APPPATH . 'entidades/Usuario.php');
+
 class Empresas {
     
     /**
      *ATRIBUTOS
      */
     
-    private $id;
+    private $idEmpresa;
+    private $usuario;
     private $nome;
     private $nomeFantasia;
     private $cnpj;
@@ -30,6 +34,7 @@ class Empresas {
     private $numero;
     private $complemento;
     private $uf;
+    private $status;
     private $dataCadastro;
     private $dataAlterado;
     
@@ -44,8 +49,12 @@ class Empresas {
     
     //geters e settes
     
-    public function getId() {
-        return $this->id;
+    public function getIdEmpresa() {
+        return $this->idEmpresa;
+    }
+    
+    public function getUsuario() {
+        return $this->idUsuario;
     }
 
     public function getNome() {
@@ -95,6 +104,10 @@ class Empresas {
     public function getUf() {
         return $this->uf;
     }
+    
+     public function getStatus() {
+        return $this->status;
+    }
 
     public function getDataCadastro() {
         return $this->dataCadastro;
@@ -104,8 +117,12 @@ class Empresas {
         return $this->dataAlterado;
     }
 
-    public function setId($id) {
-        $this->id = $id;
+    public function setIdEmpresa($idEmpresa) {
+        $this->idEmpresa = $idEmpresa;
+    }
+    
+    public function setUsuario($usuario) {
+        $this->usuario = $usuario;
     }
 
     public function setNome($nome) {
@@ -155,6 +172,10 @@ class Empresas {
     public function setUf($uf) {
         $this->uf = $uf;
     }
+    
+     public function setStatus($status) {
+        $this->status = $status;
+    }
 
     public function setDataCadastro($dataCadastro) {
         $this->dataCadastro = $dataCadastro;
@@ -164,30 +185,152 @@ class Empresas {
         $this->dataAlterado = $dataAlterado;
     }
 
+     public function cadastrarClass($tb) {
+
+        $usuario = $this->getUsuario();
+        $nome = $this->getNome();
+        $nomeFantasia = $this->getNomeFantasia();
+        $cnpj = $this->getCnpj();
+        $email = $this->getEmail();
+        $telefone = $this->getTelefone();
+        $inscEstadual = $this->getInscEstadual();
+        $areaUtilm2 = $this->getAreaUtilm2();
+        $cep = $this->getCep();
+        $numero = $this->getNumero();
+        $logradouro = $this->getLogradouro();
+        $complemento = $this->getComplemento();
+        $uf = $this->getUf();
+        $status = $this->getStatus();
+        $cadastro = $this->getdataCadastro();
+        $alterado = $this->getdataAlterado();
         
         
-    /**
-     * METODOS
-     */
-    
-    public function cadastrarClass() {
-        
+        $data = array(
+            'usuario' => $usuario,
+            'nome' => $nome,
+            'nomeFantasia' => $nomeFantasia,
+            'cnpj' => $cnpj,
+            'email' => $email,
+            'telefone' => $telefone,
+            'inscEstadual' => $inscEstadual,
+            'areaUtilm2' => $areaUtilm2,
+            'cep' => $cep,
+            'numero' => $numero,
+            'logradouro' => $logradouro,
+            'complemento' => $complemento,
+            'uf' => $uf,
+            'status' => $status,
+            'dataCadastro' => $cadastro,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->model->adicionar($tb, $data) == TRUE) {
+
+            $result = TRUE;
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
     }
     
-    public function editarClass() {
+    public function editarClass($tb,$idTb) {
+
+        $idEmpresa = $this->getIdEmpresa();
+        $usuario = $this->getUsuario();
+        $nome = $this->getNome();
+        $nomeFantasia = $this->getNomeFantasia();
+        $cnpj = $this->getCnpj();
+        $email = $this->getEmail();
+        $telefone = $this->getTelefone();
+        $inscEstadual = $this->getInscEstadual();
+        $areaUtilm2 = $this->getAreaUtilm2();
+        $cep = $this->getCep();
+        $numero = $this->getNumero();
+        $logradouro = $this->getLogradouro();
+        $complemento = $this->getComplemento();
+        $uf = $this->getUf();
+        $status = $this->getStatus();
+        $alterado = date('Y-m-d H:i:s');
+
+
+           $data = array(
+                'idEmpresa' => $idEmpresa,
+                'usuario' => $usuario,
+                'nome' => $nome,
+                'nomeFantasia' => $nomeFantasia,
+                'cnpj' => $cnpj,
+                'email' => $email,
+                'telefone' => $telefone,
+                'inscEstadual' => $inscEstadual,
+                'areaUtilm2' => $areaUtilm2,
+                'cep' => $cep,
+                'numero' => $numero,
+               'logradouro' => $logradouro,
+                'complemento' => $complemento,
+                'uf' => $uf,
+                'status' => $status,
+                'dataCadastro' => $cadastro,
+                'dataAlterado' => $alterado
+        );
+
+
+
+        if ($this->model->editar($tb, $data, $idTb, $id)) {
+
+            $result = TRUE;
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+
+    public function buscaEmpresaClass($tb,$idTb) {
+
         
+       $result = $this->model->buscaEmpresaPorId($tb,$idTb, $this->getIdEmpresa());
+ 
+        $this->setNome($result->nome);
+        $this->setNomeFantasia($result->nomeFantasia);
+        $this->setCnpj($result->cnpj);
+        $this->setEmail($result->email);
+        $this->setTelefone($result->telefone);
+        $this->setInscEstadual($result->inscEstadual);
+        $this->setAreaUtilm2($result->areaUtilm2);
+        $this->setCep($result->cep);
+        $this->setNumero($result->numero);
+        $this->setLogradouro($result->logradouro);
+        $this->setComplemento($result->complemento);
+        $this->setUf($result->uf);
+        $this->setStatus($result->status);
+
+    }
+
+    //delete virtual
+    public function deletarEmpresaClass($tb,$idTb) {
+
+        $id = $this->getIdEmpresa();
+        $alterado = date('Y-m-d H:i:s');
+
+
+        $data = array(
+            'status' => FALSE,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->model->editar($tb, $data, $IdTb, $id)) {
+
+            $result = TRUE;
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
     }
     
-    public function desativarClass() {
-        
-    }
-    
-    public function buscarEmpresaClass() {
-        
-    }
-    
-    public function deletarClass() {
-        
-    }
     
 }

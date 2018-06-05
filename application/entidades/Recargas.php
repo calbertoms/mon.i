@@ -11,6 +11,11 @@
  *
  * @author Suporte
  */
+require_once(APPPATH . 'entidades/Transportes.php');
+require_once(APPPATH . 'entidades/Fornecedores.php');
+require_once(APPPATH . 'entidades/Clientes.php');
+require_once(APPPATH . 'entidades/MonitorInteligente.php');
+
 class Recargas {
     //put your code here
     
@@ -18,11 +23,13 @@ class Recargas {
     private $idClientes;
     private $idFornecedores;
     private $idMonitor;
-    private $idTransportes;
+    private $transporte;
     private $data;
     private $volumeRecarga;
-    private $statusRecarga;
-    
+    private $situacaoRecarga;
+    private $status;
+
+
 
     private $model;
   
@@ -48,10 +55,6 @@ class Recargas {
         return $this->idMonitor;
     }
 
-    public function getIdTransportes() {
-        return $this->idTransportes;
-    }
-
     public function getData() {
         return $this->data;
     }
@@ -60,10 +63,19 @@ class Recargas {
         return $this->volumeRecarga;
     }
 
-    public function getStatusRecarga() {
-        return $this->statusRecarga;
+    public function getSituacaoRecarga() {
+        return $this->situacaoRecarga;
     }
 
+    public function getStatus() {
+        return $this->status;
+    }
+
+        
+    public function getTransporte() {
+        return $this->transporte;
+    }
+    
     public function setId($id) {
         $this->id = $id;
     }
@@ -80,10 +92,6 @@ class Recargas {
         $this->idMonitor = $idMonitor;
     }
 
-    public function setIdTransportes(Transportes $idTransportes) {
-        $this->idTransportes = $idTransportes;
-    }
-
     public function setData($data) {
         $this->data = $data;
     }
@@ -92,28 +100,55 @@ class Recargas {
         $this->volumeRecarga = $volumeRecarga;
     }
 
-    public function setStatusRecarga($statusRecarga) {
-        $this->statusRecarga = $statusRecarga;
+    public function setSituacaoRecarga($situacaoRecarga) {
+        $this->situacaoRecarga = $situacaoRecarga;
     }
 
-    public function cadastrarClass(Transportes $trasnporte) {
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
         
-        $this->idTransportes[] = $trasnporte;
-                
+
+    /*
+     * Metodos da Agregação
+     * Requesito solicitado pela banca
+     */    
+    public function adicionaTransporte(Transportes $transporte){
+        $this->transporte[] = $transporte;
     }
     
-    public function editarClass() {
+
+    public function cadastrarClass(){
         
-    }
-    
-    public function desativarClass() {
+        $data = array(
+                        'idCliente'         => $this->getIdClientes()->getId(),
+                        'idFornecedor'       => $this->getIdFornecedores()->getId(),
+                        'idMonitor'         => $this->getIdMonitor()->getId(),
+                        'data'              => $this->getData(),
+                        'volumeRecarga'     => $this->getVolumeRecarga(),
+                        'situacaoRecarga'   => $this->getSituacaoRecarga(),
+                        'status'            => $this->getStatus()
+        );
         
+        if($id = $this->model->adicionar('recargas',$data,TRUE) == TRUE){
+            $i = 0;
+            $this->setId($id);
+            foreach ($this->getTransporte() AS $t){
+                $data2[$i] = array(
+                                'idRecarga'     => $this->getId(),
+                                'idTransporte'  => $t->getIdTransporte()
+                );
+                $i++;
+            }
+            for($j = 0; $j < $i; $j++){
+                $this->model->adicionar('recargatransporte',$data2[$j]);
+                $data3 = array ('disponibilidade' => 1);
+                $this->model->editar('transportes',$data3,'idTransporte',$data2[$j]['idTransporte']);
+            }
+            return TRUE;
+        }else{
+            return FALSE;
+        }
     }
-    
-    public function buscarRecargaClass() {
-        
-    }
-    
-    
-    
 }

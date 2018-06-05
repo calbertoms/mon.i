@@ -286,7 +286,7 @@ class Usuario {
 
     
     //delete virtual
-        public function deletarUsuarioClass() {
+    public function deletarUsuarioClass() {
 
         $id = $this->getId();
         $alterado = date('Y-m-d H:i:s');

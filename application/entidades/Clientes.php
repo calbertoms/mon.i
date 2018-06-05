@@ -1,5 +1,4 @@
 <?php
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,29 +10,9 @@
  *
  * @author Suporte
  */
+require_once(APPPATH . 'entidades/Empresas.php');
 
 class Clientes extends Empresas {
     //put your code here
-    
-    
-    public function cadastrarClass() {
-        
-    }
-    
-    public function editarClass() {
-        
-    }
-    
-    public function desativarClass() {
-        
-    }
-    
-    public function buscarEmpresaClass() {
-        
-    }
-    
-    public function deletarClass() {
-        
-    }
-        
+      
 }

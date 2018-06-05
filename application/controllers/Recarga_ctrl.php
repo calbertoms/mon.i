@@ -18,8 +18,8 @@ class Recarga_ctrl extends CI_Controller {
         }
        
         $this->data['menuprincipal'] = 'principal';
-        $this->load->model('Transporte_model','',TRUE);
-        $this->model = $this->Transporte_model;
+        $this->load->model('Recarga_model','',TRUE);
+        $this->model = $this->Recarga_model;
  
     }
     
@@ -40,7 +40,7 @@ class Recarga_ctrl extends CI_Controller {
         $this->load->library('pagination');
         
         $config['base_url'] = base_url('Permissoes/gerenciar');
-        $config['total_rows'] = $this->Transporte_model->count('permissoes');
+        $config['total_rows'] = $this->Recarga_model->count('permissoes');
         $config['per_page'] = 10;
         $config['next_link'] = '&raquo';
         $config['prev_link'] = '&laquo';
@@ -67,7 +67,7 @@ class Recarga_ctrl extends CI_Controller {
         $this->pagination->initialize($config);
         
         
-        $this->data['recargas'] = '';
+        $this->data['recargas'] = $this->Recarga_model->listaRecargas();
         
         $this->data['view'] = 'recargas/recargas_view';  
         $this->load->view('principal/tema_view',  $this->data);

@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once(APPPATH . 'entidades/Fornecedores.php');
+require_once(APPPATH . 'entidades/Empresas.php');
+
 class Fornecedor_ctrl extends CI_Controller {
     //atributo
     
@@ -29,7 +32,7 @@ class Fornecedor_ctrl extends CI_Controller {
         
         $this->load->library('pagination');
         
-        $config['base_url'] = base_url('Permissoes/gerenciar');
+        $config['base_url'] = base_url('Fornecedores/gerenciar');
         $config['total_rows'] = $this->Empresa_model->count('permissoes');
         $config['per_page'] = 10;
         $config['next_link'] = '&raquo';
@@ -57,10 +60,179 @@ class Fornecedor_ctrl extends CI_Controller {
         $this->pagination->initialize($config);
         
         
-        $this->data['fornecedores'] = '';
+       $this->data['fornecedores'] = $this->Empresa_model->buscaFornecedores($limit,$start);
+        
+        $this->data['permissoes'] = $this->Empresa_model->buscaPermissoes();
         
         $this->data['view'] = 'empresas/fornecedores_view';  
         $this->load->view('principal/tema_view',  $this->data);
         
-    }    
+    }   
+    
+     public function buscaCliente() {
+
+
+        if (!empty($this->input->post('idPermissao'))) {
+
+            $permissao = new Permissoes($this->model);
+
+            $permissao->setIdPermissao($this->input->post('idPermissao'));
+
+            $permissao->buscaPermissaoClass();
+
+            $permissoesUnserialized = unserialize($permissao->getPermissoes());
+
+
+            $dados = array('result' => TRUE,
+                'permissao' => $permissao->getPermissao(),
+                'codigo' => $permissao->getCodigo(),
+                'sigla' => $permissao->getSigla(),
+                'setor' => $permissao->getSetor(),
+                'categoria' => $permissao->getCategoria(),
+                'efetivo' => $permissao->getEfetivo(),
+                'descricao' => $permissao->getDescricao(),
+                'observacao' => $permissao->getObservacao(),
+                'status' => $permissao->getStatus(),
+                'permissoes' => $permissoesUnserialized
+            );
+
+            $result = json_encode($dados);
+        } else {
+
+            $dados = array('result' => FALSE);
+            $result = json_encode($dados);
+        }
+        echo $result;
+    }
+
+    public function adicionar() {
+
+
+        $permissao = new Permissoes($this->model);
+        $permissao->setPermissao($this->input->post('permissaoCad'));
+        $permissao->setCodigo($this->input->post('codigoCad'));
+        $permissao->setSigla($this->input->post('siglaCad'));
+        $permissao->setSetor($this->input->post('setorCad'));
+        $permissao->setCategoria($this->input->post('categoriaCad'));
+        $permissao->setEfetivo($this->input->post('efetivoCad'));
+        $permissao->setDescricao($this->input->post('descricaoCad'));
+        $permissao->setObservacao($this->input->post('observacaoCad'));
+        $permissao->setStatus($this->input->post('statusCad'));
+
+        $permissoes = array(
+            'gGestaoDispositivos' => $this->input->post('gGestaoDispositivosCad'),
+            'gGraficos' => $this->input->post('gGraficosCad'),
+            'gConfiguracoes' => $this->input->post('gConfiguracoesCad')
+        );
+
+        $permissao->setPermissoes(serialize($permissoes));
+        $permissao->setUsuario($this->session->userdata('usuario'));
+        $permissao->setDataCadastro(date("Y-m-d H:i:s"));
+        $permissao->setDataAlterado(date("Y-m-d H:i:s"));
+
+
+
+        if ($permissao->cadastrarClass() == TRUE) {
+
+            $this->session->set_flashdata('success', 'Permissão adicionada com sucesso!');
+        } else {
+            $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
+        }
+
+        redirect(base_url('Permissoes_ctrl'));
+    }
+
+    public function editar() {
+
+
+        $permissao = new Permissoes($this->model);
+        $permissao->setIdPermissao($this->input->post('idPermissao'));
+
+        $permissao->setPermissao($this->input->post('permissaoEdit'));
+        $permissao->setCodigo($this->input->post('codigoEdit'));
+        $permissao->setSigla($this->input->post('siglaEdit'));
+        $permissao->setSetor($this->input->post('setorEdit'));
+        $permissao->setCategoria($this->input->post('categoriaEdit'));
+        $permissao->setEfetivo($this->input->post('efetivoEdit'));
+        $permissao->setDescricao($this->input->post('descricaoEdit'));
+        $permissao->setObservacao($this->input->post('observacaoEdit'));
+        $permissao->setStatus($this->input->post('statusEdit'));
+
+        $permissoes = array(
+            'gGestaoDispositivos' => $this->input->post('gGestaoDispositivosEdit'),
+            'gGraficos' => $this->input->post('gGraficosEdit'),
+            'gConfiguracoes' => $this->input->post('gConfiguracoesEdit')
+        );
+
+        $permissao->setPermissoes(serialize($permissoes));
+        //$permissao->setUsuario($this->session->userdata('usuario'));
+        $permissao->setDataAlterado(date("Y-m-d H:i:s"));
+
+
+
+        if ($permissao->editarClass() == TRUE) {
+
+            $this->session->set_flashdata('success', 'Permisão alterada com sucesso!');
+            
+            
+        } else {
+
+            $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
+        }
+        
+        redirect(base_url('Permissoes_ctrl'));
+    }
+
+    public function verificaPermissao() {
+
+        $permissao = $this->input->get("permissaoCad");
+
+        if ($permissao == null) {
+
+            echo 'true';
+        } else {
+
+            $result = $this->Permissoes_model->buscaPermissaoPorNome($permissao);
+            if (count($result) > 0) {
+
+                echo 'false';
+            } else {
+                echo 'true';
+            }
+        }
+    }
+
+    //delete virtual
+    public function excluir() {
+        
+
+        $permissao = new Permissoes($this->model);
+        $permissao->setIdPermissao($this->input->post('id'));
+        
+        if ($permissao->getIdPermissao() == null){
+
+            $this->session->set_flashdata('error','Erro ao tentar excluir Permissao.');            
+
+        } else{
+            if ($permissao->getIdPermissao() == 1){
+
+                    $this->session->set_flashdata('error','Não é possível excluir essa Permissão.');
+
+                    redirect(base_url('Permissoes_ctrl'));
+            }
+                  
+                        
+            if ($permissao->deletarPermissaoClass() == TRUE) {
+                
+                $this->session->set_flashdata('success', 'Permissão excluído com sucesso!');
+            } else {
+                $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
+            }
+            
+        }
+     
+         redirect(base_url('Permissoes_ctrl'));        
+
+
+    }
 }

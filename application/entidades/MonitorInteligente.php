@@ -18,18 +18,25 @@ class MonitorInteligente{
     //put your code here
     
     private $id;
+    private $nome;
     private $tipo;
     private $unidade;
     private $dataCalibracao;
+    private $capacidade;
     private $nivelAlarme;
     private $tempoColeta;
     private $mac;
-    private $nome;
+    private $sensorTipo;
+    private $sensorCalibracao;
+    private $sensorDataCalibracao;
+    private $dataCadastro;
+    private $dataAlterado;
+
     private $leitura;
+    
+    private $model;    
 
-    private $model;
-
-
+    
     public function __construct($model) {
         
         $this->model = $model;
@@ -52,6 +59,10 @@ class MonitorInteligente{
         return $this->dataCalibracao;
     }
 
+    public function getCapacidade() {
+        return $this->capacidade;
+    }
+    
     public function getNivelAlarme() {
         return $this->nivelAlarme;
     }
@@ -70,8 +81,29 @@ class MonitorInteligente{
     
     public function getLeitura() {
         return $this->leitura;
+    }    
+    
+    public function getDataCadastro() {
+        return $this->dataCadastro;
     }
 
+    public function getDataAlterado() {
+        return $this->dataAlterado;
+    }
+    
+    public function getSensorTipo() {
+        return $this->sensorTipo;
+    }
+
+    public function getSensorCalibracao() {
+        return $this->sensorCalibracao;
+    }
+
+    public function getSensorDataCalibracao() {
+        return $this->sensorDataCalibracao;
+    }
+
+            
     public function setId($id) {
         $this->id = $id;
     }
@@ -87,7 +119,10 @@ class MonitorInteligente{
     public function setDataCalibracao($dataCalibracao) {
         $this->dataCalibracao = $dataCalibracao;
     }
-
+    
+    public function setCapacidade($capacidade) {
+        $this->capacidade = $capacidade;
+    }
     public function setNivelAlarme($nivelAlarme) {
         $this->nivelAlarme = $nivelAlarme;
     }
@@ -108,6 +143,26 @@ class MonitorInteligente{
         $this->leitura = $leitura;
     }
     
+    public function setDataCadastro($dataCadastro) {
+        $this->dataCadastro = $dataCadastro;
+    }
+
+    public function setDataAlterado($dataAlterado) {
+        $this->dataAlterado = $dataAlterado;
+    }
+
+    public function setSensorTipo($sensorTipo) {
+        $this->sensorTipo = $sensorTipo;
+    }
+
+    public function setSensorCalibracao($sensorCalibracao) {
+        $this->sensorCalibracao = $sensorCalibracao;
+    }
+
+    public function setSensorDataCalibracao($sensorDataCalibracao) {
+        $this->sensorDataCalibracao = $sensorDataCalibracao;
+    }
+
     private function selecionaMonitor($mac){
         
         $monitor = $this->model->buscaMonitor($mac);
@@ -115,14 +170,20 @@ class MonitorInteligente{
         if ($monitor) {
             
             $this->setId($monitor->idMonitor);
-            $this->setMac($monitor->mac);
             $this->setNome($monitor->nome);
             $this->setTipo($monitor->tipo);
             $this->setUnidade($monitor->unidade);
-            $this->setTempoColeta($monitor->tempoColeta);
             $this->setDataCalibracao($monitor->dataCalibracao);
+            $this->setCapacidade($monitor->capacidade);
             $this->setNivelAlarme($monitor->nivelAlarme);
-            
+            $this->setTempoColeta($monitor->tempoColeta);
+            $this->setMac($monitor->mac);
+            $this->setSensorTipo($monitor->sensorTipo);
+            $this->setSensorCalibracao($monitor->sensorCalibracao);
+            $this->setSensorDataCalibracao($monitor->sensorDataCalibracao);
+            $this->setDataCadastro($monitor->dataCadastro);
+            $this->setDataAlterado($monitor->dataAlterado);
+                        
             return TRUE;
             
         }
@@ -203,6 +264,43 @@ class MonitorInteligente{
         
     }
 
-
+    public function verificaNivelAlarme($nivelAtual){
+        
+        if($this->nivelAlarme >= $nivelAtual){
+            return TRUE;
+        }else{
+            return FALSE;
+        }
+        
+    }
+    
+    public function verificaRecargaMonitor($medidor){
+     
+        $recarga = $this->model->buscaRecargaFinalizadaPorMedidor($medidor);
+        
+        if(empty($recarga)){
+            return TRUE;
+        }else {
+            return FALSE;
+        }
+    }
+    
+    public function calcularRecarga($nivel){                
+        
+        $recarga =  $this->getCapacidade() - ($this->getCapacidade()*$nivel/100);
+        
+        return $recarga;
+    }
+    
+    public function verificaTransportesDisponiveisPorTipo($tipo){
+        $lista_transportes = $this->model->buscaTransporteDisponivelPorTipo($tipo);
+       
+        return $lista_transportes;
+    }
+    
+    public function verificaFornecedorCliente($tipo, $monitor){
+        $fornecedorCliente = $this->model->buscaFornecedorCliente($tipo,$monitor);
+        return $fornecedorCliente;
+    }
     
 }

@@ -19,6 +19,7 @@ class Usuario_ctrl extends CI_Controller {
         $this->model = $this->Usuario_model;
  
         
+        
     }
     
     public function index(){
