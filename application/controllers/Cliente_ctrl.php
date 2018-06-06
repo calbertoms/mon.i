@@ -59,13 +59,13 @@ class Cliente_ctrl extends CI_Controller {
         $config['last_tag_close'] = '</li>';
         
         $limit = $config['per_page'];
+        
         $start = ($this->uri->segment(3) == NULL) ? 0 : intval($this->uri->segment(3));
 
         $this->pagination->initialize($config);
        
         $this->data['clientes'] = $this->Empresa_model->buscaClientes($limit,$start);
         
-        $this->data['permissoes'] = $this->Empresa_model->buscaPermissoes();
         
         $this->data['usuarios'] = $this->Empresa_model->buscaUsuarios();
         
@@ -82,12 +82,13 @@ class Cliente_ctrl extends CI_Controller {
 
             $cliente = new Clientes($this->model);
 
-            $cliente->setIdEmpresa(1);
+            $cliente->setIdEmpresa($this->input->post('idCliente'));
 
-            $cliente->buscaEmpresaClass('clientes', 'idCliente');
+            $cliente->buscaEmpresaClass('clientes', 'idEmpresa');
 
             $dados = array('result' => TRUE,
                 'nome' => $cliente->getNome(),
+                'usuario' => $cliente->getUsuario(),
                 'nomeFantasia' => $cliente->getNomeFantasia(),
                 'cnpj' => $cliente->getCnpj(),
                 'email' => $cliente->getEmail(),
@@ -120,6 +121,7 @@ class Cliente_ctrl extends CI_Controller {
         $usuario = new Usuario($this->model);
         $usuario->setId($this->input->post('usuarioCad'));
         
+        $cliente->setUsuario($usuario->getId());
         $cliente->setNome($this->input->post('nomeCad'));
         $cliente->setNomeFantasia($this->input->post('nomeFantasiaCad'));
         $cliente->setCnpj($this->input->post('cnpjCad'));
@@ -129,6 +131,7 @@ class Cliente_ctrl extends CI_Controller {
         $cliente->setAreaUtilm2($this->input->post('areaUtilm2Cad'));
         $cliente->setCep($this->input->post('cepCad'));
         $cliente->setNumero($this->input->post('numeroCad'));
+        $cliente->setLogradouro($this->input->post('logradouroCad'));
         $cliente->setComplemento($this->input->post('complementoCad'));
         $cliente->setUf($this->input->post('ufCad'));  
         $cliente->setStatus($this->input->post('statusCad')); 
@@ -149,34 +152,31 @@ class Cliente_ctrl extends CI_Controller {
     public function editar() {
 
 
-        $permissao = new Permissoes($this->model);
-        $permissao->setIdPermissao($this->input->post('idPermissao'));
-
-        $permissao->setPermissao($this->input->post('permissaoEdit'));
-        $permissao->setCodigo($this->input->post('codigoEdit'));
-        $permissao->setSigla($this->input->post('siglaEdit'));
-        $permissao->setSetor($this->input->post('setorEdit'));
-        $permissao->setCategoria($this->input->post('categoriaEdit'));
-        $permissao->setEfetivo($this->input->post('efetivoEdit'));
-        $permissao->setDescricao($this->input->post('descricaoEdit'));
-        $permissao->setObservacao($this->input->post('observacaoEdit'));
-        $permissao->setStatus($this->input->post('statusEdit'));
-
-        $permissoes = array(
-            'gGestaoDispositivos' => $this->input->post('gGestaoDispositivosEdit'),
-            'gGraficos' => $this->input->post('gGraficosEdit'),
-            'gConfiguracoes' => $this->input->post('gConfiguracoesEdit')
-        );
-
-        $permissao->setPermissoes(serialize($permissoes));
-        //$permissao->setUsuario($this->session->userdata('usuario'));
-        $permissao->setDataAlterado(date("Y-m-d H:i:s"));
+        $cliente = new Clientes($this->model);
+        $usuario = new Usuario($this->model);
+        $usuario->setId($this->input->post('usuarioEdit'));
+        
+        $cliente->setIdEmpresa($this->input->post('idCliente'));
+        $cliente->setUsuario($usuario->getId());
+        $cliente->setNome($this->input->post('nomeEdit'));
+        $cliente->setNomeFantasia($this->input->post('nomeFantasiaEdit'));
+        $cliente->setCnpj($this->input->post('cnpjEdit'));
+        $cliente->setEmail($this->input->post('emailEdit'));
+        $cliente->setTelefone($this->input->post('telefoneEdit'));
+        $cliente->setInscEstadual($this->input->post('inscEstadualEdit'));
+        $cliente->setAreaUtilm2($this->input->post('areaUtilm2Edit'));
+        $cliente->setCep($this->input->post('cepEdit'));
+        $cliente->setNumero($this->input->post('numeroEdit'));
+        $cliente->setLogradouro($this->input->post('logradouroEdit'));
+        $cliente->setComplemento($this->input->post('complementoEdit'));
+        $cliente->setUf($this->input->post('ufEdit'));  
+        $cliente->setStatus($this->input->post('statusEdit')); 
+        $cliente->setDataAlterado(date("Y-m-d H:i:s"));
 
 
+        if ($cliente->editarClass('clientes','idEmpresa') == TRUE) {
 
-        if ($permissao->editarClass() == TRUE) {
-
-            $this->session->set_flashdata('success', 'Permisão alterada com sucesso!');
+            $this->session->set_flashdata('success', 'Cliente alterado com sucesso!');
             
             
         } else {
@@ -192,25 +192,18 @@ class Cliente_ctrl extends CI_Controller {
     public function excluir() {
         
 
-        $permissao = new Permissoes($this->model);
-        $permissao->setIdPermissao($this->input->post('id'));
+        $cliente = new Clientes($this->model);
+        $cliente->setIdEmpresa($this->input->post('id'));
         
-        if ($permissao->getIdPermissao() == null){
+        if ($cliente->getIdEmpresa() == null){
 
-            $this->session->set_flashdata('error','Erro ao tentar excluir Permissao.');            
+            $this->session->set_flashdata('error','Erro ao tentar excluir Cliente.');            
 
         } else{
-            if ($permissao->getIdPermissao() == 1){
-
-                    $this->session->set_flashdata('error','Não é possível excluir essa Permissão.');
-
-                    redirect(base_url('Permissoes_ctrl'));
-            }
-                  
-                        
-            if ($permissao->deletarPermissaoClass() == TRUE) {
+            
+             if ($cliente->deletarEmpresaClass('clientes','idEmpresa') == TRUE) {
                 
-                $this->session->set_flashdata('success', 'Permissão excluído com sucesso!');
+                $this->session->set_flashdata('success', 'Cliente excluído com sucesso!');
             } else {
                 $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
             }

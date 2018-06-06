@@ -4,16 +4,8 @@ class Empresa_model extends CI_Model {
     public function __construct() {
         parent::__construct();
     }
-    
-    public function buscaPermissoes() {
-        
-        $query = 'Select * from permissoes ORDER BY idPermissao ';
-                                      
-        return $this->db->query($query, array())->result();
-        
-    }
-    
-     public function buscaUsuarios() {
+     
+    public function buscaUsuarios() {
         
         $query = 'Select * from usuario ORDER BY idUsuario ';
                                       
@@ -23,7 +15,7 @@ class Empresa_model extends CI_Model {
     
     public function buscaClientes($limit,$start){
         
-        $query = 'Select * from clientes ORDER BY idCliente ASC LIMIT ? OFFSET ? ';
+        $query = 'Select * from clientes ORDER BY idEmpresa ASC LIMIT ? OFFSET ? ';
                                       
         return $this->db->query($query, array($limit,$start))->result();
         
@@ -31,7 +23,7 @@ class Empresa_model extends CI_Model {
     
     public function buscaClientePorId($id) {
         
-        $query = 'Select * from clientes WHERE idCliente = ? ';
+        $query = 'Select * from clientes WHERE idEmpresa = ? ';
                                       
         return $this->db->query($query, array($id))->row();
         
@@ -39,7 +31,7 @@ class Empresa_model extends CI_Model {
     
     public function buscaFornecedores($limit,$start){
         
-        $query = 'Select * from fornecedores ORDER BY idFornecedor ASC LIMIT ? OFFSET ? ';
+        $query = 'Select * from fornecedores ORDER BY idEmpresa ASC LIMIT ? OFFSET ? ';
                                       
         return $this->db->query($query, array($limit,$start))->result();
         
@@ -47,7 +39,7 @@ class Empresa_model extends CI_Model {
     
     public function buscaFornecedorPorId($id) {
         
-        $query = 'Select * from fornecedores WHERE idFornecedor = ? ';
+        $query = 'Select * from fornecedores WHERE idEmpresa = ? ';
                                       
         return $this->db->query($query, array($id))->row();
         
@@ -55,7 +47,7 @@ class Empresa_model extends CI_Model {
     
     public function buscaEmpresa($limit,$start){
         
-        $query = 'Select * from fornecedores ORDER BY idFornecedor ASC LIMIT ? OFFSET ? ';
+        $query = 'Select * from fornecedores ORDER BY idEmpresa ASC LIMIT ? OFFSET ? ';
                                       
         return $this->db->query($query, array($limit,$start))->result();
         
@@ -63,11 +55,8 @@ class Empresa_model extends CI_Model {
     
     public function buscaEmpresaPorId($tb,$idTb,$id) {
         
-        $query = "Select *"." ";
-        $query .= "from ".$tb ." ";
-        $query .= "WHERE ".$idTb ."=".$id." ";
-        $query .= "LIMIT 1";
-                             
+        $query = 'Select * from '.$tb.' WHERE '.$idTb. ' = ? LIMIT 1';  
+        
         return $this->db->query($query, array($id))->row();
        
     }
@@ -84,6 +73,7 @@ class Empresa_model extends CI_Model {
     }
     
     function editar($table,$data,$fieldID,$ID){
+       
         $this->db->where($fieldID,$ID);
         if ($this->db->update($table, $data)){
            return TRUE; 
@@ -93,6 +83,7 @@ class Empresa_model extends CI_Model {
     }
     
     function deletar($table,$fieldID,$ID){
+        
         $this->db->where($fieldID,$ID);
         if($this->db->delete($table)) {
 

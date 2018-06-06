@@ -42,8 +42,8 @@
                         echo '<td style="text-align: center; vertical-align: middle;">'.$c->email.'</td>';
                         echo '<td style="text-align: center; vertical-align: middle;">'.$c->telefone.'</td>';                        
                         echo '<td style="text-align: center; vertical-align: middle;">';                   
-                        echo '<a style="margin-right: 1%" href="#modalEdit" class="btn btn-info editar" role="button" data-toggle="modal" cliente="'.$c->idCliente.'" title="Editar Cliente"><i class="fa fa-fw fa-pencil"></i></a>';                                            
-                        echo '<a style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idCliente="'.$c->idCliente.'" title="Excluir Cliente"><i class="fa fa-fw fa-remove"></i></a>';
+                        echo '<a style="margin-right: 1%" href="#modalEdit" class="btn btn-info editar" role="button" data-toggle="modal" cliente="'.$c->idEmpresa.'" title="Editar Cliente"><i class="fa fa-fw fa-pencil"></i></a>';                                            
+                        echo '<a style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idCliente="'.$c->idEmpresa.'" title="Excluir Cliente"><i class="fa fa-fw fa-remove"></i></a>';
                         echo '</td>';
                         echo '</tr>';
                     }?>
@@ -170,12 +170,12 @@
                             <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <label for="permissaoCad">Permissão<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <select id="permissaoCad" class="form-control" name="permissaoCad" title="Selecione a permissão">
+                                        <label for="usuarioCad">Usuario<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="usuarioCad" class="form-control" name="usuarioCad" title="Selecione um usuario">
                                             <option value="">Selecione...</option>
                                             <?php
-                                            foreach ($permissoes as $p) {
-                                                echo '<option value=' . $p->idPermissao . '>' . $p->permissao . '</option>';
+                                            foreach ($usuarios as $u) {
+                                                echo '<option value=' . $u->idUsuario . '>' . $u->usuario . '</option>';
                                             }
                                             ?>
                                         </select>                     
@@ -183,8 +183,8 @@
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <label for="situacaoCad">Situação<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <select id="situacaoCad" class="form-control" name="situacaoCad" title="Selecione a situação">
+                                        <label for="statusCad">Situação<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="statusCad" class="form-control" name="statusCad" title="Selecione a situação">
                                             <option value="">Selecione...</option>
                                             <option value="1">Ativo</option>
                                             <option value="0">Desativo</option>
@@ -316,12 +316,12 @@
                             <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <label for="permissaoEdit">Permissão<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <select id="permissaoEdit" class="form-control" name="permissaoEdit" title="Selecione a permissão">
+                                        <label for="usuarioEdit">Usuario<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="usuarioEdit" class="form-control" name="usuarioEdit" title="Selecione o Usuario">
                                             <option value="">Selecione...</option>
                                             <?php
-                                            foreach ($permissoes as $p) {
-                                                echo '<option value=' . $p->idPermissao . '>' . $p->permissao . '</option>';
+                                            foreach ($usuarios as $u) {
+                                                echo '<option value=' . $u->idUsuario . '>' . $u->usuario . '</option>';
                                             }
                                             ?>
                                         </select>                     
@@ -329,8 +329,8 @@
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <label for="situacaoEdit">Situação<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <select id="situacaoEdit" class="form-control" name="situacaoEdit" title="Selecione a situação">
+                                        <label for="statusEdit">Situação<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="statusEdit" class="form-control" name="statusEdit" title="Selecione a situação">
                                             <option value="">Selecione...</option>
                                             <option value="1">Ativo</option>
                                             <option value="0">Desativo</option>
@@ -408,7 +408,7 @@ $(document).ready(function () {
 
                 if (data.result === true)
                 {
-  
+                    $("#usuarioEdit").val(data.usuario);
                     $("#nomeEdit").val(data.nome);
                     $("#nomeFantasiaEdit").val(data.nomeFantasia);
                     $("#cnpjEdit").val(data.cnpj);
@@ -422,8 +422,6 @@ $(document).ready(function () {
                     $("#complementoEdit").val(data.complemento);
                     $("#ufEdit").val(data.uf);
                     $("#statusEdit").val(data.status);
-                
-
                 }
             }
         });
@@ -461,7 +459,6 @@ $(document).ready(function () {
                     complementoEdit: {equalTo: 'Campo Requerido'},
                     ufEdit: {equalTo: 'Campo Requerido'},
                     statusEdit: {equalTo: 'Campo Requerido'}
- 
                 },
 
         highlight: function(element) {

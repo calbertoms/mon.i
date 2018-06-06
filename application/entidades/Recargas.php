@@ -131,9 +131,10 @@ class Recargas {
                         'status'            => $this->getStatus()
         );
         
-        if($id = $this->model->adicionar('recargas',$data,TRUE) == TRUE){
+        if($id = $this->model->adicionar('recargas',$data) == TRUE){
             $i = 0;
-            $this->setId($id);
+            $id = $this->model->lastIdUsuario();
+            $this->setId($id->idRecarga);
             foreach ($this->getTransporte() AS $t){
                 $data2[$i] = array(
                                 'idRecarga'     => $this->getId(),

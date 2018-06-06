@@ -54,7 +54,7 @@ class Empresas {
     }
     
     public function getUsuario() {
-        return $this->idUsuario;
+        return $this->usuario;
     }
 
     public function getNome() {
@@ -206,7 +206,7 @@ class Empresas {
         
         
         $data = array(
-            'usuario' => $usuario,
+            'idUsuario' => $usuario,
             'nome' => $nome,
             'nomeFantasia' => $nomeFantasia,
             'cnpj' => $cnpj,
@@ -237,7 +237,7 @@ class Empresas {
     
     public function editarClass($tb,$idTb) {
 
-        $idEmpresa = $this->getIdEmpresa();
+        $id = $this->getIdEmpresa();
         $usuario = $this->getUsuario();
         $nome = $this->getNome();
         $nomeFantasia = $this->getNomeFantasia();
@@ -256,8 +256,8 @@ class Empresas {
 
 
            $data = array(
-                'idEmpresa' => $idEmpresa,
-                'usuario' => $usuario,
+                'idEmpresa' => $id,
+                'idUsuario' => $usuario,
                 'nome' => $nome,
                 'nomeFantasia' => $nomeFantasia,
                 'cnpj' => $cnpj,
@@ -267,16 +267,14 @@ class Empresas {
                 'areaUtilm2' => $areaUtilm2,
                 'cep' => $cep,
                 'numero' => $numero,
-               'logradouro' => $logradouro,
+                'logradouro' => $logradouro,
                 'complemento' => $complemento,
                 'uf' => $uf,
                 'status' => $status,
-                'dataCadastro' => $cadastro,
                 'dataAlterado' => $alterado
         );
 
-
-
+       
         if ($this->model->editar($tb, $data, $idTb, $id)) {
 
             $result = TRUE;
@@ -293,6 +291,7 @@ class Empresas {
         
        $result = $this->model->buscaEmpresaPorId($tb,$idTb, $this->getIdEmpresa());
  
+        $this->setUsuario($result->idUsuario);
         $this->setNome($result->nome);
         $this->setNomeFantasia($result->nomeFantasia);
         $this->setCnpj($result->cnpj);
@@ -321,7 +320,7 @@ class Empresas {
             'dataAlterado' => $alterado
         );
 
-        if ($this->model->editar($tb, $data, $IdTb, $id)) {
+        if ($this->model->editar($tb, $data, $idTb, $id)) {
 
             $result = TRUE;
         } else {

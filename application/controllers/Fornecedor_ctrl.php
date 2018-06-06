@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once(APPPATH . 'entidades/Fornecedores.php');
 require_once(APPPATH . 'entidades/Empresas.php');
+require_once(APPPATH . 'entidades/Usuario.php');
 
 class Fornecedor_ctrl extends CI_Controller {
     //atributo
@@ -10,6 +11,7 @@ class Fornecedor_ctrl extends CI_Controller {
     private $model;
     
     public function __construct() {
+        
         parent::__construct();
         
          if ((!$this->session->userdata('id')) || (!$this->session->userdata('logado'))) {
@@ -19,7 +21,9 @@ class Fornecedor_ctrl extends CI_Controller {
        
         $this->data['menuprincipal'] = 'principal';
         $this->load->model('Empresa_model','',TRUE);
+        $this->load->model('Usuario_model','',TRUE);
         $this->model = $this->Empresa_model;
+        
     }
 
     public function index(){
@@ -32,7 +36,7 @@ class Fornecedor_ctrl extends CI_Controller {
         
         $this->load->library('pagination');
         
-        $config['base_url'] = base_url('Fornecedores/gerenciar');
+        $config['base_url'] = base_url('Empresa/gerenciar');
         $config['total_rows'] = $this->Empresa_model->count('permissoes');
         $config['per_page'] = 10;
         $config['next_link'] = '&raquo';
@@ -55,124 +59,123 @@ class Fornecedor_ctrl extends CI_Controller {
         $config['last_tag_close'] = '</li>';
         
         $limit = $config['per_page'];
+        
         $start = ($this->uri->segment(3) == NULL) ? 0 : intval($this->uri->segment(3));
 
         $this->pagination->initialize($config);
+       
+        $this->data['fornecedores'] = $this->Empresa_model->buscaFornecedores($limit,$start);
         
-        
-       $this->data['fornecedores'] = $this->Empresa_model->buscaFornecedores($limit,$start);
-        
-        $this->data['permissoes'] = $this->Empresa_model->buscaPermissoes();
+        $this->data['usuarios'] = $this->Empresa_model->buscaUsuarios();
         
         $this->data['view'] = 'empresas/fornecedores_view';  
+        
         $this->load->view('principal/tema_view',  $this->data);
         
     }   
     
-     public function buscaCliente() {
+    public function buscaFornecedor() {
 
 
-        if (!empty($this->input->post('idPermissao'))) {
+        if (!empty($this->input->post('idFornecedor'))) {
 
-            $permissao = new Permissoes($this->model);
+            $fornecedor = new Fornecedores($this->model);
 
-            $permissao->setIdPermissao($this->input->post('idPermissao'));
+            $fornecedor->setIdEmpresa($this->input->post('idFornecedor'));
 
-            $permissao->buscaPermissaoClass();
-
-            $permissoesUnserialized = unserialize($permissao->getPermissoes());
-
+            $fornecedor->buscaEmpresaClass('fornecedores', 'idEmpresa');
 
             $dados = array('result' => TRUE,
-                'permissao' => $permissao->getPermissao(),
-                'codigo' => $permissao->getCodigo(),
-                'sigla' => $permissao->getSigla(),
-                'setor' => $permissao->getSetor(),
-                'categoria' => $permissao->getCategoria(),
-                'efetivo' => $permissao->getEfetivo(),
-                'descricao' => $permissao->getDescricao(),
-                'observacao' => $permissao->getObservacao(),
-                'status' => $permissao->getStatus(),
-                'permissoes' => $permissoesUnserialized
+                'nome' => $fornecedor->getNome(),
+                'usuario' => $fornecedor->getUsuario(),
+                'nomeFantasia' => $fornecedor->getNomeFantasia(),
+                'cnpj' => $fornecedor->getCnpj(),
+                'email' => $fornecedor->getEmail(),
+                'telefone' => $fornecedor->getTelefone(),
+                'inscEstadual' => $fornecedor->getInscEstadual(),
+                'areaUtilm2' => $fornecedor->getAreaUtilm2(),
+                'cep' => $fornecedor->getCep(),
+                'numero' => $fornecedor->getNumero(),
+                'logradouro' => $fornecedor->getLogradouro(),
+                'complemento' => $fornecedor->getComplemento(),
+                'uf' => $fornecedor->getUf(),
+                'status' => $fornecedor->getStatus()
             );
 
             $result = json_encode($dados);
+            
         } else {
 
             $dados = array('result' => FALSE);
             $result = json_encode($dados);
         }
+
         echo $result;
     }
 
     public function adicionar() {
 
 
-        $permissao = new Permissoes($this->model);
-        $permissao->setPermissao($this->input->post('permissaoCad'));
-        $permissao->setCodigo($this->input->post('codigoCad'));
-        $permissao->setSigla($this->input->post('siglaCad'));
-        $permissao->setSetor($this->input->post('setorCad'));
-        $permissao->setCategoria($this->input->post('categoriaCad'));
-        $permissao->setEfetivo($this->input->post('efetivoCad'));
-        $permissao->setDescricao($this->input->post('descricaoCad'));
-        $permissao->setObservacao($this->input->post('observacaoCad'));
-        $permissao->setStatus($this->input->post('statusCad'));
-
-        $permissoes = array(
-            'gGestaoDispositivos' => $this->input->post('gGestaoDispositivosCad'),
-            'gGraficos' => $this->input->post('gGraficosCad'),
-            'gConfiguracoes' => $this->input->post('gConfiguracoesCad')
-        );
-
-        $permissao->setPermissoes(serialize($permissoes));
-        $permissao->setUsuario($this->session->userdata('usuario'));
-        $permissao->setDataCadastro(date("Y-m-d H:i:s"));
-        $permissao->setDataAlterado(date("Y-m-d H:i:s"));
-
+        $fornecedor = new Fornecedores($this->model);
+        $usuario = new Usuario($this->model);
+        $usuario->setId($this->input->post('usuarioCad'));
+        
+        $fornecedor->setUsuario($usuario->getId());
+        $fornecedor->setNome($this->input->post('nomeCad'));
+        $fornecedor->setNomeFantasia($this->input->post('nomeFantasiaCad'));
+        $fornecedor->setCnpj($this->input->post('cnpjCad'));
+        $fornecedor->setEmail($this->input->post('emailCad'));
+        $fornecedor->setTelefone($this->input->post('telefoneCad'));
+        $fornecedor->setInscEstadual($this->input->post('inscEstadualCad'));
+        $fornecedor->setAreaUtilm2($this->input->post('areaUtilm2Cad'));
+        $fornecedor->setCep($this->input->post('cepCad'));
+        $fornecedor->setNumero($this->input->post('numeroCad'));
+        $fornecedor->setLogradouro($this->input->post('logradouroCad'));
+        $fornecedor->setComplemento($this->input->post('complementoCad'));
+        $fornecedor->setUf($this->input->post('ufCad'));  
+        $fornecedor->setStatus($this->input->post('statusCad')); 
+        $fornecedor->setDataCadastro(date("Y-m-d H:i:s"));
+        $fornecedor->setDataAlterado(date("Y-m-d H:i:s"));
 
 
-        if ($permissao->cadastrarClass() == TRUE) {
+        if ($fornecedor->cadastrarClass('fornecedores') == TRUE) {
 
-            $this->session->set_flashdata('success', 'Permissão adicionada com sucesso!');
+            $this->session->set_flashdata('success', 'Fornecedor adicionada com sucesso!');
         } else {
             $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
         }
 
-        redirect(base_url('Permissoes_ctrl'));
+        redirect(base_url('Fornecedor_ctrl'));
     }
 
     public function editar() {
 
 
-        $permissao = new Permissoes($this->model);
-        $permissao->setIdPermissao($this->input->post('idPermissao'));
-
-        $permissao->setPermissao($this->input->post('permissaoEdit'));
-        $permissao->setCodigo($this->input->post('codigoEdit'));
-        $permissao->setSigla($this->input->post('siglaEdit'));
-        $permissao->setSetor($this->input->post('setorEdit'));
-        $permissao->setCategoria($this->input->post('categoriaEdit'));
-        $permissao->setEfetivo($this->input->post('efetivoEdit'));
-        $permissao->setDescricao($this->input->post('descricaoEdit'));
-        $permissao->setObservacao($this->input->post('observacaoEdit'));
-        $permissao->setStatus($this->input->post('statusEdit'));
-
-        $permissoes = array(
-            'gGestaoDispositivos' => $this->input->post('gGestaoDispositivosEdit'),
-            'gGraficos' => $this->input->post('gGraficosEdit'),
-            'gConfiguracoes' => $this->input->post('gConfiguracoesEdit')
-        );
-
-        $permissao->setPermissoes(serialize($permissoes));
-        //$permissao->setUsuario($this->session->userdata('usuario'));
-        $permissao->setDataAlterado(date("Y-m-d H:i:s"));
+        $fornecedor = new Fornecedores($this->model);
+        $usuario = new Usuario($this->model);
+        $usuario->setId($this->input->post('usuarioEdit'));
+        
+        $fornecedor->setIdEmpresa($this->input->post('idFornecedor'));
+        $fornecedor->setUsuario($usuario->getId());
+        $fornecedor->setNome($this->input->post('nomeEdit'));
+        $fornecedor->setNomeFantasia($this->input->post('nomeFantasiaEdit'));
+        $fornecedor->setCnpj($this->input->post('cnpjEdit'));
+        $fornecedor->setEmail($this->input->post('emailEdit'));
+        $fornecedor->setTelefone($this->input->post('telefoneEdit'));
+        $fornecedor->setInscEstadual($this->input->post('inscEstadualEdit'));
+        $fornecedor->setAreaUtilm2($this->input->post('areaUtilm2Edit'));
+        $fornecedor->setCep($this->input->post('cepEdit'));
+        $fornecedor->setNumero($this->input->post('numeroEdit'));
+        $fornecedor->setLogradouro($this->input->post('logradouroEdit'));
+        $fornecedor->setComplemento($this->input->post('complementoEdit'));
+        $fornecedor->setUf($this->input->post('ufEdit'));  
+        $fornecedor->setStatus($this->input->post('statusEdit')); 
+        $fornecedor->setDataAlterado(date("Y-m-d H:i:s"));
 
 
+        if ($fornecedor->editarClass('fornecedores','idEmpresa') == TRUE) {
 
-        if ($permissao->editarClass() == TRUE) {
-
-            $this->session->set_flashdata('success', 'Permisão alterada com sucesso!');
+            $this->session->set_flashdata('success', 'Fornecedor alterado com sucesso!');
             
             
         } else {
@@ -180,59 +183,35 @@ class Fornecedor_ctrl extends CI_Controller {
             $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
         }
         
-        redirect(base_url('Permissoes_ctrl'));
+        redirect(base_url('Fornecedor_ctrl'));
     }
 
-    public function verificaPermissao() {
-
-        $permissao = $this->input->get("permissaoCad");
-
-        if ($permissao == null) {
-
-            echo 'true';
-        } else {
-
-            $result = $this->Permissoes_model->buscaPermissaoPorNome($permissao);
-            if (count($result) > 0) {
-
-                echo 'false';
-            } else {
-                echo 'true';
-            }
-        }
-    }
 
     //delete virtual
     public function excluir() {
         
 
-        $permissao = new Permissoes($this->model);
-        $permissao->setIdPermissao($this->input->post('id'));
+        $fornecedor = new Fornecedores($this->model);
+        $fornecedor->setIdEmpresa($this->input->post('id'));
         
-        if ($permissao->getIdPermissao() == null){
+        if ($fornecedor->getIdEmpresa() == null){
 
-            $this->session->set_flashdata('error','Erro ao tentar excluir Permissao.');            
+            $this->session->set_flashdata('error','Erro ao tentar excluir Fornecedor.');            
 
         } else{
-            if ($permissao->getIdPermissao() == 1){
-
-                    $this->session->set_flashdata('error','Não é possível excluir essa Permissão.');
-
-                    redirect(base_url('Permissoes_ctrl'));
-            }
-                  
-                        
-            if ($permissao->deletarPermissaoClass() == TRUE) {
+            
+             if ($fornecedor->deletarEmpresaClass('fornecedores','idEmpresa') == TRUE) {
                 
-                $this->session->set_flashdata('success', 'Permissão excluído com sucesso!');
+                $this->session->set_flashdata('success', 'Fornecedor excluído com sucesso!');
             } else {
                 $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
             }
             
         }
      
-         redirect(base_url('Permissoes_ctrl'));        
+         redirect(base_url('Fornecedor_ctrl'));        
 
 
     }
+    
 }
