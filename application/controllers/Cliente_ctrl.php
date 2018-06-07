@@ -37,7 +37,7 @@ class Cliente_ctrl extends CI_Controller {
         $this->load->library('pagination');
         
         $config['base_url'] = base_url('Empresa/gerenciar');
-        $config['total_rows'] = $this->Empresa_model->count('permissoes');
+        $config['total_rows'] = $this->Empresa_model->count('clientes');
         $config['per_page'] = 10;
         $config['next_link'] = '&raquo';
         $config['prev_link'] = '&laquo';

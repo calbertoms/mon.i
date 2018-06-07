@@ -190,4 +190,161 @@ abstract class Tanques {
         $this->dataAlterado = $dataAlterado;
     }
     
+    
+     public function cadastrarClass($tb) {
+     
+        $fornecedor = $this->getIdFornecedor();
+        $cliente = $this->getIdClientes();
+        $monitor = $this->getIdMonitor();
+        $produto = $this->getIdProduto();
+        $identificacao = $this->getIdentificacao();
+        $dataFabricacao = $this->getDataFabricacao();
+        $dataInspecao = $this->getDataInspecaoa();
+        $dataManutencao = $this->getDataManutencao();
+        $capacidade = $this->getCapacidade();
+        $comprimento = $this->getComprimento();
+        $altura = $this->getAltura();
+        $largura = $this->getLargura();
+        $nivel = $this->getNivel();
+        $peso = $this->getPeso();
+        $status = $this->getStatus(); 
+        $cadastro = $this->getDataCadastro();
+        $alterado = $this->getDataAlterado();
+        
+        
+        $data = array(
+
+            'idfornecedor' => $fornecedor,
+            'idcliente' => $cliente,
+            'idmonitor' => $monitor,
+            'idproduto' => $produto,
+            'identificacao' => $identificacao,
+            'dataFabricacao' => $dataFabricacao,
+            'dataInspecao' => $dataInspecao,
+            'dataManutencao' => $dataManutencao,
+            'capacidade' => $capacidade,
+            'comprimento' => $comprimento,
+            'altura' => $altura,
+            'largura' => $largura,
+            'nivel' => $nivel,
+            'peso' => $peso,
+            'status' => $status,        
+            'dataCadastro' => $cadastro,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->model->adicionar($tb, $data) == TRUE) {
+
+            $result = TRUE;
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+    
+    public function editarClass($tb,$idTb) {
+
+        $id = $this->getIdTanque();
+
+        $fornecedor = $this->getIdFornecedor();
+        $cliente = $this->getIdClientes();
+        $monitor = $this->getIdMonitor();
+        $produto = $this->getIdProduto();
+        $identificacao = $this->getIdentificacao();
+        $dataFabricacao = $this->getDataFabricacao();
+        $dataInspecao = $this->getDataInspecaoa();
+        $dataManutencao = $this->getDataManutencao();
+        $capacidade = $this->getCapacidade();
+        $comprimento = $this->getComprimento();
+        $altura = $this->getAltura();
+        $largura = $this->getLargura();
+        $nivel = $this->getNivel();
+        $peso = $this->getPeso();
+        $status = $this->getStatus(); 
+        $alterado = date('Y-m-d H:i:s');
+        
+        
+        $data = array(
+            
+            
+            'idfornecedor' => $fornecedor,
+            'idcliente' => $cliente,
+            'idmonitor' => $monitor,
+            'idproduto' => $produto,
+            'identificacao' => $identificacao,
+            'dataFabricacao' => $dataFabricacao,
+            'dataInspecao' => $dataInspecao,
+            'dataManutencao' => $dataManutencao,
+            'capacidade' => $capacidade,
+            'comprimento' => $comprimento,
+            'altura' => $altura,
+            'largura' => $largura,
+            'nivel' => $nivel,
+            'peso' => $peso,
+            'status' => $status,        
+            'dataAlterado' => $alterado
+        );
+
+        
+        if ($this->model->editar($tb, $data, $idTb, $id)) {
+
+            $result = TRUE;
+            
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+
+    public function buscaTanqueClass($tb,$idTb) {
+       
+
+        $result = $this->model->buscaTanquePorId($tb,$idTb,$this->getIdTanque());
+
+        $this->setIdFornecedor($result->idfornecedor);
+        $this->setIdClientes($result->idcliente);
+        $this->setIdMonitor($result->idmonitor);
+        $this->setIdProduto($result->idproduto); 
+        $this->setIdentificacao($result->identificacao);
+        $this->setDataFabricacao($result->dataFabricacao);
+        $this->setDataInspecaoa($result->dataInspecao);
+        $this->setDataManutencao($result->dataManutencao);
+        $this->setCapacidade($result->capacidade);
+        $this->setComprimento($result->comprimento);
+        $this->setAltura($result->altura);
+        $this->setLargura($result->largura);
+        $this->setNivel($result->nivel);
+        $this->setPeso($result->peso);
+        $this->setStatus($result->status); 
+        $this->setDataAlterado($result->dataAlterado);
+
+    }
+    
+    //delete virtual
+    public function deletarTanqueClass($tb,$idTb) {
+
+        $id = $this->getIdTanque();
+        $alterado = date('Y-m-d H:i:s');
+
+
+        $data = array(
+            'status' => FALSE,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->model->editar($tb, $data, $idTb, $id)) {
+
+            $result = TRUE;
+            
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
 }

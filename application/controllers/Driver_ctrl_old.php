@@ -25,29 +25,31 @@ class Driver_ctrl extends CI_Controller {
        
     
     private function inseriLeituras(){
-        //pega dados do arduino via get 
-        $mac = $this->input->get("mac");
+        //pega dados do arduino via post 
+        $mac = $this->input->post("mac");
         
         try {            
              //cria um novo monitor
             $monitor = new MonitorInteligente($this->model);
-            //verifica se existe monitor no banco com o mac passado pelo arduino            
-            if($monitor->monitorExiste($mac)){
+            //verifica se existe monitor no banco com o mac passado pelo arduino
+            $monitor->setMac($mac);
+            if($monitor->monitorExiste($monitor->getMac())){
                  //pega informações do arduino como o nivel do tanque
                 //cria uma nova leitura
                 $leitura = new Leitura();
                 //guarda a data e hora da leitura
                 $leitura->setDataHora(date('Y-m-d H:i:s'));
                 //guarda o nível
-                $leitura->setNivel($this->input->get("nivel"));                                
+                $leitura->setNivel($this->input->post("nivel"));                                
             }else{
                 throw new Exception('Não existe esse monitor no sistema') ;
-            }            
+            }
+            
             //guarda a leitura do monitor
             $monitor->setLeitura($leitura);
             //salva a leitura no banco de dados
             if ($monitor->insereLeitura()) {
-                 echo 'tudo certo, leitura cadastrada com sucesso.';
+                 //tudo certo, leitura cadastrada com sucesso.
             }
             else{
                  throw new Exception('Houve um erro no cadastro');

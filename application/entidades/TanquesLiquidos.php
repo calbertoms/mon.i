@@ -18,14 +18,6 @@ class TanquesLiquidos extends Tanques{
     
     private $viscosidade;
     
-    private $model;
-  
-    
-    public function __construct($model) {
-        
-        $this->model = $model;
-    }
-    
     public function getViscosidade() {
         return $this->viscosidade;
     }

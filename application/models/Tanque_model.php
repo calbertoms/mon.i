@@ -5,6 +5,40 @@ class Tanque_model extends CI_Model {
         parent::__construct();
     }
     
+    public function buscaTanques($limit,$start){
+        
+        $query = 'Select * from tanquessolidos ORDER BY idTanque ASC LIMIT ? OFFSET ? ';
+                                      
+        return $this->db->query($query, array($limit,$start))->result();
+        
+    }
+    
+    public function buscaMonitor($limit,$start){
+        
+        $query = 'Select * from monitorinteligente ORDER BY id ASC LIMIT ? OFFSET ? ';
+                                      
+        return $this->db->query($query, array($limit,$start))->result();
+        
+    }
+    
+    public function buscaProduto($limit,$start){
+        
+        $query = 'Select * from produtos ORDER BY idProduto ASC LIMIT ? OFFSET ? ';
+                                      
+        return $this->db->query($query, array($limit,$start))->result();
+        
+    }
+        
+    public function buscaEmpresaPorId($tb,$idTb,$id) {
+        
+        $query = 'Select * from '.$tb.' WHERE '.$idTb. ' = ? LIMIT 1';  
+        
+        return $this->db->query($query, array($id))->row();
+       
+    }
+    
+    
+    
     function adicionar($table,$data,$returnId = false){
         if ($this->db->insert($table, $data)) {
             if($returnId == true){

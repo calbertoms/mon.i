@@ -19,12 +19,6 @@ class TanquesGasosos extends Tanques{
     private $pressao;
     private $temperatura;
     
-    private $model;
-      
-    public function __construct($model) {
-        
-        $this->model = $model;
-    }
     
     public function getPressao() {
         return $this->pressao;
