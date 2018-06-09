@@ -91,19 +91,19 @@
                                 <div class="col-sm-12 col-md-4 col-lg-4">
                                     <div class="form-group">
                                         <label for="dataFabricacaoCad">Data de Fabricação<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="dataFabricacaoCad" name="dataFabricacaoCad" maxlength="100"/>                       
+                                        <input type="date" class="form-control" id="dataFabricacaoCad" name="dataFabricacaoCad" maxlength="100"/>                       
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-4 col-lg-4">
                                     <div class="form-group">
                                         <label for="dataInspecaoCad">Data de Inspeção<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="dataInspecaoCad" name="dataInspecaoCad" maxlength="100"/>                       
+                                        <input type="date" class="form-control" id="dataInspecaoCad" name="dataInspecaoCad" maxlength="100"/>                       
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-4 col-lg-4">
                                     <div class="form-group">
                                         <label for="dataManutencaoCad">Data de Manutenção<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="dataManutencaoCad" name="dataManutencaoCad" maxlength="100"/>                       
+                                        <input type="date" class="form-control" id="dataManutencaoCad" name="dataManutencaoCad" maxlength="100"/>                       
                                     </div>
                                 </div>
                             </div>

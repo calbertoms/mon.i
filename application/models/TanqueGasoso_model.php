@@ -1,5 +1,5 @@
 <?php
-class Principal_model extends CI_Model {
+class TanqueGasoso_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
@@ -33,22 +33,6 @@ class Principal_model extends CI_Model {
 		
         return FALSE;        
     }   
-    
-    public function alterarSenha($senha,$oldSenha,$id){
-
-        $this->db->where('idUsuario', $id);
-        $this->db->limit(1);
-        $usuario = $this->db->get('usuarios')->row();
-
-        if($usuario->senha != $oldSenha){
-            return false;
-        }
-        else{
-            $this->db->set('senha',$senha);
-            $this->db->where('idUsuario',$id);
-            return $this->db->update('usuarios');    
-        }       
-    }
 	
     function count($table){
         return $this->db->count_all($table);

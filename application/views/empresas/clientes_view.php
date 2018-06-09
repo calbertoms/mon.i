@@ -44,6 +44,7 @@
                         echo '<td style="text-align: center; vertical-align: middle;">';                   
                         echo '<a style="margin-right: 1%" href="#modalEdit" class="btn btn-info editar" role="button" data-toggle="modal" cliente="'.$c->idEmpresa.'" title="Editar Cliente"><i class="fa fa-fw fa-pencil"></i></a>';                                            
                         echo '<a style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idCliente="'.$c->idEmpresa.'" title="Excluir Cliente"><i class="fa fa-fw fa-remove"></i></a>';
+                        echo '<a style="margin-right: 1%"href="#modalLista" class="btn btn-success lista" role="button" data-toggle="modal" cliente="'.$c->idEmpresa.'" title="Lista Fornecedores"><i class="fa fa-fw fa-list"></i></a>';
                         echo '</td>';
                         echo '</tr>';
                     }?>
@@ -376,6 +377,35 @@
     </div>
 </div>
 
+
+<!-- Modal -->
+<!-- Lista -->
+<div id="modalLista" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ModalLabelAdd">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="ModalLabelTransporte">Mon.I - Lista de Fornecedores</h4>
+            </div>              
+            <form id="formLista" action="<?php echo base_url('Cliente_ctrl/editarLista'); ?>" method="post">
+                <div class="modal-body">                
+                    <input type="hidden" name="idClienteLista" id="idClienteLista" value=""/>                  
+                    <div class="row" id="novoFornecedor">
+
+
+                    </div>                
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">                       
+                        <button type="button" id="cancelar" class="btn btn-default" data-dismiss="modal">Cancelar</button>         
+                        <button class="btn btn-success">Salvar</button>    
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script src="<?php echo base_url('assets/js/jquery.validate.min.js');?>"></script>
 
 <script type="text/javascript">
@@ -392,6 +422,47 @@ $(document).ready(function () {
     $(document).on('click', '.editar', function () {
         var cliente = $(this).attr('cliente');
         $("#idCliente").val(cliente); 
+    });
+    
+    //pega o id do fornecedor que deseja adicionar cliente
+    $(document).on('click', '.lista', function () {
+        var cliente = $(this).attr('cliente');
+        $("#idClienteLista").val(cliente); 
+                
+    });
+    
+    var scntDivFornecedor = $('#novoFornecedor');
+    
+    
+    $('#modalLista').on('shown.bs.modal', function (){
+        var idCliente = $('#idClienteLista').val();
+
+        $.ajax({
+            type: 'POST',
+            dataType: 'html',
+            url: '<?php echo base_url('Cliente_ctrl/buscaFornecedores');?>',
+            data: 'idCliente='+idCliente,
+           
+            success: function (data)
+            {                
+                $('#novoFornecedor').html(data);
+            }
+        });
+    });
+
+    $(document).on('click', '#addFornecedor',function (){
+        
+        $.ajax({url:'<?php echo base_url('Cliente_ctrl/addFornecedorLista');?>', success: function (result){
+            $(result).appendTo(scntDivFornecedor);
+        }});
+        
+        return false;
+    });
+    
+    $(document).on('click','#remFornecedor',function (){
+        
+        $(this).parents('#fornecedorDinamico').remove();
+        return false;
     });
     
     //carrega os dados do totem

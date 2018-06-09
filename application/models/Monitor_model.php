@@ -93,25 +93,25 @@ class Monitor_model extends CI_Model {
         switch ($tipo) {
             case 0:
                 
-                $query = 'SELECT t2.idFornecedor, t3.idCliente FROM tanquesgasosos AS t1 '
-                    . 'INNER JOIN fornecedores AS t2 ON (t1.idFornecedor = t2.idFornecedor) '
-                    . 'INNER JOIN clientes AS t3 ON (t1.idCliente = t3.idCliente) '
+                $query = 'SELECT t2.idEmpresa AS idFornecedor, t3.idEmpresa AS idCliente FROM tanquesgasosos AS t1 '
+                    . 'INNER JOIN fornecedores AS t2 ON (t1.idFornecedor = t2.idEmpresa) '
+                    . 'INNER JOIN clientes AS t3 ON (t1.idCliente = t3.idEmpresa) '
                     . 'WHERE t1.idMonitor = ?';
                 
                 break;            
             case 1:
                 
-                $query = 'SELECT t2.idFornecedor, t3.idCliente FROM tanquesliquidos AS t1 '
-                    . 'INNER JOIN fornecedores AS t2 ON (t1.idFornecedor = t2.idFornecedor) '
-                    . 'INNER JOIN clientes AS t3 ON (t1.idCliente = t3.idCliente) '
+                $query = 'SELECT t2.idEmpresa AS idFornecedor, t3.idEmpresa AS idCliente FROM tanquesliquidos AS t1 '
+                    . 'INNER JOIN fornecedores AS t2 ON (t1.idFornecedor = t2.idEmpresa) '
+                    . 'INNER JOIN clientes AS t3 ON (t1.idCliente = t3.idEmpresa) '
                     . 'WHERE t1.idMonitor = ?';
                 
                 break;
             case 2:
                 
-                $query = 'SELECT t2.idFornecedor, t3.idCliente FROM tanquessolidos AS t1 '
-                    . 'INNER JOIN fornecedores AS t2 ON (t1.idFornecedor = t2.idFornecedor) '
-                    . 'INNER JOIN clientes AS t3 ON (t1.idCliente = t3.idCliente) '
+                $query = 'SELECT t2.idEmpresa AS idFornecedor, t3.idEmpresa AS idCliente FROM tanquessolidos AS t1 '
+                    . 'INNER JOIN fornecedores AS t2 ON (t1.idFornecedor = t2.idEmpresa) '
+                    . 'INNER JOIN clientes AS t3 ON (t1.idCliente = t3.idEmpresa) '
                     . 'WHERE t1.idMonitor = ?';
                 
                 break;

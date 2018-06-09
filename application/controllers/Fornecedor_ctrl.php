@@ -2,8 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once(APPPATH . 'entidades/Fornecedores.php');
-require_once(APPPATH . 'entidades/Empresas.php');
+require_once(APPPATH . 'entidades/Clientes.php');
 require_once(APPPATH . 'entidades/Usuario.php');
+require_once(APPPATH . 'entidades/FornecedoresClientes.php');
 
 class Fornecedor_ctrl extends CI_Controller {
     //atributo
@@ -21,7 +22,7 @@ class Fornecedor_ctrl extends CI_Controller {
        
         $this->data['menuprincipal'] = 'principal';
         $this->load->model('Empresa_model','',TRUE);
-        $this->load->model('Usuario_model','',TRUE);
+        //$this->load->model('Usuario_model','',TRUE);
         $this->model = $this->Empresa_model;
         
     }
@@ -64,16 +65,152 @@ class Fornecedor_ctrl extends CI_Controller {
 
         $this->pagination->initialize($config);
        
-        $this->data['fornecedores'] = $this->Empresa_model->buscaFornecedores($limit,$start);
+        $this->data['fornecedores'] = $this->Empresa_model->buscaFornecedores($limit,$start);        
+        
+        $this->data['clientes'] = $this->Empresa_model->getDataTable('clientes','idEmpresa, nome, cnpj','idEmpresa');
         
         $this->data['usuarios'] = $this->Empresa_model->buscaUsuarios();
         
+
         $this->data['view'] = 'empresas/fornecedores_view';  
         
         $this->load->view('principal/tema_view',  $this->data);
         
     }   
     
+    public function editarLista(){
+           
+           $clientes = $this->input->post('clienteLista');
+           $qtdClientes = count($clientes);
+            
+           $fornecedor = new Fornecedores($this->model);
+           $fornecedor->setIdEmpresa($this->input->post('idFornecedorLista'));           
+           
+           
+           for($i = 0; $i < $qtdClientes; $i++){
+               $cliente[$i] = new Clientes($this->model);
+               $cliente[$i]->setIdEmpresa($clientes[$i]);              
+           }            
+           
+           $fornecedorClientes = new FornecedoresClientes($this->model);
+           $fornecedorClientes->setIdFornecedor($fornecedor);  
+           for($i = 0; $i < $qtdClientes; $i++){                               
+               $fornecedorClientes->setIdCliente($cliente[$i]);
+           }
+
+           
+           if($fornecedorClientes->cadastrarListaClienteClass() == TRUE){
+            
+             $this->session->set_flashdata('success', 'Lista de cliente(s) atualizada com sucesso!');
+            
+            }else{
+
+                $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
+            }
+             
+           
+        redirect(base_url('Fornecedor_ctrl'));
+           
+
+    }
+
+    public function buscaClientes(){
+        $id = $this->input->post('idFornecedor');
+        
+        $clientes = $this->Empresa_model->getDataTable('clientes','idEmpresa, nome, cnpj','idEmpresa');
+        $clientes_existentes = $this->Empresa_model->getDataTable('fornecedoresclientes','idCliente','idCliente','idFornecedor = '.$id);
+        $select_cliente = '';
+
+        if(count($clientes_existentes)>0){
+            $i = 0;
+            foreach ($clientes_existentes as $ce) {               
+                $clienteCompara = $ce->idCliente;                    
+                $select_cliente .= '<div id="clienteDinamico">';
+                $select_cliente .=  '<div class="col-sm-8 col-md-8 col-lg-8">';
+                $select_cliente .=      '<div class="form-group">';
+                $select_cliente .=          '<label for="clienteLista[]">Clientes<span class="required" style="color: #EE0000">*</span>: </label>';
+                $select_cliente .=          '<select id="clienteLista" class="form-control" name="clienteLista[]" title="Selecione o cliente">';
+                $select_cliente .=              '<option value="">Selecione...</option>';
+                                                foreach ($clientes as $c) {
+                                                    if($c->idEmpresa == $clienteCompara){
+                $select_cliente .=                  '<option selected value=' . $c->idEmpresa . '> cnpj: ' . $c->cnpj . ' - nome: '.$c->nome.'</option>';    
+                                                    }else{
+                $select_cliente .=                   '<option value=' . $c->idEmpresa . '> cnpj: ' . $c->cnpj . ' - nome: '.$c->nome.'</option>';                                        
+                                                    }
+                                                }
+                $select_cliente .=          '</select>';                     
+                $select_cliente .=      '</div>';
+                $select_cliente .=  '</div>';                        
+                $select_cliente .=  '<div class="col-sm-4 col-md-4 col-lg-4">';
+                $select_cliente .=     '<div class="form-group">';
+                $select_cliente .=          '<label for="addCliente"><br></label>';
+                $select_cliente .=          '<br>';
+                $select_cliente .=          '<button type="button" id="addCliente" class="btn btn-success" style="margin: 1px;"><i class="fa fa-fw fa-plus"></i></button>'; 
+                if($i>0){
+                    $select_cliente .=          '<button type="button" id="remCliente" class="btn btn-danger" style="margin: 1px;"><i class="fa fa-fw fa-minus"></i></button>';                
+                }
+                $select_cliente .=     '</div>';
+                $select_cliente .=  '</div>';
+                $select_cliente.= '</div>';
+                $i++;
+            }
+        }else{
+            $select_cliente .= '<div id="clienteDinamico">';
+            $select_cliente .=  '<div class="col-sm-8 col-md-8 col-lg-8">';
+            $select_cliente .=      '<div class="form-group">';
+            $select_cliente .=          '<label for="clienteLista[]">Clientes<span class="required" style="color: #EE0000">*</span>: </label>';
+            $select_cliente .=          '<select id="clienteLista" class="form-control" name="clienteLista[]" title="Selecione o cliente">';
+            $select_cliente .=              '<option value="">Selecione...</option>';
+                                            foreach ($clientes as $c) {
+            $select_cliente .=                  '<option value=' . $c->idEmpresa . '> cnpj: ' . $c->cnpj . ' - nome: '.$c->nome.'</option>';    
+                                            }
+            $select_cliente .=          '</select>';                     
+            $select_cliente .=      '</div>';
+            $select_cliente .=  '</div>';                        
+            $select_cliente .=  '<div class="col-sm-4 col-md-4 col-lg-4">';
+            $select_cliente .=     '<div class="form-group">';
+            $select_cliente .=          '<label for="addCliente"><br></label>';
+            $select_cliente .=          '<br>';
+            $select_cliente .=          '<button type="button" id="addCliente" class="btn btn-success" style="margin: 1px;"><i class="fa fa-fw fa-plus"></i></button>';
+            $select_cliente .=     '</div>';
+            $select_cliente .=  '</div>';
+            $select_cliente.= '</div>';
+        }
+        echo $select_cliente;
+
+       
+    }
+    
+    public function addClienteLista(){
+       
+        $clientes = $this->Empresa_model->getDataTable('clientes','idEmpresa, nome, cnpj','idEmpresa');
+        
+            $select_cliente = '';
+            $select_cliente .= '<div id="clienteDinamico">';
+            $select_cliente .=  '<div class="col-sm-8 col-md-8 col-lg-8">';
+            $select_cliente .=      '<div class="form-group">';
+            $select_cliente .=          '<label for="clienteLista[]">Clientes<span class="required" style="color: #EE0000">*</span>: </label>';
+            $select_cliente .=          '<select id="clienteLista" class="form-control" name="clienteLista[]" title="Selecione o cliente">';
+            $select_cliente .=              '<option value="">Selecione...</option>';
+                                            foreach ($clientes as $c) {
+            $select_cliente .=                  '<option value=' . $c->idEmpresa . '> cnpj: ' . $c->cnpj . ' - nome: '.$c->nome.'</option>';    
+                                            }
+            $select_cliente .=          '</select>';                     
+            $select_cliente .=      '</div>';
+            $select_cliente .=  '</div>';                        
+            $select_cliente .=  '<div class="col-sm-4 col-md-4 col-lg-4">';
+            $select_cliente .=     '<div class="form-group">';
+            $select_cliente .=          '<label for="addCliente"><br></label>';
+            $select_cliente .=          '<br>';
+            $select_cliente .=          '<button type="button" id="addCliente" class="btn btn-success" style="margin: 1px;"><i class="fa fa-fw fa-plus"></i></button>';
+            $select_cliente .=          '<button type="button" id="remCliente" class="btn btn-danger" style="margin: 1px;"><i class="fa fa-fw fa-minus"></i></button>';  
+            $select_cliente .=     '</div>';
+            $select_cliente .=  '</div>';
+            $select_cliente.= '</div>';
+            
+            echo $select_cliente;
+    }
+
     public function buscaFornecedor() {
 
 

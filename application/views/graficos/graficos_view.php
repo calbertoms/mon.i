@@ -1,3 +1,6 @@
+
+<img class="img-responsive" src="<?php echo base_url('assets/img/tela.png');?>" />
+
 <div class="row">
     <div class="col-sm-12 col-md-12">
 
@@ -37,7 +40,7 @@
                             <div class="form-group">
                                 <label for="dataDe" class="control-label">Data Inicial<span class="required" style="color: #EE0000;">*</span>:</label>
                                 <div class="controls">
-                                    <input name="dataDe" type="date" id="dataDe" class="form-control" value="<?php echo date('Y-m-d'); ?>" />
+                                    <input name="dataDe" type="datetime-local" id="dataDe" class="form-control" value="<?php echo date('Y-m-d'); ?>" />
                                 </div>
                             </div>
                         </div>
@@ -45,7 +48,7 @@
                             <div class="form-group">
                                 <label for="dataPara" class="control-label">Data Final<span class="required" style="color: #EE0000;">*</span>:</label>
                                 <div class="controls">
-                                    <input name="dataPara" type="date" id="dataPara" class="form-control" value="<?php echo date('Y-m-d'); ?>" />
+                                    <input name="dataPara" type="datetime-local" id="dataPara" class="form-control" value="<?php echo date('Y-m-d'); ?>" />
                                 </div>
                             </div>
                         </div>
@@ -62,6 +65,7 @@
 
     </div>
 </div>
+
 
 <!--grafico-->
 <div class="row" style="margin-top: 0; display: none;" id="panelGrafico" >
@@ -89,7 +93,6 @@
     </div>
     
 </div>
-
 
 
 <script src="<?php echo base_url('assets/js/chart.js');?>"></script>

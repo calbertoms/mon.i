@@ -4,7 +4,22 @@ class Empresa_model extends CI_Model {
     public function __construct() {
         parent::__construct();
     }
-     
+    
+    function getDataTable($table,$fields,$order,$where=''){
+        
+        $this->db->select($fields);
+        $this->db->from($table);
+        $this->db->order_by($order,'asc');
+        if($where){
+            $this->db->where($where);
+        }
+        
+        $query = $this->db->get();
+        
+        $result = $query->result();
+        return $result;
+    }
+    
     public function buscaUsuarios() {
         
         $query = 'Select * from usuario ORDER BY idUsuario ';

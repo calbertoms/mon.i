@@ -64,7 +64,7 @@ class TanqueSolido_ctrl extends CI_Controller {
 
         $this->pagination->initialize($config);
                 
-        $this->data['TanqueSolidos'] = $this->Tanque_model->buscaTanques($limit,$start);
+        $this->data['tanques'] = $this->Tanque_model->buscaTanques($limit,$start);
         
         //$this->data['monitor'] = $this->Tanque_model->buscaMonitor();
         
@@ -127,10 +127,10 @@ class TanqueSolido_ctrl extends CI_Controller {
         $produto = new Produtos($this->model);
         $monitor = new MonitorInteligente($this->model);
         
-        $cliente->getIdEmpresa($this->input->post('clienteCad'));
-        $fornecedor->getIdEmpresa($this->input->post('empresaCad'));
-        $produto->getIdProduto($this->input->post('produtoCad'));
-        $monitor->getId($this->input->post('monitorCad'));
+        $cliente->setIdEmpresa($this->input->post('clienteCad'));
+        $fornecedor->setIdEmpresa($this->input->post('empresaCad'));
+        $produto->setIdProduto($this->input->post('produtoCad'));
+        $monitor->setId($this->input->post('monitorCad'));
 
         $tanque->setIdClientes($cliente->getIdEmpresa());
         $tanque->setIdFornecedor($fornecedor->getIdEmpresa());

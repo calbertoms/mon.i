@@ -31,7 +31,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <!--<a class="navbar-brand" href="<?php echo base_url();?>"><img class="img-responsive" src="<?php echo base_url('assets/img/logo.png');?>" alt="logo"></a>-->
+                <a class="navbar-brand" href="<?php echo base_url();?>"><img class="img-responsive" src="<?php echo base_url('assets/img/logoP.png');?>" alt="logo"></a>
             </div>
             
             <div class="collapse navbar-collapse">
@@ -41,47 +41,43 @@
                     
                     <?php //if($this->permission->checkPermission($this->session->userdata('permissao'),'gGestaoDispositivos')){ ?>
                         <li class="dropdown <?php if (isset($menudispositivos)) { echo 'active'; } ?>">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-wrench"></i> Gestão Dispositivos <i class="fa fa-angle-down"></i></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-wrench"></i> Gestão <i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li <?php //if (isset($dis_gclix_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Dispositivos/LixI');?>">GC Lix.I</a></li>
-                                <li <?php //if (isset($dis_gcesc_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Dispositivos/EscI');?>">GC Esc.I</a></li>
-                                <li <?php //if (isset($dis_gctel_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Dispositivos/TelI');?>">GC Tel.I</a></li>
+                                <li <?php if (isset($gest_recarga)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('recarga_ctrl');?>">Recarga</a></li>
+                                <li <?php if (isset($gest_monitor)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Monitor_ctrl');?>">Monitor</a></li>
                                 <li class="dropdown dropdown-submenu <?php if (isset($submenulocais)) { echo 'active'; } ?>">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Localização</a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Empresas</a>
                                     <ul class="dropdown-menu">
-                                        <li <?php if (isset($locais_setores)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Setores');?>">Setores</a></li>
-                                        <li <?php if (isset($locais_pisos)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Pisos');?>">Pisos</a></li>
+                                        <li <?php if (isset($gest_emp_fornecedor)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Fornecedor_ctrl');?>">Fornecedores</a></li>
+                                        <li <?php if (isset($gest_emp_cliente)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Cliente_ctrl');?>">Clientes</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown dropdown-submenu <?php if (isset($submenugrupos)) { echo 'active'; } ?>">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Grupos</a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tanques</a>
                                     <ul class="dropdown-menu">
-                                        <li <?php if (isset($gr_gclix_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Grupos/grupoLixI');?>">GC Lix.I</a></li>
-                                        <li <?php if (isset($gr_gcesc_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Grupos/grupoEscI');?>">GC Esc.I</a></li>
-                                        <li <?php if (isset($gr_gctel_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Grupos/grupoTelI');?>">GC Tel.I</a></li> 
+                                        <li <?php if (isset($tq_solido)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('TanqueSolido_ctrl');?>">Tanques Solidos</a></li>
+                                        <li <?php if (isset($tq_liquido)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('TanqueLiquido_ctrl');?>">Tanques Liquidos</a></li>
+                                        <li <?php if (isset($tq_gasoso)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('TanqueGasoso_ctrl');?>">Tanques Gasosos</a></li> 
                                     </ul>
                                 </li>
                                 <li class="dropdown dropdown-submenu <?php if (isset($submenuleituras)) { echo 'active'; } ?> ">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Leituras</a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Recursos</a>
                                     <ul class="dropdown-menu">
-                                        <li <?php if (isset($lei_gclix_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Leituras/LixI');?>">GC Lix.I</a></li>
-                                        <li <?php if (isset($lei_gcesc_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Leituras/EscI');?>">GC Esc.I</a></li>
-                                        <li <?php if (isset($lei_gctel_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Leituras/TelI');?>">GC Tel.I</a></li>                            
+                                        <li <?php if (isset($rec_produto)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Produto_ctrl');?>">Produtos</a></li>
+                                        <li <?php if (isset($rec_transporte)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Transporte_ctrl');?>">Transportes</a></li>                           
                                     </ul>
                                 </li>
                             </ul>
                         </li>
                     <?php // } ?>
-                    <?php if($this->permission->checkPermission($this->session->userdata('permissao'),'gGraficos')){ ?>
+                    <!--<?php //if($this->permission->checkPermission($this->session->userdata('permissao'),'gGraficos')){ ?>-->
                         <li class="dropdown <?php if (isset($menugraficos)) { echo 'active'; } ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-area-chart"></i> Gráficos <i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li <?php if (isset($graf_gclix_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Graficos/LixI');?>">GC Lix.I</a></li>
-                                <li <?php if (isset($graf_gcesc_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Graficos/EscI');?>">GC Esc.I</a></li>
-                                <li <?php if (isset($graf_gctel_i)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Graficos/TelI');?>">GC Tel.I</a></li>                            
+                                <li <?php if (isset($graf_monitor)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Graficos/LixI');?>">Monitor Inteligente</a></li>                          
                             </ul>
                         </li> 
-                    <?php } ?>
+                    <?php// } ?>
                     <!--<?php // if($this->permission->checkPermission($this->session->userdata('permissao'),'gConfiguracoes')){ ?> -->
                         <li class="dropdown <?php if (isset($menuconfiguracao)) { echo 'active'; } ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> Configurações <i class="fa fa-angle-down"></i></a>
@@ -91,7 +87,7 @@
                             </ul>
                         </li> 
                     <?php // } ?>
-                    <li <?php if (isset($menusobre)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Sobre');?>"><i class="fa fa-book"></i> Sobre</a></li>
+                    <li <?php if (isset($menusobre)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Sobre_ctrl');?>"><i class="fa fa-book"></i> Sobre</a></li>
                     
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <i class="fa fa-angle-down"></i></a>
@@ -177,7 +173,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="ModalLabelAlt">GC Automação - Alterar Senha</h4>
+                        <h4 class="modal-title" id="ModalLabelAlt">mon.I - Alterar Senha</h4>
                     </div>
                     <form id="formAlterarSenha" action="<?php echo base_url('Principal/alterarSenha') ?>" method="post">            
                         <div class="modal-body">                    

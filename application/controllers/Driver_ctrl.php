@@ -47,7 +47,7 @@ class Driver_ctrl extends CI_Controller {
             $monitor->setLeitura($leitura);
             //salva a leitura no banco de dados
             if ($monitor->insereLeitura()) {
-                 echo 'tudo certo, leitura cadastrada com sucesso.';
+                 echo 'Tudo certo, leitura cadastrada com sucesso. <br>';
             }
             else{
                  throw new Exception('Houve um erro no cadastro');
@@ -84,21 +84,23 @@ class Driver_ctrl extends CI_Controller {
                                 }
 
                                 $fornecedorCliente = $monitor->verificaFornecedorCliente($monitor->getTipo(), $monitor->getId());
+                                if($fornecedorCliente != NULL){
+                                    $fornecedor = new Fornecedores($this->model);
+                                    $fornecedor->setIdEmpresa($fornecedorCliente->idFornecedor);
 
-                                $fornecedor = new Fornecedores($this->model);
-                                $fornecedor->setId($fornecedorCliente->idFornecedor);
+                                    $cliente = new Clientes($this->model);
+                                    $cliente->setIdEmpresa($fornecedorCliente->idCliente);
 
-                                $cliente = new Clientes($this->model);
-                                $cliente->setId($fornecedorCliente->idCliente);
-
-                                $recarga->setIdFornecedores($fornecedor);
-                                $recarga->setIdClientes($cliente);
-                                $recarga->setIdMonitor($monitor);
-                                $recarga->setData(date('Y-m-d'));
-                                $recarga->setVolumeRecarga($monitor->calcularRecarga($leitura->getNivel()));
-                                $recarga->setSituacaoRecarga(1);
-                                $recarga->setStatus(0);
-
+                                    $recarga->setIdFornecedores($fornecedor);
+                                    $recarga->setIdClientes($cliente);
+                                    $recarga->setIdMonitor($monitor);
+                                    $recarga->setData(date('Y-m-d'));
+                                    $recarga->setVolumeRecarga($monitor->calcularRecarga($leitura->getNivel()));
+                                    $recarga->setSituacaoRecarga(1);
+                                    $recarga->setStatus(0);
+                                }else{
+                                    throw new Exception('Falha ao verificar Fornecedores e clientes');
+                                }
                                 if($recarga->cadastrarClass()!= FALSE){
                                     echo 'Recarga Solicitada';
                                 }else{

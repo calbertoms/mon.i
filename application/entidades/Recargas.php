@@ -106,9 +106,7 @@ class Recargas {
 
     public function setStatus($status) {
         $this->status = $status;
-    }
-
-        
+    }       
 
     /*
      * Metodos da Agregação
@@ -122,8 +120,8 @@ class Recargas {
     public function cadastrarClass(){
         
         $data = array(
-                        'idCliente'         => $this->getIdClientes()->getId(),
-                        'idFornecedor'       => $this->getIdFornecedores()->getId(),
+                        'idCliente'         => $this->getIdClientes()->getIdEmpresa(),
+                        'idFornecedor'       => $this->getIdFornecedores()->getIdEmpresa(),
                         'idMonitor'         => $this->getIdMonitor()->getId(),
                         'data'              => $this->getData(),
                         'volumeRecarga'     => $this->getVolumeRecarga(),

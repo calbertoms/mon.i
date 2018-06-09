@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once(APPPATH . 'entidades/Transportes.php');
+
 class Recarga_ctrl extends CI_Controller {
 
     //atributo
@@ -72,5 +74,39 @@ class Recarga_ctrl extends CI_Controller {
         $this->data['view'] = 'recargas/recargas_view';  
         $this->load->view('principal/tema_view',  $this->data);
         
+    }
+    
+    public function buscaTransportes(){
+        $idRecarga = $this->input->post('idRecarga');
+        $tabela = '';
+        $taratotal = 0;
+        if(empty($idRecarga)){
+            $tabela .= '<tr><td colspan="3">Falha ao carregar os transportes!</td></tr>';
+        } else {
+            $listaTransportes = $this->model->listaTransportesPorRecarga($idRecarga);
+            $i = 0;
+            foreach ($listaTransportes AS $l){
+                $transporte[$i] = new Transportes('Recarga_model');
+                $transporte[$i]->setIdTransporte($l->idTransporte);
+                $transporte[$i]->setPlaca($l->placa);
+                $transporte[$i]->setModelo($l->modelo);
+                $transporte[$i]->setTara($l->tara);
+                $i++;
+            }            
+            for($j=0; $j < $i; $j++){
+                $tabela .= '<tr>';
+                $tabela .= '<td style="text-align: center; vertical-align: middle;">'.$transporte[$j]->getPlaca().'</td>';
+                $tabela .= '<td style="text-align: center; vertical-align: middle;">'.$transporte[$j]->getModelo().'</td>';
+                $tabela .= '<td style="text-align: center; vertical-align: middle;">'.$transporte[$j]->getTara().'</td>';
+                $tabela .= '</tr>';
+                $taratotal += $transporte[$j]->getTara();
+            }
+            $tabela .= '<tr>';
+            $tabela .= '<td style="text-align: center; vertical-align: middle;" colspan=2>TARA TOTAL SUPORTADA:</td>';
+            $tabela .= '<td style="text-align: center; vertical-align: middle;">'.$taratotal.'</td>';
+            $tabela .= '</tr>';
+        }
+               
+        echo $tabela;
     }
 }
