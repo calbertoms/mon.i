@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require_once(APPPATH . 'entidades/MonitorInteligente.php');
+//require_once(APPPATH . 'entidades/MonitorInteligente.php');
 require_once(APPPATH . 'entidades/Usuario.php');
 
 class Principal_ctrl extends CI_Controller {
@@ -26,11 +26,15 @@ class Principal_ctrl extends CI_Controller {
 
             redirect('Principal_ctrl/login');
         }
+        
+        if(!$this->permission->checkPermission($this->session->userdata('permissao'),'gClientes') || !$this->permission->checkPermission($this->session->userdata('permissao'),'gFornecedores') || !$this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores') ){
+            $this->session->set_flashdata('error','Você não tem permissao para visualizar permissões!');
+            redirect(base_url());
+        }
+        //$monitor = new MonitorInteligente($this->model);
 
-        $monitor = new MonitorInteligente($this->model);
-
-        $this->data['monitor'] = $monitor->buscaMonitores();
-        $this->data['view'] = 'graficos/graficos_view';
+        //$this->data['monitor'] = $monitor->buscaMonitores();
+        $this->data['view'] = 'principal/home_view';
         $this->load->view('principal/tema_view', $this->data);
     }
 
@@ -73,10 +77,10 @@ class Principal_ctrl extends CI_Controller {
 
         $this->load->library('encrypt');
 
-        $url = $this->input->post('url');
+        $url = $this->input->post('url');        
         $oldSenha = $this->encrypt->hash($this->input->post('oldSenha'));
         $senha = $this->encrypt->hash($this->input->post('novaSenha'));
-        $result = $this->Principal_model->alterarSenha($senha, $oldSenha, $this->session->userdata('id'));
+        $result = $this->usuario->alterarSenha($senha, $oldSenha, $this->session->userdata('id'));
 
         if ($result) {
             $this->session->set_flashdata('success', 'Senha Alterada com sucesso!');

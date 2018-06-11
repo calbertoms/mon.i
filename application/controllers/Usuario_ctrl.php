@@ -176,8 +176,21 @@ class Usuario_ctrl extends CI_Controller {
         redirect(base_url('Usuario_ctrl'));
     }
     
-    
-    
+    public function alterarSenha(){
+        $this->load->library('encrypt');
+        $usuario = new Usuario($this->model);
+        $usuario->setId($this->input->post('id'));
+        $usuario->setSenha($this->encrypt->hash($this->input->post('senhaCad')));
+        
+        if($this->alterarSenha() == TRUE){
+             $this->session->set_flashdata('success', 'Senha alterada com sucesso!');
+        }else{
+            $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
+        }
+        redirect(base_url('Usuario_ctrl'));
+    }
+
+
     //delete virtual
     public function excluir() {
         

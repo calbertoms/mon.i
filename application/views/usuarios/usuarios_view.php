@@ -56,6 +56,9 @@
                                 echo '<a style="margin-right: 1%" href="#modalEdit" class="btn btn-info editar" role="button" data-toggle="modal" usuario="'.$u->idUsuario.'" title="Editar Usuário"><i class="fa fa-fw fa-pencil"></i></a>';                    
                                 echo '<a style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idUsuario="'.$u->idUsuario.'" title="Excluir Usuário"><i class="fa fa-fw fa-remove"></i></a>';
                             }
+                             if($this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores') && ($u->idUsuario != 1)){
+                                echo '<a style="margin-right: 1%"href="#modalAlterarSenha" class="btn btn-default editar" role="button" data-toggle="modal" id="'.$u->idUsuario.'" title="Alterar Senha"><i class="fa fa-fw fa-angellist"></i></a>'; 
+                             }
                         echo '</td>';
                         echo '</tr>';
                     }?>
@@ -305,6 +308,57 @@
     </div>
 </div>
 
+<!-- Modal -->
+  <!-- Alterar Senha -->
+  <div id="modalAlterarSenha" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ModalLabelAlt" style="">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="ModalLabelAlt">mon.I - Alterar Senha</h4>
+              </div>
+              <form id="formAlterarSenha" action="<?php echo base_url('Usuario_ctrl/alterarSenha') ?>" method="post">            
+                  <div class="modal-body">                    
+                      <div class="row">
+                          <div class="col-lg-12">
+                              <div class="row">
+                                  <div class="col-lg-12">
+                                      <div class="col-lg-12 alert alert-info">Obrigatorio o preenchimento dos campos com asterisco (<span style="color: #EE0000">*</span>).</div>
+                                      <input type="hidden" name="id" id="id" value=""/>
+                                  </div>
+                              </div>                            
+                              <div class="row">
+                                  <div class="col-lg-12">
+                                      <div class="form-group">
+                                          <label for="novaSenha">Nova Senha<span class="required" style="color: #EE0000">*</span>: </label>
+                                          <input type="password" class="form-control" id="novaSenha" name="novaSenha" maxlength="20"/>                      
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-lg-12">
+                                      <div class="form-group">
+                                          <label for="confirmaSenha">Confirmar Senha<span class="required" style="color: #EE0000">*</span>: </label>
+                                          <input type="password" class="form-control" id="confirmaSenha" name="confirmaSenha" maxlength="20"/>                      
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <div class="form-group">                       
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                          <button class="btn btn-primary">Alterar </button>                       
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+
+
+
 <!-- Excluir Virtualmente -->
 
 <div id="modalExcluir" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ModalLabelExcl">
@@ -346,6 +400,7 @@ $(document).ready(function () {
     $(document).on('click', '.editar', function () {
         var usuario = $(this).attr('usuario');
         $("#idUsuario").val(usuario); 
+        $("#id").val(usuario);
     });
     
     //carrega os dados do totem
@@ -376,6 +431,40 @@ $(document).ready(function () {
             }
         });
     });
+    
+    $('#formAlterarSenha').validate({
+        
+        rules:
+                {
+                    novaSenha: {required: true},
+                    confirmaSenha: {required: true, 
+                                     equalTo: '#novaSenha'}
+                },
+        messages: 
+                {
+
+                    novaSenha: {required: 'Campo Requerido.'},
+                    confirmaSenha: {required: 'Campo Requerido.',
+                                    equalTo: 'Senhas diferentes'}
+                },
+
+        highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            if(element.parent('.input-group').length) {
+                error.insertAfter(element.parent());
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });
+    
     
     $('#formEdit').validate({
         

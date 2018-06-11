@@ -28,7 +28,10 @@ class Cliente_ctrl extends CI_Controller {
     }
 
     public function index(){
-        
+        if(!$this->permission->checkPermission($this->session->userdata('permissao'),'gClientes') || !$this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores') ){
+            $this->session->set_flashdata('error','Você não tem permissao para visualizar permissões!');
+            redirect(base_url());
+        }
          $this->gerenciar();
             
     }

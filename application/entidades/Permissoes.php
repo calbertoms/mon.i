@@ -155,6 +155,7 @@ class Permissoes {
     public function cadastrarClass() {
      
         $permissao = $this->getPermissao();
+        $usuario = $this->getUsuario();
         $codigo = $this->getCodigo();
         $sigla = $this->getSigla();
         $setor = $this->getSetor();
@@ -172,6 +173,7 @@ class Permissoes {
             
             "permissao" => $permissao,
             'permissoes' => $permissoes,
+            'usuario' => $usuario,
             'codigo' => $codigo,
             'sigla' => $sigla,
             'setor' => $setor,
@@ -199,6 +201,7 @@ class Permissoes {
 
         $id = $this->getIdPermissao();
         $permissao = $this->getPermissao();
+        $usuario = $this->getUsuario();
         $codigo = $this->getCodigo();
         $sigla = $this->getSigla();
         $setor = $this->getSetor();
@@ -213,6 +216,7 @@ class Permissoes {
         $data = array(
             "permissao" => $permissao,
             'permissoes' => $permissoes,
+            'usuario' => $usuario,
             'codigo' => $codigo,
             'sigla' => $sigla,
             'setor' => $setor,
@@ -243,6 +247,7 @@ class Permissoes {
         $result = $this->model->buscaPermissaoPorId($this->getIdPermissao());
         
         $this->setPermissao($result->permissao);
+        $this->setUsuario($result->usuario);
         $this->setCodigo($result->codigo);
         $this->setSigla($result->sigla);
         $this->setSetor($result->setor);

@@ -231,6 +231,17 @@ class Usuario {
 
         return $result;
     }
+    
+    public function alterarSenha(){
+        $data = array('senha'=> $this->getSenha());
+        
+        if($this->model->editar('usuario',$data,'idUsuario', $this->getId())){
+            $result = TRUE;
+        }else{
+            $result = FALSE;
+        }
+        return $result;
+    }
 
     public function buscaUsuarioClass() {
 

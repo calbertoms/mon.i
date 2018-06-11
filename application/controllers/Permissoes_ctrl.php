@@ -9,10 +9,10 @@ class Permissoes_ctrl extends CI_Controller {
 public function __construct() {
         parent::__construct();
         
-       /* if ((!$this->session->userdata('id')) || (!$this->session->userdata('logado'))) {
+        if ((!$this->session->userdata('id')) || (!$this->session->userdata('logado'))) {
             redirect('Principal_ctrl/login');
         }
-        */
+       
         $this->data['menuconfiguracao'] = 'menuconfiguracao';
         $this->data['conf_permissoes'] = 'conf_permissoes';
         $this->load->model('Permissoes_model','',TRUE);
@@ -22,7 +22,10 @@ public function __construct() {
     }
     
     public function index(){
-        
+        if(!$this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores')){
+            $this->session->set_flashdata('error','Você não tem permissao para visualizar permissões!');
+            redirect(base_url());
+        }
         $this->gerenciar();
         
     }
@@ -106,6 +109,7 @@ public function __construct() {
 
         $permissao = new Permissoes($this->model);
         $permissao->setPermissao($this->input->post('permissaoCad'));
+        $permissao->setUsuario($this->session->userdata('usuario'));
         $permissao->setCodigo($this->input->post('codigoCad'));
         $permissao->setSigla($this->input->post('siglaCad'));
         $permissao->setSetor($this->input->post('setorCad'));
@@ -116,9 +120,9 @@ public function __construct() {
         $permissao->setStatus($this->input->post('statusCad'));
 
         $permissoes = array(
-            'gGestaoDispositivos' => $this->input->post('gGestaoDispositivosCad'),
-            'gGraficos' => $this->input->post('gGraficosCad'),
-            'gConfiguracoes' => $this->input->post('gConfiguracoesCad')
+            'gFornecedores' => $this->input->post('gFornecedoresCad'),
+            'gClientes' => $this->input->post('gClientesCad'),
+            'gAdministradores' => $this->input->post('gAdministradoresCad')
         );
 
         $permissao->setPermissoes(serialize($permissoes));
@@ -145,6 +149,7 @@ public function __construct() {
         $permissao->setIdPermissao($this->input->post('idPermissao'));
 
         $permissao->setPermissao($this->input->post('permissaoEdit'));
+        $permissao->setUsuario($this->session->userdata('usuario'));
         $permissao->setCodigo($this->input->post('codigoEdit'));
         $permissao->setSigla($this->input->post('siglaEdit'));
         $permissao->setSetor($this->input->post('setorEdit'));
@@ -155,9 +160,9 @@ public function __construct() {
         $permissao->setStatus($this->input->post('statusEdit'));
 
         $permissoes = array(
-            'gGestaoDispositivos' => $this->input->post('gGestaoDispositivosEdit'),
-            'gGraficos' => $this->input->post('gGraficosEdit'),
-            'gConfiguracoes' => $this->input->post('gConfiguracoesEdit')
+            'gFornecedores' => $this->input->post('gFornecedoresEdit'),
+            'gClientes' => $this->input->post('gClientesEdit'),
+            'gAdministradores' => $this->input->post('gAdministradoresEdit')
         );
 
         $permissao->setPermissoes(serialize($permissoes));

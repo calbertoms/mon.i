@@ -1,0 +1,1 @@
+ <img class="img-responsive" src="<?php echo base_url('assets/img/tela.png');?>" />

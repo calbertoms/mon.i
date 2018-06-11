@@ -70,15 +70,15 @@
                             </ul>
                         </li>
                     <?php // } ?>
-                    <!--<?php //if($this->permission->checkPermission($this->session->userdata('permissao'),'gGraficos')){ ?>-->
+                    <?php if($this->permission->checkPermission($this->session->userdata('permissao'),'gClientes') || $this->permission->checkPermission($this->session->userdata('permissao'),'gFornecedores') || $this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores') ){ ?>
                         <li class="dropdown <?php if (isset($menugraficos)) { echo 'active'; } ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-area-chart"></i> Gráficos <i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li <?php if (isset($graf_monitor)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Graficos/LixI');?>">Monitor Inteligente</a></li>                          
+                                <li <?php if (isset($graf_monitor)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Grafico_ctrl');?>">Monitor Inteligente</a></li>                          
                             </ul>
                         </li> 
-                    <?php// } ?>
-                    <!--<?php // if($this->permission->checkPermission($this->session->userdata('permissao'),'gConfiguracoes')){ ?> -->
+                    <?php } ?>
+                    <?php  if($this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores')){ ?>
                         <li class="dropdown <?php if (isset($menuconfiguracao)) { echo 'active'; } ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> Configurações <i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu">
@@ -86,7 +86,7 @@
                                 <li <?php if (isset($conf_permissoes)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Permissoes_ctrl');?>">Permissões</a></li>                           
                             </ul>
                         </li> 
-                    <?php // } ?>
+                    <?php } ?>
                     <li <?php if (isset($menusobre)) { echo 'class="active"'; } ?> ><a href="<?php echo base_url('Sobre_ctrl');?>"><i class="fa fa-book"></i> Sobre</a></li>
                     
                     <li class="dropdown">
@@ -175,7 +175,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="ModalLabelAlt">mon.I - Alterar Senha</h4>
                     </div>
-                    <form id="formAlterarSenha" action="<?php echo base_url('Principal/alterarSenha') ?>" method="post">            
+                    <form id="formAlterarSenha" action="<?php echo base_url('Principal_ctrl/alterarSenha') ?>" method="post">            
                         <div class="modal-body">                    
                             <div class="row">
                                 <div class="col-lg-12">
@@ -225,6 +225,8 @@
         
 
     </div>
+    
+ 
   
     <footer class="navbar  navbar-inverse navbar-fixed-bottom"> 
         <div class="container">

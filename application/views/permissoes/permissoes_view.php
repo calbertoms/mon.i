@@ -178,16 +178,16 @@
                                             <tbody>                                                                                                                                                
                                                 <tr>
                                                     <td class="col-sm-12 col-md-4 col-lg-4">                                                       
-                                                        <input name="gGestaoDispositivosCad" type="checkbox" value="1" class="marcarCad">
-                                                        <span> Gestão Dispositivos</span>                                                        
+                                                        <input name="gFornecedoresCad" type="checkbox" value="1" class="marcarCad">
+                                                        <span> Fornecedores</span>                                                        
                                                     </td>
                                                     <td class="col-sm-12 col-md-4 col-lg-4">                                                       
-                                                        <input name="gGraficosCad" type="checkbox" value="1" class="marcarCad">
-                                                        <span> Gráficos</span>                                                        
+                                                        <input name="gClientesCad" type="checkbox" value="1" class="marcarCad">
+                                                        <span> Clientes</span>                                                        
                                                     </td>
                                                      <td class="col-sm-12 col-md-4 col-lg-4">                                                       
-                                                        <input name="gConfiguracoesCad" type="checkbox" value="1" class="marcarCad">
-                                                        <span> Configurações</span>                                                        
+                                                        <input name="gAdministradoresCad" type="checkbox" value="1" class="marcarCad">
+                                                        <span> Administradores</span>                                                        
                                                     </td>
                                                 </tr>                                                                                               
                                             </tbody>
@@ -312,16 +312,16 @@
                                             <tbody>                                                                                                                                                
                                                 <tr>
                                                     <td class="col-sm-12 col-md-4 col-lg-4">                                                       
-                                                        <input name="gGestaoDispositivosEdit" id="gGestaoDispositivosEdit" type="checkbox" value="1" class="marcarEdit">
-                                                        <span> Gestão Dispositivos</span>                                                        
+                                                        <input name="gFornecedoresEdit" id="gFornecedoresEdit" type="checkbox" value="1" class="marcarEdit">
+                                                        <span> Fornecedores</span>                                                        
                                                     </td>
                                                     <td class="col-sm-12 col-md-4 col-lg-4">                                                       
-                                                        <input name="gGraficosEdit" id="gGraficosEdit" type="checkbox" value="1" class="marcarEdit">
-                                                        <span> Gráficos</span>                                                        
+                                                        <input name="gClientesEdit" id="gClientesEdit" type="checkbox" value="1" class="marcarEdit">
+                                                        <span> Clientes</span>                                                        
                                                     </td>
                                                      <td class="col-sm-12 col-md-4 col-lg-4">                                                       
-                                                         <input name="gConfiguracoesEdit" id="gConfiguracoesEdit" type="checkbox" value="1" class="marcarEdit">
-                                                        <span> Configurações</span>                                                        
+                                                         <input name="gAdministradoresEdit" id="gAdministradoresEdit" type="checkbox" value="1" class="marcarEdit">
+                                                        <span> Administradores</span>                                                        
                                                     </td>
                                                 </tr>                                                                                               
                                             </tbody>
@@ -408,9 +408,9 @@ $(document).ready(function () {
                     $("#descricaoEdit").val(data.descricao);
                     $("#observacaoEdit").val(data.observacao);
                     $("#statusEdit").val(data.status);
-                    $('#gGestaoDispositivosEdit').prop("checked", check(data.permissoes.gGestaoDispositivos));
-                    $('#gGraficosEdit').prop("checked", check(data.permissoes.gGraficos));
-                    $('#gConfiguracoesEdit').prop("checked", check(data.permissoes.gConfiguracoes));
+                    $('#gFornecedoresEdit').prop("checked", check(data.permissoes.gFornecedores));
+                    $('#gClientesEdit').prop("checked", check(data.permissoes.gClientes));
+                    $('#gAdministradoresEdit').prop("checked", check(data.permissoes.gAdministradores));
 
                 }
             }
