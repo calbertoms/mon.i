@@ -140,7 +140,7 @@ $(document).ready(function () {
 
             $.ajax({
                type: "POST",
-               url: "<?php echo base_url('Principal_ctrl/geraGrafico'); ?>",
+               url: "<?php echo base_url('Grafico_ctrl/geraGrafico'); ?>",
                data: dados,
                dataType: 'text',
                success: function (data)

@@ -22,4 +22,37 @@ public function __construct() {
 
     }
     
+     public function geraGrafico() {
+
+        $id = $this->input->post('monitor');
+        $tipo = $this->input->post('tipoGrafico');
+        $dataDe = $this->input->post('dataDe');
+        $dataPara = $this->input->post('dataPara');
+
+        $monitor = new MonitorInteligente($this->model);
+        $result = $monitor->buscaleiturasMonitorPorPeriodo($id, $dataDe, $dataPara);
+
+        if (count($result) > 0) {
+
+            switch ($tipo) {
+
+                case 0:
+
+                    $data = array('labels' => [], 'dados' => []);
+
+                    foreach ($result as $dado) {
+
+                        array_push($data['labels'], utf8_encode(date('d/m/Y H:i:s', strtotime($dado->dataHora))));
+                        array_push($data['dados'], $dado->nivel);
+                    }
+
+                    break;
+            }
+
+            echo json_encode($data);
+        } else {
+            $data = array('labels' => [], 'dados' => []);
+            echo json_encode($data);
+        }
+    }
 }

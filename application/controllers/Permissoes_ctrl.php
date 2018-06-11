@@ -9,9 +9,9 @@ class Permissoes_ctrl extends CI_Controller {
 public function __construct() {
         parent::__construct();
         
-        if ((!$this->session->userdata('id')) || (!$this->session->userdata('logado'))) {
-            redirect('Principal_ctrl/login');
-        }
+      //  if ((!$this->session->userdata('id')) || (!$this->session->userdata('logado'))) {
+      //      redirect('Principal_ctrl/login');
+      //  }
        
         $this->data['menuconfiguracao'] = 'menuconfiguracao';
         $this->data['conf_permissoes'] = 'conf_permissoes';
@@ -22,10 +22,10 @@ public function __construct() {
     }
     
     public function index(){
-        if(!$this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores')){
-            $this->session->set_flashdata('error','Você não tem permissao para visualizar permissões!');
-            redirect(base_url());
-        }
+       // if(!$this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores')){
+       //     $this->session->set_flashdata('error','Você não tem permissao para visualizar permissões!');
+       //     redirect(base_url());
+       // }
         $this->gerenciar();
         
     }
