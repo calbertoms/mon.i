@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-12 col-md-12">        
-        <?php if(!$tanquesGasosos){?>
+        <?php if(!$tanques){?>
         <div class="table-responsive">
             <table class="table table-condensed">
                 <caption><h2 class="text-center">Gerenciamento de Tanques Gasosos</h2></caption>
@@ -36,7 +36,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($tanquesGasosos as $t) {
+                    <?php foreach ($tanques as $t) {
                         echo '<tr>';
                         echo '<td style="text-align: center; vertical-align: middle;">'.$t->identificacao.'</td>';
                         echo '<td style="text-align: center; vertical-align: middle;">'.$t->capacidade.'</td>';

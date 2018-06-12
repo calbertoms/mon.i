@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="col-sm-12 col-md-4">        
-        <div class="panel panel-primary">
+    <div class="col-sm-12 col-md-4 col-md-offset-4">        
+        <div class="panel panel-primary" >
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="row">

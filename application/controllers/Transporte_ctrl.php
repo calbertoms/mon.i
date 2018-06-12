@@ -56,8 +56,14 @@ class Transporte_ctrl extends CI_Controller {
 
         $this->pagination->initialize($config);
         
+       if((!$this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores'))){
+            
+           $this->data['transportes'] = $this->model->buscaTransportes($limit,$start);
+       }else{
+           $this->data['transportes'] = $this->model->buscaTransportes($limit,$start,TRUE);
+       }
         
-        $this->data['transportes'] = '';
+        
         
         $this->data['view'] = 'transportes/transportes_view';  
         $this->load->view('principal/tema_view',  $this->data);

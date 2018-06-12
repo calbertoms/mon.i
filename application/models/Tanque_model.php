@@ -5,14 +5,37 @@ class Tanque_model extends CI_Model {
         parent::__construct();
     }
     
-    public function buscaTanques($limit,$start){
+    public function buscaTanquesSolidos($limit,$start,$adm = false){
+        if(!$adm){
+            $query = 'Select * from tanquessolidos Where status = 1 ORDER BY idTanque ASC LIMIT ? OFFSET ? ';
+        }else{
+            $query = 'Select * from tanquessolidos ORDER BY idTanque ASC LIMIT ? OFFSET ? ';
+        }                    
+        return $this->db->query($query, array($limit,$start))->result();
         
-        $query = 'Select * from tanquessolidos ORDER BY idTanque ASC LIMIT ? OFFSET ? ';
-                                      
+    }
+       
+    public function buscaTanquesLiquidos($limit,$start,$adm = false){
+        if(!$adm){
+            $query = 'Select * from tanquesliquidos Where status = 1 ORDER BY idTanque ASC LIMIT ? OFFSET ? ';
+        }else{
+            $query = 'Select * from tanquesliquidos ORDER BY idTanque ASC LIMIT ? OFFSET ? ';
+        }                              
         return $this->db->query($query, array($limit,$start))->result();
         
     }
     
+    public function buscaTanquesGasosos($limit,$start,$adm = false){
+        if(!$adm){
+            $query = 'Select * from tanquesgasosos Where status = 1 ORDER BY idTanque ASC LIMIT ? OFFSET ? ';
+        }else{
+            $query = 'Select * from tanquesgasosos  ORDER BY idTanque ASC LIMIT ? OFFSET ? ';
+        }
+                                      
+        return $this->db->query($query, array($limit,$start))->result();
+        
+    }
+        
     public function buscaMonitor($limit,$start){
         
         $query = 'Select * from monitorinteligente ORDER BY id ASC LIMIT ? OFFSET ? ';

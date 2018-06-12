@@ -22,7 +22,7 @@ public function __construct() {
 
     }
     
-     public function geraGrafico() {
+    public function geraGrafico() {
 
         $id = $this->input->post('monitor');
         $tipo = $this->input->post('tipoGrafico');

@@ -5,6 +5,17 @@ class Monitor_model extends CI_Model {
         parent::__construct();
     }
     
+    public function buscaMonitores($limit,$start,$adm = false){
+        if(!$adm){
+            $query = 'SELECT * FROM monitorinteligente WHERE status = 1  ORDER BY idMonitor ASC LIMIT ? OFFSET ? ';
+        }else{
+            $query = 'SELECT * FROM monitorinteligente ORDER BY idMonitor ASC LIMIT ? OFFSET ? ';
+        }
+                                      
+        return $this->db->query($query, array($limit,$start))->result();
+        
+    }
+    
     function adicionar($table,$data,$returnId = false){
         if ($this->db->insert($table, $data)) {
             if($returnId == true){

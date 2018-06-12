@@ -5,6 +5,17 @@ class Produto_model extends CI_Model {
         parent::__construct();
     }
     
+    public function buscaProdutos($limit,$start,$adm = false){
+        if(!$adm){
+            $query = 'SELECT * from produtos WHERE status = 1 ORDER BY idProduto ASC LIMIT ? OFFSET ? ';
+        }else{
+            $query = 'SELECT * from produtos ORDER BY idProduto ASC LIMIT ? OFFSET ? ';
+        }
+                                      
+        return $this->db->query($query, array($limit,$start))->result();
+        
+    }
+    
     function adicionar($table,$data,$returnId = false){
         if ($this->db->insert($table, $data)) {
             if($returnId == true){

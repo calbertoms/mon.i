@@ -27,17 +27,10 @@ class Principal_ctrl extends CI_Controller {
             redirect('Principal_ctrl/login');
         }
         
-        if(!$this->permission->checkPermission($this->session->userdata('permissao'),'gClientes') || !$this->permission->checkPermission($this->session->userdata('permissao'),'gFornecedores') || !$this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores') ){
-            $this->session->set_flashdata('error','Você não tem permissao para visualizar permissões!');
-            redirect(base_url());
-        }
-        //$monitor = new MonitorInteligente($this->model);
-
-        //$this->data['monitor'] = $monitor->buscaMonitores();
         $this->data['view'] = 'principal/home_view';
         $this->load->view('principal/tema_view', $this->data);
     }
-
+       
     public function login() {
 
         $this->load->view('principal/login_view');
@@ -91,38 +84,6 @@ class Principal_ctrl extends CI_Controller {
         }
     }
 
-    public function geraGrafico() {
-
-        $id = $this->input->post('monitor');
-        $tipo = $this->input->post('tipoGrafico');
-        $dataDe = $this->input->post('dataDe');
-        $dataPara = $this->input->post('dataPara');
-
-        $monitor = new MonitorInteligente($this->model);
-        $result = $monitor->buscaleiturasMonitorPorPeriodo($id, $dataDe, $dataPara);
-
-        if (count($result) > 0) {
-
-            switch ($tipo) {
-
-                case 0:
-
-                    $data = array('labels' => [], 'dados' => []);
-
-                    foreach ($result as $dado) {
-
-                        array_push($data['labels'], utf8_encode(date('d/m/Y H:i:s', strtotime($dado->dataHora))));
-                        array_push($data['dados'], $dado->nivel);
-                    }
-
-                    break;
-            }
-
-            echo json_encode($data);
-        } else {
-            $data = array('labels' => [], 'dados' => []);
-            echo json_encode($data);
-        }
-    }
+    
 
 }

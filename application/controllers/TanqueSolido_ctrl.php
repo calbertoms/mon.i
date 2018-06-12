@@ -63,14 +63,14 @@ class TanqueSolido_ctrl extends CI_Controller {
         $start = ($this->uri->segment(3) == NULL) ? 0 : intval($this->uri->segment(3));
 
         $this->pagination->initialize($config);
-                
-        $this->data['tanques'] = $this->Tanque_model->buscaTanques($limit,$start);
+                        
         
-        //$this->data['monitor'] = $this->Tanque_model->buscaMonitor();
-        
-        //$this->data['produto'] = $this->Tanque_model->buscaProduto();
-        
-        //$this->data['cliente'] = $this->Tanque_model->buscaEmpresaPorId($tb,$idTb,$id);
+        if((!$this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores'))){
+            
+             $this->data['tanques'] = $this->Tanque_model->buscaTanquesSolidos($limit,$start);
+        }else{
+             $this->data['tanques'] = $this->Tanque_model->buscaTanquesSolidos($limit,$start,TRUE);
+        }
         
         $this->data['view'] = 'tanques/tanques_solidos_view';  
         

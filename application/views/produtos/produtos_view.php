@@ -36,14 +36,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($produtos as $t) {
+                    <?php foreach ($produtos as $p) {
                         echo '<tr>';
-                        echo '<td style="text-align: center; vertical-align: middle;">'.$t->nome.'</td>';
-                        echo '<td style="text-align: center; vertical-align: middle;">'.$t->codigo.'</td>';
-                        echo '<td style="text-align: center; vertical-align: middle;">'.$t->tipo.'</td>';
+                        echo '<td style="text-align: center; vertical-align: middle;">'.$p->nome.'</td>';
+                        echo '<td style="text-align: center; vertical-align: middle;">'.$p->codigo.'</td>';
+                        echo '<td style="text-align: center; vertical-align: middle;">'.$p->tipo.'</td>';
                         echo '<td style="text-align: center; vertical-align: middle;">';                   
-                        echo '<a style="margin-right: 1%" href="#modalEdit" class="btn btn-info editar" role="button" data-toggle="modal" produto="'.$t->idProduto.'" title="Editar Produto"><i class="fa fa-fw fa-pencil"></i></a>';                                            
-                        echo '<a style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idProduto="'.$t->idProduto.'" title="Excluir Produto"><i class="fa fa-fw fa-remove"></i></a>';
+                        echo '<a style="margin-right: 1%" href="#modalEdit" class="btn btn-info editar" role="button" data-toggle="modal" produto="'.$p->idProduto.'" title="Editar Produto"><i class="fa fa-fw fa-pencil"></i></a>';                                            
+                        echo '<a style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idProduto="'.$p->idProduto.'" title="Excluir Produto"><i class="fa fa-fw fa-remove"></i></a>';
                         echo '</td>';
                         echo '</tr>';
                     }?>

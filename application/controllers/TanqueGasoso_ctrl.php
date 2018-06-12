@@ -15,8 +15,8 @@ class TanqueGasoso_ctrl extends CI_Controller {
         }
        
         $this->data['menuprincipal'] = 'principal';
-        $this->load->model('TanqueGasoso_model','',TRUE);
-        $this->model = $this->TanqueGasoso_model;
+        $this->load->model('Tanque_model','',TRUE);
+        $this->model = $this->Tanque_model;
     }
 
     public function index(){
@@ -30,7 +30,7 @@ class TanqueGasoso_ctrl extends CI_Controller {
         $this->load->library('pagination');
         
         $config['base_url'] = base_url('Permissoes/gerenciar');
-        $config['total_rows'] = $this->TanqueGasoso_model->count('permissoes');
+        $config['total_rows'] = $this->Tanque_model->count('permissoes');
         $config['per_page'] = 10;
         $config['next_link'] = '&raquo';
         $config['prev_link'] = '&laquo';
@@ -56,10 +56,15 @@ class TanqueGasoso_ctrl extends CI_Controller {
 
         $this->pagination->initialize($config);
         
+        if((!$this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores'))){
+            
+            $this->data['tanques'] = $this->Tanque_model->buscaTanquesGasosos($limit,$start);
+        }else{
+            $this->data['tanques'] = $this->Tanque_model->buscaTanquesGasosos($limit,$start,TRUE);
+        }
         
-        $this->data['TanqueGasosos'] = '';
         
-        $this->data['view'] = 'tanques/TanquesGasosos_view';  
+        $this->data['view'] = 'tanques/tanques_gasosos_view';  
         $this->load->view('principal/tema_view',  $this->data);
         
     } 

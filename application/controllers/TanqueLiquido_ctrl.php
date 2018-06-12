@@ -15,8 +15,8 @@ class TanqueLiquido_ctrl extends CI_Controller {
         }
        
         $this->data['menuprincipal'] = 'principal';
-        $this->load->model('TanqueLiquido_model','',TRUE);
-        $this->model = $this->TanqueLiquido_model;
+        $this->load->model('Tanque_model','',TRUE);
+        $this->model = $this->Tanque_model;
     }
 
     public function index(){
@@ -30,7 +30,7 @@ class TanqueLiquido_ctrl extends CI_Controller {
         $this->load->library('pagination');
         
         $config['base_url'] = base_url('Permissoes/gerenciar');
-        $config['total_rows'] = $this->TanqueLiquido_model->count('permissoes');
+        $config['total_rows'] = $this->Tanque_model->count('permissoes');
         $config['per_page'] = 10;
         $config['next_link'] = '&raquo';
         $config['prev_link'] = '&laquo';
@@ -57,9 +57,14 @@ class TanqueLiquido_ctrl extends CI_Controller {
         $this->pagination->initialize($config);
         
         
-        $this->data['TanqueLiquidos'] = '';
+         if((!$this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores'))){
+            
+             $this->data['tanques'] = $this->Tanque_model->buscaTanquesLiquidos($limit,$start);
+        }else{
+             $this->data['tanques'] = $this->Tanque_model->buscaTanquesLiquidos($limit,$start,TRUE);
+        }
         
-        $this->data['view'] = 'tanques/TanqueLiquido_view';  
+        $this->data['view'] = 'tanques/tanques_liquidos_view';  
         $this->load->view('principal/tema_view',  $this->data);
         
     } 

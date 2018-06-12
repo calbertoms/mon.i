@@ -5,6 +5,17 @@ class Transporte_model extends CI_Model {
         parent::__construct();
     }
     
+    public function buscaTransportes($limit,$start,$adm = false){
+        if(!$adm){
+            $query = 'SELECT * FROM transportes WHERE status = 1  ORDER BY idTransporte ASC LIMIT ? OFFSET ? ';
+        }else{
+            $query = 'SELECT * FROM transportes ORDER BY idTransporte ASC LIMIT ? OFFSET ? ';
+        }
+                                      
+        return $this->db->query($query, array($limit,$start))->result();
+        
+    }
+    
     function adicionar($table,$data,$returnId = false){
         if ($this->db->insert($table, $data)) {
             if($returnId == true){

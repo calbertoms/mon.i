@@ -57,7 +57,12 @@ class Produto_ctrl extends CI_Controller {
         $this->pagination->initialize($config);
         
         
-        $this->data['produtos'] = '';
+        if((!$this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores'))){
+            
+           $this->data['produtos'] = $this->model->buscaProdutos($limit,$start);
+        }else{
+            $this->data['produtos'] = $this->model->buscaProdutos($limit,$start,TRUE);
+        }
         
         $this->data['view'] = 'produtos/produtos_view';  
         $this->load->view('principal/tema_view',  $this->data);

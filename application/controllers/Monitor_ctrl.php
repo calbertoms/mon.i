@@ -67,7 +67,14 @@ class Monitor_ctrl extends CI_Controller {
         $this->pagination->initialize($config);
         
         
-        $this->data['monitores'] = '';
+        if((!$this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores'))){
+            
+            $this->data['monitores'] = $this->model->buscaMonitores($limit,$start);
+        }else{
+            $this->data['monitores'] = $this->model->buscaMonitores($limit,$start,TRUE);
+        }
+        
+        
         
         $this->data['view'] = 'monitores/monitores_view';  
         $this->load->view('principal/tema_view',  $this->data);

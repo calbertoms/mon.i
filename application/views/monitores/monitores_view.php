@@ -25,7 +25,7 @@
         <?php }else{ ?>
         <div class="table-responsive">
             <table class="table table-condensed">
-                <caption><h2 class="text-center">Gerenciamento de Recargas</h2></caption>
+                <caption><h2 class="text-center">Gerenciamento de Monitores</h2></caption>
                 <thead>
                     <tr>
                         <th class="col-md-2" style="text-align: center; vertical-align: middle;">Monitor</th>
@@ -41,11 +41,15 @@
                     <?php foreach ($monitores as $m) {
                         echo '<tr>';
                         echo '<td style="text-align: center; vertical-align: middle;">'.$m->nome.'</td>';
-                        echo '<td style="text-align: center; vertical-align: middle;">'.$m->tipo.'</td>';
-                        echo '<td style="text-align: center; vertical-align: middle;">'.$m->nivelAlarme.'</td>';
-                        echo '<td style="text-align: center; vertical-align: middle;">'.$m->dataCalibracao.'</td>';
-                        echo '<td style="text-align: center; vertical-align: middle;">'.date("d/m/Y", strtotime($m->dataCalibracao)).'</td>';                        
-                        echo '<td style="text-align: center; vertical-align: middle;">'.$m->status.'</td>';
+                        if($m->tipo == 0){
+                            echo '<td style="text-align: center; vertical-align: middle;">Gasoso</td>';
+                        }elseif ($m->tipo == 1) {
+                            echo '<td style="text-align: center; vertical-align: middle;">Líquido</td>';
+                        }else{
+                            echo '<td style="text-align: center; vertical-align: middle;">Sólido</td>';
+                        }                        
+                        echo '<td style="text-align: center; vertical-align: middle;">'.$m->nivelAlarme.'</td>';                        
+                        echo '<td style="text-align: center; vertical-align: middle;">'.date("d/m/Y", strtotime($m->dataCalibracao)).'</td>';                                                
                         echo '<td style="text-align: center; vertical-align: middle;">';                   
                         echo '<a style="margin-right: 1%" href="#modalEdit" class="btn btn-info editar" role="button" data-toggle="modal" monitor="'.$m->idMonitor.'" title="Editar Monitor"><i class="fa fa-fw fa-pencil"></i></a>';                                            
                         echo '<a style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idMonitor="'.$m->idMonitor.'" title="Excluir Monitor"><i class="fa fa-fw fa-remove"></i></a>';
