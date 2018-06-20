@@ -38,9 +38,13 @@ class TanquesGasosos extends Tanques{
 
     public function cadastrarClass() {
      
+        $fornecedor = $this->getIdFornecedor();
+        $cliente = $this->getIdClientes();
+        $monitor = $this->getIdMonitor();
+        $produto = $this->getIdProduto();
         $identificacao = $this->getIdentificacao();
         $dataFabricacao = $this->getDataFabricacao();
-        $dataInspecao = $this->getDataInspecaoa();
+        $dataInspecao = $this->getDataInspecao();
         $dataManutencao = $this->getDataManutencao();
         $capacidade = $this->getCapacidade();
         $comprimento = $this->getComprimento();
@@ -57,7 +61,11 @@ class TanquesGasosos extends Tanques{
         
         $data = array(
             
-            "identificacao" => $identificacao,
+            'idFornecedor' => $fornecedor,
+            'idCliente' => $cliente,
+            'idMonitor' => $monitor,
+            'idProduto' => $produto,
+            'identificacao' => $identificacao,
             'dataFabricacao' => $dataFabricacao,
             'dataInspecao' => $dataInspecao,
             'dataManutencao' => $dataManutencao,
@@ -74,7 +82,7 @@ class TanquesGasosos extends Tanques{
             'dataAlterado' => $alterado
         );
 
-        if ($this->model->adicionar("tanquesgasosos", $data) == TRUE) {
+        if ($this->getModel()->adicionar("tanquesgasosos", $data) == TRUE) {
 
             $result = TRUE;
         } else {
@@ -89,9 +97,13 @@ class TanquesGasosos extends Tanques{
 
         $id = $this->getIdTanque();
 
+        $fornecedor = $this->getIdFornecedor();
+        $cliente = $this->getIdClientes();
+        $monitor = $this->getIdMonitor();
+        $produto = $this->getIdProduto();
         $identificacao = $this->getIdentificacao();
         $dataFabricacao = $this->getDataFabricacao();
-        $dataInspecao = $this->getDataInspecaoa();
+        $dataInspecao = $this->getDataInspecao();
         $dataManutencao = $this->getDataManutencao();
         $capacidade = $this->getCapacidade();
         $comprimento = $this->getComprimento();
@@ -107,7 +119,11 @@ class TanquesGasosos extends Tanques{
         
         $data = array(
             
-            "identificacao" => $identificacao,
+            'idFornecedor' => $fornecedor,
+            'idCliente' => $cliente,
+            'idMonitor' => $monitor,
+            'idProduto' => $produto,
+            'identificacao' => $identificacao,
             'dataFabricacao' => $dataFabricacao,
             'dataInspecao' => $dataInspecao,
             'dataManutencao' => $dataManutencao,
@@ -124,7 +140,7 @@ class TanquesGasosos extends Tanques{
         );
 
         
-        if ($this->model->editar('tanquesgasosos', $data, 'idTanqueGasoso', $id)) {
+        if ($this->getModel()->editar('tanquesgasosos', $data, 'idTanque', $id)) {
 
             $result = TRUE;
             
@@ -136,14 +152,18 @@ class TanquesGasosos extends Tanques{
         return $result;
     }
 
-    public function buscaTanqueGasosoClass() {
+    public function buscaTanqueClass() {
        
 
-        $result = $this->model->buscaTanqueGasosoPorId($this->getIdTanque());
+        $result = $this->getModel()->buscaTanqueGasosoPorId($this->getIdTanque());
         
+        $this->setIdFornecedor($result->idFornecedor);
+        $this->setIdClientes($result->idCliente);
+        $this->setIdMonitor($result->idMonitor);
+        $this->setIdProduto($result->idProduto); 
         $this->setIdentificacao($result->identificacao);
         $this->setDataFabricacao($result->dataFabricacao);
-        $this->setDataInspecaoa($result->dataInspecao);
+        $this->setDataInspecao($result->dataInspecao);
         $this->setDataManutencao($result->dataManutencao);
         $this->setCapacidade($result->capacidade);
         $this->setComprimento($result->comprimento);
@@ -159,7 +179,7 @@ class TanquesGasosos extends Tanques{
     }
     
     //delete virtual
-    public function deletarTanqueGasosoClass() {
+    public function deletarTanqueClass() {
 
         $id = $this->getIdTanque();
         $alterado = date('Y-m-d H:i:s');
@@ -170,7 +190,30 @@ class TanquesGasosos extends Tanques{
             'dataAlterado' => $alterado
         );
 
-        if ($this->model->editar('tanquesgasosos', $data, 'idTanqueGasoso', $id)) {
+        if ($this->getModel()->editar('tanquesgasosos', $data, 'idTanque', $id)) {
+
+            $result = TRUE;
+            
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+    
+    public function restaurarTanqueClass() {
+
+        $id = $this->getIdTanque();
+        $alterado = $this->getDataAlterado();
+
+
+        $data = array(
+            'status' => 1,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->getModel()->editar('tanquesgasosos', $data, 'idTanque', $id)) {
 
             $result = TRUE;
             

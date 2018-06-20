@@ -17,20 +17,34 @@ class TanquesLiquidos extends Tanques{
     //put your code here
     
     private $viscosidade;
+    private $temperatura;
     
-    public function getViscosidade() {
-        return $this->viscosidade;
+    public function getTemperatura() {
+        return $this->temperatura;
     }
 
-    public function setViscosidade($nivel) {
+        public function getViscosidade() {
+        return $this->viscosidade;
+    }
+    
+    public function setTemperatura($temperatura) {
+        $this->temperatura = $temperatura;
+    }
+
+        
+    public function setViscosidade($viscosidade) {
         $this->viscosidade = $viscosidade;
     }
 
     public function cadastrarClass() {
      
+        $fornecedor = $this->getIdFornecedor();
+        $cliente = $this->getIdClientes();
+        $monitor = $this->getIdMonitor();
+        $produto = $this->getIdProduto();
         $identificacao = $this->getIdentificacao();
         $dataFabricacao = $this->getDataFabricacao();
-        $dataInspecao = $this->getDataInspecaoa();
+        $dataInspecao = $this->getDataInspecao();
         $dataManutencao = $this->getDataManutencao();
         $capacidade = $this->getCapacidade();
         $comprimento = $this->getComprimento();
@@ -39,14 +53,19 @@ class TanquesLiquidos extends Tanques{
         $nivel = $this->getNivel();
         $peso = $this->getPeso();
         $viscosidade = $this->getViscosidade();
+        $temperatura = $this->getTemperatura();
         $status = $this->getStatus(); 
         $cadastro = $this->getDataCadastro();
         $alterado = $this->getDataAlterado();
         
         
         $data = array(
-            
-            "identificacao" => $identificacao,
+
+            'idFornecedor' => $fornecedor,
+            'idCliente' => $cliente,
+            'idMonitor' => $monitor,
+            'idProduto' => $produto,
+            'identificacao' => $identificacao,
             'dataFabricacao' => $dataFabricacao,
             'dataInspecao' => $dataInspecao,
             'dataManutencao' => $dataManutencao,
@@ -57,12 +76,13 @@ class TanquesLiquidos extends Tanques{
             'nivel' => $nivel,
             'peso' => $peso,
             'viscosidade' => $viscosidade,
+            'temperatura' => $temperatura,
             'status' => $status,        
             'dataCadastro' => $cadastro,
             'dataAlterado' => $alterado
         );
 
-        if ($this->model->adicionar("tanquesliquidos", $data) == TRUE) {
+        if ($this->getModel()->adicionar("tanquesliquidos", $data) == TRUE) {
 
             $result = TRUE;
         } else {
@@ -71,15 +91,20 @@ class TanquesLiquidos extends Tanques{
         }
 
         return $result;
+
     }
     
     public function editarClass() {
 
         $id = $this->getIdTanque();
 
+        $fornecedor = $this->getIdFornecedor();
+        $cliente = $this->getIdClientes();
+        $monitor = $this->getIdMonitor();
+        $produto = $this->getIdProduto();
         $identificacao = $this->getIdentificacao();
         $dataFabricacao = $this->getDataFabricacao();
-        $dataInspecao = $this->getDataInspecaoa();
+        $dataInspecao = $this->getDataInspecao();
         $dataManutencao = $this->getDataManutencao();
         $capacidade = $this->getCapacidade();
         $comprimento = $this->getComprimento();
@@ -88,13 +113,18 @@ class TanquesLiquidos extends Tanques{
         $nivel = $this->getNivel();
         $peso = $this->getPeso();
         $viscosidade = $this->getViscosidade();
+        $temperatura = $this->getTemperatura();
         $status = $this->getStatus(); 
         $alterado = $this->getDataAlterado();
         
         
         $data = array(
             
-            "identificacao" => $identificacao,
+            'idFornecedor' => $fornecedor,
+            'idCliente' => $cliente,
+            'idMonitor' => $monitor,
+            'idProduto' => $produto,
+            'identificacao' => $identificacao,
             'dataFabricacao' => $dataFabricacao,
             'dataInspecao' => $dataInspecao,
             'dataManutencao' => $dataManutencao,
@@ -105,12 +135,13 @@ class TanquesLiquidos extends Tanques{
             'nivel' => $nivel,
             'peso' => $peso,
             'viscosidade' => $viscosidade,
+            'temperatura' => $temperatura,
             'status' => $status,        
             'dataAlterado' => $alterado
         );
 
         
-        if ($this->model->editar('tanquesliquidos', $data, 'idTanqueliquido', $id)) {
+        if ($this->getModel()->editar('tanquesliquidos', $data, 'idTanque', $id)) {
 
             $result = TRUE;
             
@@ -122,14 +153,18 @@ class TanquesLiquidos extends Tanques{
         return $result;
     }
 
-    public function buscaTanqueLiquidoClass() {
+    public function buscaTanqueClass() {
        
 
-        $result = $this->model->buscaTanqueGasosoPorId($this->getIdTanque());
+        $result = $this->getModel()->buscaTanqueLiquidoPorId($this->getIdTanque());
         
+        $this->setIdFornecedor($result->idFornecedor);
+        $this->setIdClientes($result->idCliente);
+        $this->setIdMonitor($result->idMonitor);
+        $this->setIdProduto($result->idProduto); 
         $this->setIdentificacao($result->identificacao);
         $this->setDataFabricacao($result->dataFabricacao);
-        $this->setDataInspecaoa($result->dataInspecao);
+        $this->setDataInspecao($result->dataInspecao);
         $this->setDataManutencao($result->dataManutencao);
         $this->setCapacidade($result->capacidade);
         $this->setComprimento($result->comprimento);
@@ -138,13 +173,15 @@ class TanquesLiquidos extends Tanques{
         $this->setNivel($result->nivel);
         $this->setPeso($result->peso);
         $this->setViscosidade($result->viscosidade);
+        $this->setTemperatura($result->temperatura);
         $this->setStatus($result->status); 
         $this->setDataAlterado($result->dataAlterado);
+
 
     }
     
     //delete virtual
-    public function deletarTanqueLiquidosClass() {
+    public function deletarTanqueClass() {
 
         $id = $this->getIdTanque();
         $alterado = date('Y-m-d H:i:s');
@@ -155,7 +192,7 @@ class TanquesLiquidos extends Tanques{
             'dataAlterado' => $alterado
         );
 
-        if ($this->model->editar('tanquesliquidos', $data, 'idTanqueliquido', $id)) {
+        if ($this->getModel()->editar('tanquesliquidos', $data, 'idTanque', $id)) {
 
             $result = TRUE;
             
@@ -167,5 +204,26 @@ class TanquesLiquidos extends Tanques{
         return $result;
     }
     
-    
+    public function restaurarTanqueClass() {
+
+        $id = $this->getIdTanque();
+        $alterado = $this->getDataAlterado();
+
+
+        $data = array(
+            'status' => 1,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->getModel()->editar('tanquesliquidos', $data, 'idTanque', $id)) {
+
+            $result = TRUE;
+            
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
 }

@@ -3,7 +3,7 @@
         <?php if(!$tanques){?>
         <div class="table-responsive">
             <table class="table table-condensed">
-                <caption><h2 class="text-center">Gerenciamento de Tanques</h2></caption>
+                <caption><h2 class="text-center">Gerenciamento de Tanques Sólidos</h2></caption>
                 <thead>
                     <tr>                        
                         <th class="col-md-3" style="text-align: center; vertical-align: middle;">Identificação</th>
@@ -24,7 +24,7 @@
         <?php }else{ ?>
         <div class="table-responsive">
             <table class="table table-condensed">
-                <caption><h2 class="text-center">Gerenciamento de Tanques</h2></caption>
+                <caption><h2 class="text-center">Gerenciamento de Tanques Sólidos</h2></caption>
                 <thead>
                     <tr>
                         <th class="col-md-3" style="text-align: center; vertical-align: middle;">Identificação</th>
@@ -43,7 +43,13 @@
                         echo '<td style="text-align: center; vertical-align: middle;">'.$t->capacidade.'</td>';                        
                         echo '<td style="text-align: center; vertical-align: middle;">';                   
                         echo '<a style="margin-right: 1%" href="#modalEdit" class="btn btn-info editar" role="button" data-toggle="modal" tanque="'.$t->idTanque.'" title="Editar Tanque"><i class="fa fa-fw fa-pencil"></i></a>';                                            
-                        echo '<a style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idTanque="'.$t->idTanque.'" title="Excluir Tanque"><i class="fa fa-fw fa-remove"></i></a>';
+                        if($this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores')){
+                            if($t->status == 1){
+                                echo '<a style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idTanque="'.$t->idTanque.'" title="Excluir Tanque"><i class="fa fa-fw fa-remove"></i></a>';
+                            }else{
+                                 echo '<a style="margin-right: 1%"href="#modalRestaurar" class="btn btn-success restaurar" role="button" data-toggle="modal" idTanque="'.$t->idTanque.'" title="Restaurar Tanque"><i class="fa fa-fw fa-repeat"></i></a>';
+                            } 
+                         }
                         echo '</td>';
                         echo '</tr>';
                     }?>
@@ -155,7 +161,7 @@
                                             <option value="">Selecione...</option>
                                             <?php
                                             foreach ($fornecedores as $f) {
-                                                echo '<option value=' . $f->idFornecedor . '>' . $f->fornecedor . '</option>';
+                                                echo '<option value=' . $f->idEmpresa . '>' . $f->nomeFantasia . '</option>';
                                             }
                                             ?>
                                         </select>                     
@@ -167,8 +173,8 @@
                                         <select id="clienteCad" class="form-control" name="clienteCad" title="Selecione um Cliente">
                                             <option value="">Selecione...</option>
                                             <?php
-                                            foreach ($cliente as $c) {
-                                                echo '<option value=' . $c->idCliente . '>' . $c->cliente . '</option>';
+                                            foreach ($clientes as $c) {
+                                                echo '<option value=' . $c->idEmpresa . '>' . $c->nomeFantasia . '</option>';
                                             }
                                             ?>
                                         </select>                     
@@ -182,8 +188,8 @@
                                         <select id="monitorCad" class="form-control" name="monitorCad" title="Selecione um Monitor">
                                             <option value="">Selecione...</option>
                                             <?php
-                                            foreach ($monitor as $m) {
-                                                echo '<option value=' . $m->id . '>' . $m->monitor . '</option>';
+                                            foreach ($monitores as $m) {
+                                                echo '<option value=' . $m->idMonitor . '>' . $m->nome . '</option>';
                                             }
                                             ?>
                                         </select>                     
@@ -195,8 +201,8 @@
                                             <select id="produtoCad" class="form-control" name="produtoCad" title="Selecione um usuario">
                                                 <option value="">Selecione...</option>
                                                 <?php
-                                                foreach ($produto as $p) {
-                                                    echo '<option value=' . $p->idProdutoo . '>' . $p->produto . '</option>';
+                                                foreach ($produtos as $p) {
+                                                    echo '<option value=' . $p->idProduto . '>' . $p->nome . '</option>';
                                                 }
                                                 ?>
                                             </select>                     
@@ -251,105 +257,128 @@
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-group">
-                                        <label for="nomeEdit">Nome<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="nomeEdit" name="nomeEdit" maxlength="100"/>                       
+                                        <label for="identificacaoEdit">Identificação<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="identificacaoEdit" name="identificacaoEdit" maxlength="100"/>                       
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
                                     <div class="form-group">
-                                        <label for="nomeFantasiaEdit">Nome Fantasia<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="nomeFantasiaEdit" name="nomeFantasiaEdit" maxlength="100"/>                       
+                                        <label for="dataFabricacaoEdit">Data de Fabricação<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="date" class="form-control" id="dataFabricacaoEdit" name="dataFabricacaoEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="dataInspecaoEdit">Data de Inspeção<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="date" class="form-control" id="dataInspecaoEdit" name="dataInspecaoEdit" maxlength="100"/>                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="dataManutencaoEdit">Data de Manutenção<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="date" class="form-control" id="dataManutencaoEdit" name="dataManutencaoEdit" maxlength="100"/>                       
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
                                     <div class="form-group">
-                                        <label for="cnpjEdit">cnpj<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="cnpjEdit" name="cnpjEdit" maxlength="100"/>                       
+                                        <label for="capacidadeEdit">Capacidade em Kg<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="capacidadeEdit" name="capacidadeEdit" maxlength="100"/>                       
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
                                     <div class="form-group">
-                                        <label for="emailEdit">Email<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="email" class="form-control" id="emailEdit" name="emailEdit" maxlength="100"/>                       
+                                        <label for="comprimentoEdit">Comprimento em M<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="comprimentoEdit" name="comprimentoEdit" maxlength="100"/>                       
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
                                     <div class="form-group">
-                                        <label for="telefoneEdit">Telefone<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="telefone" class="form-control" id="telefoneEdit" name="telefoneEdit" maxlength="100"/>                       
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-6 col-lg-6">
-                                    <div class="form-group">
-                                        <label for="inscEstadualEdit">Inscrição Estadual<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="inscEstadualEdit" name="inscEstadualEdit" maxlength="100"/>                       
+                                        <label for="alturaEdit">Altura em mm<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="alturaEdit" name="alturaEdit" maxlength="100"/>                       
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
                                     <div class="form-group">
-                                        <label for="areaUtilm2Edit">Area Util M2<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="areaUtilm2Edit" name="areaUtilm2Edit" maxlength="100"/>                       
+                                        <label for="larguraEdit">Largura<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="larguraEdit" name="larguraEdit" maxlength="100"/>                       
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
                                     <div class="form-group">
-                                        <label for="cepEdit">CEP<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="cepEdit" name="cepEdit" maxlength="100"/>                       
+                                        <label for="nivelEdit">Nivel<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="nivelEdit" name="nivelEdit" maxlength="100"/>                       
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
                                     <div class="form-group">
-                                        <label for="logradouroEdit">Logradouro<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="logradouroEdit" name="logradouroEdit" maxlength="100"/>                       
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-group">
-                                        <label for="complementoEdit">Complemento<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="complementoEdit" name="complementoEdit" maxlength="100"/>                       
+                                        <label for="pesoEdit">Peso em Kg<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="pesoEdit" name="pesoEdit" maxlength="100"/>                       
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <label for="numeroEdit">Numero<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="numeroEdit" name="numeroEdit" maxlength="100"/>                       
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-6 col-lg-6">
-                                    <div class="form-group">
-                                        <label for="ufEdit">UF<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <input type="text" class="form-control" id="ufEdit" name="ufEdit" maxlength="100"/>                       
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-6 col-lg-6">
-                                    <div class="form-group">
-                                        <label for="usuarioEdit">Usuario<span class="required" style="color: #EE0000">*</span>: </label>
-                                        <select id="usuarioEdit" class="form-control" name="usuarioEdit" title="Selecione o Usuario">
+                                        <label for="fornecedorEdit">Fornecedor<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="fornecedorEdit" class="form-control" name="fornecedorEdit" title="Selecione um Fornecedor">
                                             <option value="">Selecione...</option>
                                             <?php
-                                            foreach ($usuarios as $u) {
-                                                echo '<option value=' . $u->idUsuario . '>' . $u->usuario . '</option>';
+                                            foreach ($fornecedores as $f) {
+                                                echo '<option value=' . $f->idEmpresa . '>' . $f->nomeFantasia . '</option>';
                                             }
                                             ?>
                                         </select>                     
                                     </div>
                                 </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="clienteEdit">Cliente<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="clienteEdit" class="form-control" name="clienteEdit" title="Selecione um Cliente">
+                                            <option value="">Selecione...</option>
+                                            <?php
+                                            foreach ($clientes as $c) {
+                                                echo '<option value=' . $c->idEmpresa . '>' . $c->nomeFantasia . '</option>';
+                                            }
+                                            ?>
+                                        </select>                     
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="monitorEdit">Monitor<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="monitorEdit" class="form-control" name="monitorEdit" title="Selecione um Monitor">
+                                            <option value="">Selecione...</option>
+                                            <?php
+                                            foreach ($monitores as $m) {
+                                                echo '<option value=' . $m->idMonitor . '>' . $m->nome . '</option>';
+                                            }
+                                            ?>
+                                        </select>                     
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                            <label for="produtoEdit">Produto<span class="required" style="color: #EE0000">*</span>: </label>
+                                            <select id="produtoEdit" class="form-control" name="produtoEdit" title="Selecione um usuario">
+                                                <option value="">Selecione...</option>
+                                                <?php
+                                                foreach ($produtos as $p) {
+                                                    echo '<option value=' . $p->idProduto . '>' . $p->nome . '</option>';
+                                                }
+                                                ?>
+                                            </select>                     
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="statusEdit">Situação<span class="required" style="color: #EE0000">*</span>: </label>
@@ -360,10 +389,11 @@
                                         </select>                    
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-               </div> <div class="modal-footer">
+                </div> 
+                <div class="modal-footer">
                     <div class="form-group">                       
                         <button type="button" id="cancelarEdit" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                         <button class="btn btn-success">Editar</button>                        
@@ -399,6 +429,32 @@
     </div>
 </div>
 
+
+<!-- Restaurar Virtualmente -->
+
+<div id="modalRestaurar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ModalLabelRestaurar">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="ModalLabelRest">Mon.I - Restaurar Tanque</h4>
+            </div>
+            <form id="formRest" action="<?php echo base_url('TanqueSolido_ctrl/restaurar'); ?>" method="post">
+                <div class="modal-body">
+                    <h5 style="text-align: center">Deseja realmente restaurar esse tanque?</h5>
+                    <input name="id" id="idRestaurar" type="hidden" value=""/>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">                       
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-success">Restaurar</button>                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script src="<?php echo base_url('assets/js/jquery.validate.min.js');?>"></script>
 
 <script type="text/javascript">
@@ -409,6 +465,12 @@ $(document).ready(function () {
     $(document).on('click', '.excluir', function () {
         var tanque = $(this).attr('idTanque');        
         $("#idExcluir").val(tanque);        
+    });
+    
+    //pega o id do funcionario que deseja restaurar e envia para o modal restaurar
+    $(document).on('click', '.restaurar', function () {
+        var tanque = $(this).attr('idTanque');        
+        $("#idRestaurar").val(tanque);                       
     });
     
     //pega o id do funcionario que deseja editar e envia para o modal editar
@@ -428,22 +490,23 @@ $(document).ready(function () {
            
             success: function (data)
             {
-
+                
                 if (data.result === true)
-                {
-                    $("#usuarioEdit").val(data.usuario);
-                    $("#nomeEdit").val(data.nome);
-                    $("#nomeFantasiaEdit").val(data.nomeFantasia);
-                    $("#cnpjEdit").val(data.cnpj);
-                    $("#emailEdit").val(data.email);
-                    $("#telefoneEdit").val(data.telefone);
-                    $("#inscEstadualEdit").val(data.inscEstadual);
-                    $("#areaUtilm2Edit").val(data.areaUtilm2);
-                    $("#cepEdit").val(data.cep);
-                    $("#numeroEdit").val(data.numero);
-                    $("#logradouroEdit").val(data.logradouro);
-                    $("#complementoEdit").val(data.complemento);
-                    $("#ufEdit").val(data.uf);
+                {                    
+                    $("#identificacaoEdit").val(data.identificacao);
+                    $("#dataFabricacaoEdit").val(data.dataFabricacao);
+                    $("#dataInspecaoEdit").val(data.dataInspecao);
+                    $("#dataManutencaoEdit").val(data.dataManutencao);
+                    $("#capacidadeEdit").val(data.capacidade);
+                    $("#comprimentoEdit").val(data.comprimento);
+                    $("#alturaEdit").val(data.altura);
+                    $("#larguraEdit").val(data.largura);
+                    $("#nivelEdit").val(data.nivel);
+                    $("#pesoEdit").val(data.peso);
+                    $("#fornecedorEdit").val(data.idFornecedor);
+                    $("#clienteEdit").val(data.idCliente);
+                    $("#monitorEdit").val(data.idMonitor);
+                    $("#produtoEdit").val(data.idProduto);                    
                     $("#statusEdit").val(data.status);
                 }
             }
@@ -454,34 +517,40 @@ $(document).ready(function () {
         
         rules:
                 {
-                    nomeEdit: {required: true},
-                    nomeFantasiaEdit: {required: true},
-                    cnpjEdit: {required: true},
-                    emailEdit: {required: true},
-                    telefoneEdit: {required: true},
-                    inscEstadualEdit: {required: true},
-                    areaUtilm2Edit: {equalTo: true},
-                    cepEdit: {equalTo: true},
-                    numeroEdit: {equalTo: true},
-                    complementoEdit: {equalTo: true},
-                    ufEdit: {equalTo: true},
-                    statusEdit: {equalTo: true}
+                    identificacaoEdit: {required: true},
+                    dataFabricacaoEdit: {required: true},
+                    dataInspecaoEdit: {required: true},
+                    dataManutencaoEdit: {required: true},
+                    capacidadeEdit: {required: true},
+                    comprimentoEdit: {required: true},
+                    alturaEdit: {required: true},
+                    larguraEdit: {required: true},
+                    nivelEdit: {required: true},
+                    pesoEdit: {required: true},
+                    fornecedorEdit: {required: true},
+                    clienteEdit: {required: true},
+                    monitorEdit: {required: true},
+                    produtoEdit: {required: true},
+                    statusEdit: {required: true}                    
                     
                 },
         messages: 
                 {
-                    nomeEdit: {required: 'Campo Requerido'},
-                    nomeFantasiaEdit: {required: 'Campo Requerido'},
-                    cnpjEdit: {required: 'Campo Requerido'},
-                    emailEdit: {required: 'Campo Requerido'},
-                    telefoneEdit: {required: 'Campo Requerido'},
-                    inscEstadualEdit: {required: 'Campo Requerido'},
-                    areaUtilm2Edit: {equalTo: 'Campo Requerido'},
-                    cepEdit: {equalTo: 'Campo Requerido'},
-                    numeroEdit: {equalTo: 'Campo Requerido'},
-                    complementoEdit: {equalTo: 'Campo Requerido'},
-                    ufEdit: {equalTo: 'Campo Requerido'},
-                    statusEdit: {equalTo: 'Campo Requerido'}
+                    identificacaoEdit: {required: 'Campo Requerido'},
+                    dataFabricacaoEdit: {required: 'Campo Requerido'},
+                    dataInspecaoEdit: {required: 'Campo Requerido'},
+                    dataManutencaoEdit: {required: 'Campo Requerido'},
+                    capacidadeEdit: {required: 'Campo Requerido'},
+                    comprimentoEdit: {required: 'Campo Requerido'},
+                    alturaEdit: {required: 'Campo Requerido'},
+                    larguraEdit: {required: 'Campo Requerido'},
+                    nivelEdit: {required: 'Campo Requerido'},
+                    pesoEdit: {required: 'Campo Requerido'},
+                    fornecedorEdit: {required: 'Campo Requerido'},
+                    clienteEdit: {required: 'Campo Requerido'},
+                    monitorEdit: {required: 'Campo Requerido'},
+                    produtoEdit: {required: 'Campo Requerido'},
+                    statusEdit: {required: 'Campo Requerido'}
                 },
 
         highlight: function(element) {
@@ -503,39 +572,42 @@ $(document).ready(function () {
     
     $('#formCad').validate({
         
-       rules:
+        rules:
                 {
-                    nomeCad: {required: true},
-                    nomeFantasiaCad: {required: true},
-                    cnpjCad: {required: true},
-                    emailCad: {required: true},
-                    telefoneCad: {required: true},
-                    inscEstadualCad: {required: true},
-                    areaUtilm2Cad: {equalTo: true},
-                    cepCad: {equalTo: true},
-                    numeroCad: {equalTo: true},
-                    logradouroCad: {equalTo: true},
-                    complementoCad: {equalTo: true},
-                    ufCad: {equalTo: true},
-                    statusCad: {equalTo: true}
+                    identificacaoCad: {required: true},
+                    dataFabricacaoCad: {required: true},
+                    dataInspecaoCad: {required: true},
+                    dataManutencaoCad: {required: true},
+                    capacidadeCad: {required: true},
+                    comprimentoCad: {required: true},
+                    alturaCad: {required: true},
+                    larguraCad: {required: true},
+                    nivelCad: {required: true},
+                    pesoCad: {required: true},
+                    fornecedorCad: {required: true},
+                    clienteCad: {required: true},
+                    monitorCad: {required: true},
+                    produtoCad: {required: true},
+                    statusCad: {required: true}                    
                     
                 },
         messages: 
                 {
-                    nomeCad: {required: 'Campo Requerido'},
-                    nomeFantasiaCad: {required: 'Campo Requerido'},
-                    cnpjCad: {required: 'Campo Requerido'},
-                    emailCad: {required: 'Campo Requerido'},
-                    telefoneCad: {required: 'Campo Requerido'},
-                    inscEstadualCad: {required: 'Campo Requerido'},
-                    areaUtilm2Cad: {equalTo: 'Campo Requerido'},
-                    cepCad: {equalTo: 'Campo Requerido'},
-                    numeroCad: {equalTo: 'Campo Requerido'},
-                    logradouroCad: {equalTo: 'Campo Requerido'},
-                    complementoCad: {equalTo: 'Campo Requerido'},
-                    ufCad: {equalTo: 'Campo Requerido'},
-                    statusCad: {equalTo: 'Campo Requerido'}
- 
+                    identificacaoCad: {required: 'Campo Requerido'},
+                    dataFabricacaoCad: {required: 'Campo Requerido'},
+                    dataInspecaoCad: {required: 'Campo Requerido'},
+                    dataManutencaoCad: {required: 'Campo Requerido'},
+                    capacidadeCad: {required: 'Campo Requerido'},
+                    comprimentoCad: {required: 'Campo Requerido'},
+                    alturaCad: {required: 'Campo Requerido'},
+                    larguraCad: {required: 'Campo Requerido'},
+                    nivelCad: {required: 'Campo Requerido'},
+                    pesoCad: {required: 'Campo Requerido'},
+                    fornecedorCad: {required: 'Campo Requerido'},
+                    clienteCad: {required: 'Campo Requerido'},
+                    monitorCad: {required: 'Campo Requerido'},
+                    produtoCad: {required: 'Campo Requerido'},
+                    statusCad: {required: 'Campo Requerido'}
                 },
 
 

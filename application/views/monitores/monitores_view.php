@@ -52,7 +52,13 @@
                         echo '<td style="text-align: center; vertical-align: middle;">'.date("d/m/Y", strtotime($m->dataCalibracao)).'</td>';                                                
                         echo '<td style="text-align: center; vertical-align: middle;">';                   
                         echo '<a style="margin-right: 1%" href="#modalEdit" class="btn btn-info editar" role="button" data-toggle="modal" monitor="'.$m->idMonitor.'" title="Editar Monitor"><i class="fa fa-fw fa-pencil"></i></a>';                                            
-                        echo '<a style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idMonitor="'.$m->idMonitor.'" title="Excluir Monitor"><i class="fa fa-fw fa-remove"></i></a>';
+                        if($this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores')){
+                            if($m->status == 1){
+                                echo '<a style="margin-right: 1%"href="#modalExcluir" class="btn btn-danger excluir" role="button" data-toggle="modal" idMonitor="'.$m->idMonitor.'" title="Excluir Monitor"><i class="fa fa-fw fa-remove"></i></a>';
+                            }else{
+                                 echo '<a style="margin-right: 1%"href="#modalRestaurar" class="btn btn-success restaurar" role="button" data-toggle="modal" idMonitor="'.$m->idMonitor.'" title="Restaurar Monitor"><i class="fa fa-fw fa-repeat"></i></a>';
+                            }
+                        }
                         echo '</td>';
                         echo '</tr>';
                     }?>
@@ -88,13 +94,97 @@
                                     <div class="col-lg-12 alert alert-info">Obrigatorio o preenchimento dos campos com asterisco (<span style="color: #EE0000">*</span>).</div>
                                 </div>
                             </div>
-                            
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="nomeCad">Nome<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="nomeCad" name="nomeCad" />                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="macCad">MAC<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="macCad" name="macCad" />                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-5 col-lg-5">
+                                    <div class="form-group">
+                                        <label for="capacidadeCad">Capacidade<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="number" class="form-control" id="capacidadeCad" name="capacidadeCad" />                       
+                                    </div>
+                                </div>                                
+                                <div class="col-sm-12 col-md-5 col-lg-5">
+                                    <div class="form-group">
+                                        <label for="tipoCad">Tipo<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="tipoCad" name="tipoCad" class="form-control" title="Selecione o tipo">
+                                            <option value="">Selecione...</option>
+                                            <option value="0">Gasoso</option>
+                                            <option value="1">Líquido</option>
+                                            <option value="2">Sólido</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="unidadeCad">Unidade<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="unidadeCad" name="unidadeCad" />                       
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="nivelAlarmeCad">Nível de Alarme<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="number" class="form-control" id="nivelAlarmeCad" name="nivelAlarmeCad" />                       
+                                    </div>
+                                </div>  
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="nivelCheioCad">Nível Cheio<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="number" class="form-control" id="nivelCheioCad" name="nivelCheioCad" />                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="tempoColetaCad">Tempo Coleta<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="number" class="form-control" id="tempoColetaCad" name="tempoColetaCad" />                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="sensorCalibracaoCad">Sensor Calibração<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="number" class="form-control" id="sensorCalibracaoCad" name="sensorCalibracaoCad" />                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="tipoSensorCad">Tipo<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="tipoSensorCad" name="tipoSensorCad" class="form-control" title="Selecione o tipo">
+                                            <option value="">Selecione...</option>
+                                            <option value="0">Pressão</option>
+                                            <option value="1">Gravimetrico</option>
+                                            <option value="2">Volumetrico</option>
+                                            <option value="3">Barometrico</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="dataCalibracaoCad">Data Calibração<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="date" class="form-control" id="dataCalibracaoCad" name="dataCalibracaoCad" />                       
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="form-group">                       
-                        <button type="button" id="cancelar" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                         <button class="btn btn-success">Adicionar</button>                        
                     </div>
                 </div>
@@ -122,13 +212,97 @@
                                     <div class="col-lg-12 alert alert-info">Obrigatorio o preenchimento dos campos com asterisco (<span style="color: #EE0000">*</span>).</div>
                                 </div>
                             </div>
-                           
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="nomeEdit">Nome<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="nomeEdit" name="nomeEdit" />                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="macEdit">MAC<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="macEdit" name="macEdit" />                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-5 col-lg-5">
+                                    <div class="form-group">
+                                        <label for="capacidadeEdit">Capacidade<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="number" class="form-control" id="capacidadeEdit" name="capacidadeEdit" />                       
+                                    </div>
+                                </div>                                
+                                <div class="col-sm-12 col-md-5 col-lg-5">
+                                    <div class="form-group">
+                                        <label for="tipoEdit">Tipo<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="tipoEdit" name="tipoEdit" class="form-control" title="Selecione o tipo">
+                                            <option value="">Selecione...</option>
+                                            <option value="0">Gasoso</option>
+                                            <option value="1">Líquido</option>
+                                            <option value="2">Sólido</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        <label for="unidadeEdit">Unidade<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="text" class="form-control" id="unidadeEdit" name="unidadeEdit" />                       
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="nivelAlarmeEdit">Nível de Alarme<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="number" class="form-control" id="nivelAlarmeEdit" name="nivelAlarmeEdit" />                       
+                                    </div>
+                                </div>  
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="nivelCheioEdit">Nível Cheio<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="number" class="form-control" id="nivelCheioEdit" name="nivelCheioEdit" />                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="tempoColetaEdit">Tempo Coleta<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="number" class="form-control" id="tempoColetaEdit" name="tempoColetaEdit" />                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="sensorCalibracaoEdit">Sensor Calibração<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="number" class="form-control" id="sensorCalibracaoEdit" name="sensorCalibracaoEdit" />                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="tipoSensorEdit">Tipo Sensor<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <select id="tipoSensorEdit" name="tipoSensorEdit" class="form-control" title="Selecione o tipo">
+                                            <option value="">Selecione...</option>
+                                            <option value="0">Pressão</option>
+                                            <option value="1">Gravimetrico</option>
+                                            <option value="2">Volumetrico</option>
+                                            <option value="3">Barometrico</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="dataCalibracaoEdit">Data Calibração<span class="required" style="color: #EE0000">*</span>: </label>
+                                        <input type="date" class="form-control" id="dataCalibracaoEdit" name="dataCalibracaoEdit" />                       
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="form-group">                       
-                        <button type="button" id="cancelar" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                         <button class="btn btn-success">Editar</button>                        
                     </div>
                 </div>
@@ -162,6 +336,34 @@
     </div>
 </div>
 
+
+
+<!-- Restaurar Virtualmente -->
+
+<div id="modalRestaurar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ModalLabelRestaurar">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="ModalLabelRest">Mon.I - Restaurar Transporte</h4>
+            </div>
+            <form id="formRest" action="<?php echo base_url('Monitor_ctrl/restaurar'); ?>" method="post">
+                <div class="modal-body">
+                    <h5 style="text-align: center">Deseja realmente restaurar esse monitor ?</h5>
+                    <input name="id" id="idRestaurar" type="hidden" value=""/>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">                       
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-success">Restaurar</button>                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <script src="<?php echo base_url('assets/js/jquery.validate.min.js');?>"></script>
 
 <script type="text/javascript">
@@ -172,6 +374,13 @@ $(document).ready(function () {
     $(document).on('click', '.excluir', function () {
         var monitor = $(this).attr('idMonitor');        
         $("#idExcluir").val(monitor);        
+    });
+    
+    //pega o id do funcionario que deseja restaurar e envia para o modal restaurar
+    $(document).on('click', '.restaurar', function () {
+        var monitor = $(this).attr('idMonitor');        
+        $("#idRestaurar").val(monitor);            
+        
     });
     
     //pega o id do funcionario que deseja editar e envia para o modal editar
@@ -195,13 +404,17 @@ $(document).ready(function () {
                 if (data.result === true)
                 {
   
-                    $("#nomeCompletoEdit").val(data.nomeCompleto);
-                    $("#usuarioEdit").val(data.usuario);
-                    $("#telefoneEdit").val(data.telefone);
-                    $("#emailEdit").val(data.email);
-                    $("#situacaoEdit").val(data.situacao);
-                    $("#permissaoEdit").val(data.permissao);
-
+                    $("#nomeEdit").val(data.nome);
+                    $("#macEdit").val(data.mac);
+                    $("#capacidadeEdit").val(data.capacidade);
+                    $("#tipoEdit").val(data.tipo);
+                    $("#unidadeEdit").val(data.unidade);
+                    $("#nivelAlarmeEdit").val(data.nivelAlarme);
+                    $("#nivelCheioEdit").val(data.nivelCheio);
+                    $("#tempoColetaEdit").val(data.tempoColeta);
+                    $("#sensorCalibracaoEdit").val(data.sensorCalibracao);
+                    $("#tipoSensorEdit").val(data.sensorTipo);
+                    $("#dataCalibracaoEdit").val(data.dataCalibracao);
                 }
             }
         });
@@ -211,23 +424,31 @@ $(document).ready(function () {
         
         rules:
                 {
-                    nomeCompletoEdit: {required: true},
-                    usuarioEdit: {required: true},
-                    telefoneEdit: {required: true},
-                    emailEdit: {required: true},
-                    situacaoEdit: {required: true},
-                    permissaoEdit: {required: true},
-                    confirmaEdit: {equalTo: '#senhaEdit'}
+                    nomeEdit: {required: true},
+                    macEdit: {required: true},
+                    capacidadeEdit: {required: true},
+                    tipoEdit: {required: true},
+                    unidadeEdit: {required: true},
+                    nivelAlarmeEdit: {required: true},
+                    nivelCheioEdit: {required: true},
+                    tempoColetaEdit: {required: true},
+                    sensorCalibracaoEdit: {required: true},
+                    tipoSensorEdit: {required: true},
+                    dataCalibracaoEdit: {required: true}
                 },
         messages: 
                 {
-                    nomeCompletoEdit: {required: 'Campo Requerido'},
-                    usuarioEdit: {required: 'Campo Requerido'},
-                    telefoneEdit: {required: 'Campo Requerido'},
-                    emailEdit: {required: 'Campo Requerido'},
-                    situacaoEdit: {required: 'Campo Requerido.'},
-                    permissaoEdit: {required: 'Campo Requerido.'},
-                    confirmaEdit: {equalTo: 'Senhas diferentes'}
+                    nomeEdit: {required: 'Campo Requerido'},
+                    macEdit: {required: 'Campo Requerido'},
+                    capacidadeEdit: {required: 'Campo Requerido'},
+                    tipoEdit: {required: 'Campo Requerido'},
+                    unidadeEdit: {required: 'Campo Requerido'},
+                    nivelAlarmeEdit: {required: 'Campo Requerido'},
+                    nivelCheioEdit: {required: 'Campo Requerido'},
+                    tempoColetaEdit: {required: 'Campo Requerido'},
+                    sensorCalibracaoEdit: {required: 'Campo Requerido'},
+                    tipoSensorEdit: {required: 'Campo Requerido'},
+                    dataCalibracaoEdit: {required: 'Campo Requerido'}
                 },
 
         highlight: function(element) {
@@ -251,27 +472,31 @@ $(document).ready(function () {
         
         rules:
                 {
-                    nomeCompletoCad: {required: true},
-                    usuarioCad: {required: true},
-                    telefoneCad: {required: true},
-                    emailCad: {required: true},
-                    situacaoCad: {required: true},
-                    permissaoCad: {required: true},
-                    senhaCad: {required: true},
-                    confirmaCad: {required: true,
-                               equalTo: '#senhaCad'}
-                },                        
+                    nomeCad: {required: true},
+                    macCad: {required: true},
+                    capacidadeCad: {required: true},
+                    tipoCad: {required: true},
+                    unidadeCad: {required: true},
+                    nivelAlarmeCad: {required: true},
+                    nivelCheioCad: {required: true},
+                    tempoColetaCad: {required: true},
+                    sensorCalibracaoCad: {required: true},
+                    tipoSensorCad: {required: true},
+                    dataCalibracaoCad: {required: true}
+                },
         messages: 
                 {
-                    nomeCompletoCad: {required: 'Campo Requerido.'},
-                    usuarioCad: {required: 'Campo Requerido'},
-                    telefoneCad: {required: 'Campo Requerido'},
-                    emailCad: {required: 'Campo Requerido'},
-                    situacaoCad: {required: 'Campo Requerido.'},
-                    permissaoCad: {required: 'Campo Requerido.'},
-                    senhaCad: {required: 'Campo Requerido.'},
-                    confirmaCad: {required: 'Campo Requerido.',
-                        equalTo: 'Senhas diferentes'}
+                    nomeCad: {required: 'Campo Requerido'},
+                    macCad: {required: 'Campo Requerido'},
+                    capacidadeCad: {required: 'Campo Requerido'},
+                    tipoCad: {required: 'Campo Requerido'},
+                    unidadeCad: {required: 'Campo Requerido'},
+                    nivelAlarmeCad: {required: 'Campo Requerido'},
+                    nivelCheioCad: {required: 'Campo Requerido'},
+                    tempoColetaCad: {required: 'Campo Requerido'},
+                    sensorCalibracaoCad: {required: 'Campo Requerido'},
+                    tipoSensorCad: {required: 'Campo Requerido'},
+                    dataCalibracaoCad: {required: 'Campo Requerido'}
                 },
 
         highlight: function(element) {

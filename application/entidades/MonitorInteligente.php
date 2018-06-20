@@ -30,6 +30,7 @@ class MonitorInteligente{
     private $sensorTipo;
     private $sensorCalibracao;
     private $sensorDataCalibracao;
+    private $status;
     private $dataCadastro;
     private $dataAlterado;
 
@@ -107,8 +108,16 @@ class MonitorInteligente{
     public function getSensorDataCalibracao() {
         return $this->sensorDataCalibracao;
     }
+    
+    public function getStatus() {
+        return $this->status;
+    }
 
-            
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
+        
     public function setId($id) {
         $this->id = $id;
     }
@@ -318,6 +327,132 @@ class MonitorInteligente{
         if($i == count($listaTransporte)){
             $result = TRUE;
         }
+        return $result;
+    }
+    
+    public function buscaMonitorClass() {
+        
+        $result = $this->model->buscaMonitorPorId($this->getId());
+        
+        $this->setNome($result->nome);
+        $this->setMac($result->mac);
+        $this->setCapacidade($result->capacidade);
+        $this->setTipo($result->tipo);
+        $this->setDataCalibracao($result->dataCalibracao);
+        $this->setNivelAlarme($result->nivelAlarme);
+        $this->setUnidade($result->unidade);
+        $this->setNivelCheio($result->nivelCheio);
+        $this->setTempoColeta($result->tempoColeta);
+        $this->setSensorCalibracao($result->sensorCalibracao);
+        $this->setSensorTipo($result->sensorTipo);
+        $this->setDataCalibracao($result->dataCalibracao);
+        
+    }
+    
+    public function cadastrarClass(){
+        
+        $data = array(
+                        'nome'              => $this->getNome(),
+                        'tipo'              => $this->getTipo(),
+                        'unidade'           => $this->getUnidade(),
+                        'dataCalibracao'    => $this->getDataCalibracao(),
+                        'capacidade'        => $this->getCapacidade(),
+                        'nivelAlarme'       => $this->getNivelAlarme(),
+                        'nivelCheio'        => $this->getNivelCheio(),
+                        'tempoColeta'       => $this->getTempoColeta(),
+                        'mac'               => $this->getMac(),
+                        'sensorTipo'        => $this->getSensorTipo(),
+                        'sensorCalibracao'  => $this->getSensorCalibracao(),
+                        'status'            => $this->getStatus(),
+                        'dataCadastro'      => $this->getDataCadastro(),
+                        'dataAlterado'      => $this->getDataAlterado()
+        );
+        
+        if($this->model->adicionar('monitorinteligente',$data)==TRUE){
+            $result = TRUE;
+        } else {
+            $result = FALSE;
+        }
+        
+        return $result;
+    }
+    
+    public function editarClass() {
+        
+         $data = array(
+                        'nome'              => $this->getNome(),
+                        'tipo'              => $this->getTipo(),
+                        'unidade'           => $this->getUnidade(),
+                        'dataCalibracao'    => $this->getDataCalibracao(),
+                        'capacidade'        => $this->getCapacidade(),
+                        'nivelAlarme'       => $this->getNivelAlarme(),
+                        'nivelCheio'        => $this->getNivelCheio(),
+                        'tempoColeta'       => $this->getTempoColeta(),
+                        'mac'               => $this->getMac(),
+                        'sensorTipo'        => $this->getSensorTipo(),
+                        'sensorCalibracao'  => $this->getSensorCalibracao(),
+                        'status'            => $this->getStatus(),                        
+                        'dataAlterado'      => $this->getDataAlterado()
+        );
+         
+         
+        if ($this->model->editar('monitorinteligente', $data, 'idMonitor', $this->getId())) {
+
+            $result = TRUE;
+            
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+    
+    //delete virtual
+    public function deletarClass() {
+
+        $id = $this->getId();
+        $alterado = date('Y-m-d H:i:s');
+
+
+        $data = array(
+            'status' => FALSE,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->model->editar('monitorinteligente', $data, 'idMonitor', $id)) {
+
+            $result = TRUE;
+            
+        } else {
+
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+    
+    //restaurar virtual
+    public function restaurarClass() {
+
+        $id = $this->getId();
+        $alterado = date('Y-m-d H:i:s');
+
+
+        $data = array(
+            'status' => 1,
+            'dataAlterado' => $alterado
+        );
+
+        if ($this->model->editar('monitorinteligente', $data, 'idMonitor', $id)) {
+
+            $result = TRUE;
+            
+        } else {
+
+            $result = FALSE;
+        }
+
         return $result;
     }
 }

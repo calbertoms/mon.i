@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require_once(APPPATH . 'entidades/Tanques.php');
+require_once(APPPATH . 'entidades/TanquesSolidos.php');
 
 class TanqueSolido_ctrl extends CI_Controller {
     //atributo
@@ -65,6 +65,12 @@ class TanqueSolido_ctrl extends CI_Controller {
         $this->pagination->initialize($config);
                         
         
+        $this->data['fornecedores'] = $this->model->listaFornecedores();
+        $this->data['clientes'] = $this->model->listaClientes();
+        $this->data['monitores'] = $this->model->listaMonitores();
+        $this->data['produtos'] = $this->model->listaProdutos();
+        
+        
         if((!$this->permission->checkPermission($this->session->userdata('permissao'),'gAdministradores'))){
             
              $this->data['tanques'] = $this->Tanque_model->buscaTanquesSolidos($limit,$start);
@@ -87,23 +93,23 @@ class TanqueSolido_ctrl extends CI_Controller {
 
             $tanque->setIdTanque($this->input->post('idTanque'));
 
-            $tanque->buscaTanqueClass('tanquessolidos', 'idtanque');
+            $tanque->buscaTanqueClass();
 
             $dados = array('result' => TRUE,
                 'idFornecedor' => $tanque->getidFornecedor(),
-                'idClientes' => $tanque->getidClientes(),
+                'idCliente' => $tanque->getidClientes(),
                 'idMonitor' => $tanque->getidMonitor(),
                 'idProduto' => $tanque->getidProduto(),
-                'identificacao' => $tanque->getidentificacao(),
+                'identificacao' => $tanque->getIdentificacao(),
                 'dataFabricacao' => $tanque->getdataFabricacao(),
                 'dataInspecao' => $tanque->getdataInspecao(),
                 'dataManutencao' => $tanque->getdataManutencao(),
-                'capacidade' => $tanque->getcapacidade(),
-                'comprimento' => $tanque->getcomprimento(),
-                'altura' => $tanque->getaltura(),
-                'largura' => $tanque->getlargura(),
-                'nivel' => $tanque->getnivel(),
-                'peso' => $tanque->getpeso(),
+                'capacidade' => $tanque->getCapacidade(),
+                'comprimento' => $tanque->getComprimento(),
+                'altura' => $tanque->getAltura(),
+                'largura' => $tanque->getLargura(),
+                'nivel' => $tanque->getNivel(),
+                'peso' => $tanque->getPeso(),
                 'status' => $tanque->getStatus()
             );
 
@@ -116,6 +122,7 @@ class TanqueSolido_ctrl extends CI_Controller {
         }
 
         echo $result;
+        
     }
 
     public function adicionar() {
@@ -128,7 +135,7 @@ class TanqueSolido_ctrl extends CI_Controller {
         $monitor = new MonitorInteligente($this->model);
         
         $cliente->setIdEmpresa($this->input->post('clienteCad'));
-        $fornecedor->setIdEmpresa($this->input->post('empresaCad'));
+        $fornecedor->setIdEmpresa($this->input->post('fornecedorCad'));
         $produto->setIdProduto($this->input->post('produtoCad'));
         $monitor->setId($this->input->post('monitorCad'));
 
@@ -140,7 +147,7 @@ class TanqueSolido_ctrl extends CI_Controller {
         $tanque->setIdentificacao($this->input->post('identificacaoCad'));
         $tanque->setDataFabricacao($this->input->post('dataFabricacaoCad'));
         $tanque->setDataInspecao($this->input->post('dataInspecaoCad'));
-        $tanque->setDataManutencaol($this->input->post('dataManutencaoCad'));
+        $tanque->setDataManutencao($this->input->post('dataManutencaoCad'));
         $tanque->setCapacidade($this->input->post('capacidadeCad'));
         $tanque->setComprimento($this->input->post('comprimentoCad'));
         $tanque->setAltura($this->input->post('alturaCad'));
@@ -152,7 +159,7 @@ class TanqueSolido_ctrl extends CI_Controller {
         $tanque->setDataAlterado(date("Y-m-d H:i:s"));
 
 
-        if ($tanque->cadastrarClass('tanquessolidos') == TRUE) {
+        if ($tanque->cadastrarClass() == TRUE) {
 
             $this->session->set_flashdata('success', 'Tanque adicionada com sucesso!');
         } else {
@@ -172,31 +179,32 @@ class TanqueSolido_ctrl extends CI_Controller {
         $produto = new Produtos($this->model);
         $monitor = new MonitorInteligente($this->model);
         
-        $cliente->getIdEmpresa($this->input->post('clienteCad'));
-        $fornecedor->getIdEmpresa($this->input->post('empresaCad'));
-        $produto->getIdProduto($this->input->post('produtoCad'));
-        $monitor->getId($this->input->post('monitorCad'));
+        $cliente->setIdEmpresa($this->input->post('clienteEdit'));
+        $fornecedor->setIdEmpresa($this->input->post('fornecedorEdit'));
+        $produto->setIdProduto($this->input->post('produtoEdit'));
+        $monitor->setId($this->input->post('monitorEdit'));
 
         $tanque->setIdClientes($cliente->getIdEmpresa());
         $tanque->setIdFornecedor($fornecedor->getIdEmpresa());
         $tanque->setIdProduto($produto->getIdProduto());
         $tanque->setIdMonitor($monitor->getId());
-  
-        $tanque->setIdentificacao($this->input->post('identificacaoCad'));
-        $tanque->setDataFabricacao($this->input->post('dataFabricacaoCad'));
-        $tanque->setDataInspecao($this->input->post('dataInspecaoCad'));
-        $tanque->setDataManutencaol($this->input->post('dataManutencaoCad'));
-        $tanque->setCapacidade($this->input->post('capacidadeCad'));
-        $tanque->setComprimento($this->input->post('comprimentoCad'));
-        $tanque->setAltura($this->input->post('alturaCad'));
-        $tanque->setLargura($this->input->post('larguraCad'));
-        $tanque->setNivel($this->input->post('nivelCad'));
-        $tanque->setPeso($this->input->post('pesoCad'));
-        $tanque->setStatus($this->input->post('statusCad')); 
+        
+        $tanque->setIdTanque($this->input->post('idTanque'));
+        $tanque->setIdentificacao($this->input->post('identificacaoEdit'));
+        $tanque->setDataFabricacao($this->input->post('dataFabricacaoEdit'));
+        $tanque->setDataInspecao($this->input->post('dataInspecaoEdit'));
+        $tanque->setDataManutencao($this->input->post('dataManutencaoEdit'));
+        $tanque->setCapacidade($this->input->post('capacidadeEdit'));
+        $tanque->setComprimento($this->input->post('comprimentoEdit'));
+        $tanque->setAltura($this->input->post('alturaEdit'));
+        $tanque->setLargura($this->input->post('larguraEdit'));
+        $tanque->setNivel($this->input->post('nivelEdit'));
+        $tanque->setPeso($this->input->post('pesoEdit'));
+        $tanque->setStatus($this->input->post('statusEdit')); 
         $tanque->setDataAlterado(date("Y-m-d H:i:s"));
 
 
-        if ($cliente->editarClass('tanquessolidos','idTanque') == TRUE) {
+        if ($tanque->editarClass() == TRUE) {
 
             $this->session->set_flashdata('success', 'Tanque alterado com sucesso!');
             
@@ -205,7 +213,7 @@ class TanqueSolido_ctrl extends CI_Controller {
 
             $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
         }
-        
+
         redirect(base_url('TanqueSolido_ctrl'));
     }
 
@@ -215,6 +223,7 @@ class TanqueSolido_ctrl extends CI_Controller {
 
         $tanque = new TanquesSolidos($this->model);
         $tanque->setIdTanque($this->input->post('id'));
+        $tanque->setDataAlterado(date('Y-m-d'));
         
         if ($tanque->getIdTanque() == null){
 
@@ -222,7 +231,7 @@ class TanqueSolido_ctrl extends CI_Controller {
 
         } else{
             
-             if ($cliente->deletarTanqueClass('tanquessolidos','idTanque') == TRUE) {
+             if ($tanque->deletarTanqueClass() == TRUE) {
                 
                 $this->session->set_flashdata('success', 'Tanque excluído com sucesso!');
             } else {
@@ -233,6 +242,28 @@ class TanqueSolido_ctrl extends CI_Controller {
      
          redirect(base_url('TanqueSolido_ctrl'));        
 
-
+    }
+    
+    public function restaurar(){
+        
+        $tanque = new TanquesSolidos($this->model);
+        $tanque->setIdTanque($this->input->post('id'));
+        $tanque->setDataAlterado(date('Y-m-d'));
+        
+        if($tanque->getIdTanque() == NULL){
+             $this->session->set_flashdata('error','Erro ao tentar restaurar Tanque.'); 
+        } else{              
+                        
+            if ($tanque->restaurarTanqueClass() == TRUE) {
+                
+                $this->session->set_flashdata('success', 'Tanque restaurado com sucesso!');
+            } else {
+                $this->session->set_flashdata('error', 'Ocorreu um erro, favor contatar suporte técnico.');
+            }
+            
+        }
+     
+        redirect(base_url('TanqueSolido_ctrl'));     
+             
     }
 }
