@@ -207,6 +207,7 @@ class Transportes {
         $bruto = $this->getBruto(); 
         $dataManutencao = $this->getDataManutencao();
         $tipo = $this->getTipo();
+        $status =$this->getStatus();
         $alterado = $this->getDataAlterado();
         
         $data = array(
@@ -221,6 +222,7 @@ class Transportes {
             'bruto' => $bruto,
             'dataManutencao' => $dataManutencao,
             'tipo' => $tipo,  
+            'status' => $status,
             'dataAlterado' => $alterado
         );
 
@@ -253,7 +255,6 @@ class Transportes {
         $this->setBruto($result->bruto);
         $this->setDataManutencao($result->dataManutencao);
         $this->setStatus($result->status);
-        $this->setTipo($result->tipo);
         $this->setDataCadastro($result->dataCadastro);
         $this->setDataAlterado($result->dataAlterado);
     }
@@ -282,28 +283,6 @@ class Transportes {
         return $result;
     }
     
-    //restaurar virtual
-    public function restaurarTransporteClass() {
-
-        $id = $this->getIdTransporte();
-        $alterado = date('Y-m-d H:i:s');
-
-
-        $data = array(
-            'status' => 1,
-            'dataAlterado' => $alterado
-        );
-
-        if ($this->model->editar('transportes', $data, 'idTransporte', $id)) {
-
-            $result = TRUE;
-            
-        } else {
-
-            $result = FALSE;
-        }
-
-        return $result;
-    }
+    
     
 }

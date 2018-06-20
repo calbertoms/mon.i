@@ -112,7 +112,7 @@ class Produtos {
         $this->tipoTransporte = $tipoTransporte;
     }
 
-    public function setStatus($status) {
+    public function setStatus($tipoArmazenagem) {
         $this->status = $status;
     }
 
@@ -148,8 +148,8 @@ class Produtos {
         $nome = $this->getNome();
         $codigo = $this->getCodigo();
         $tipo = $this->getTipo();
-        $unidade = $this->getUnidade();
-        $tipoTransporte = $this->getTipoTransporte();
+        $unidade = $this->getUnidadea();
+        $tipoTransporte = $this->getTipoTransporteo();
         $status = $this->getStatus();
         $temperatura = $this->getTemperatura();
         $densidade = $this->getDensidade(); 
@@ -193,8 +193,9 @@ class Produtos {
         $nome = $this->getNome();
         $codigo = $this->getCodigo();
         $tipo = $this->getTipo();
-        $unidade = $this->getUnidade();
-        $tipoTransporte = $this->getTipoTransporte();        
+        $unidade = $this->getUnidadea();
+        $tipoTransporte = $this->getTipoTransporteo();
+        $status = $this->getStatus();
         $temperatura = $this->getTemperatura();
         $densidade = $this->getDensidade(); 
         $inflamavel = $this->getInflamavel();
@@ -207,7 +208,8 @@ class Produtos {
             'codigo' => $codigo,
             'tipo' => $tipo,
             'unidade' => $unidade,
-            'tipoTransporte' => $tipoTransporte,            
+            'tipoTransporte' => $tipoTransporte,
+            'status' => $status,
             'temperatura' => $temperatura,
             'densidade' => $densidade,
             'inflamavel' => $inflamavel,
@@ -243,10 +245,8 @@ class Produtos {
         $this->setTemperatura($result->temperatura);
         $this->setInflamavel($result->inflamavel);
         $this->setDescricao($result->descricao);
-        $this->setDensidade($result->densidade);
         $this->setDataCadastro($result->dataCadastro);
         $this->setDataAlterado($result->dataAlterado);
-
     }
     
     //delete virtual
@@ -257,7 +257,7 @@ class Produtos {
 
 
         $data = array(
-            'status' => 0,
+            'status' => FALSE,
             'dataAlterado' => $alterado
         );
 
@@ -272,30 +272,5 @@ class Produtos {
 
         return $result;
     }
-    
-    //restaurar virtual
-    public function restaurarProdutoClass() {
-
-        $id = $this->getIdProduto();
-        $alterado = date('Y-m-d H:i:s');
-
-
-        $data = array(
-            'status' => 1,
-            'dataAlterado' => $alterado
-        );
-
-        if ($this->model->editar('produtos', $data, 'idProduto', $id)) {
-
-            $result = TRUE;
-            
-        } else {
-
-            $result = FALSE;
-        }
-
-        return $result;
-    }
-    
     
 }

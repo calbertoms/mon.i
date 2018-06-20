@@ -1,22 +1,15 @@
 <?php
-class Transporte_model extends CI_Model {
+class Produto_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
     }
     
-    public function buscaTransportePorId($id){
-    
-        $query = 'SELECT * FROM transportes WHERE idTransporte = ? LIMIT 1 ';
-                                      
-        return $this->db->query($query, array($id))->row();
-    }
-    
-    public function buscaTransportes($limit,$start,$adm = false){
+    public function buscaProdutos($limit,$start,$adm = false){
         if(!$adm){
-            $query = 'SELECT * FROM transportes WHERE status = 1  ORDER BY idTransporte ASC LIMIT ? OFFSET ? ';
+            $query = 'SELECT * from produtos WHERE status = 1 ORDER BY idProduto ASC LIMIT ? OFFSET ? ';
         }else{
-            $query = 'SELECT * FROM transportes ORDER BY idTransporte ASC LIMIT ? OFFSET ? ';
+            $query = 'SELECT * from produtos ORDER BY idProduto ASC LIMIT ? OFFSET ? ';
         }
                                       
         return $this->db->query($query, array($limit,$start))->result();

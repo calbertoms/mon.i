@@ -5,13 +5,6 @@ class Transporte_model extends CI_Model {
         parent::__construct();
     }
     
-    public function buscaTransportePorId($id){
-    
-        $query = 'SELECT * FROM transportes WHERE idTransporte = ? LIMIT 1 ';
-                                      
-        return $this->db->query($query, array($id))->row();
-    }
-    
     public function buscaTransportes($limit,$start,$adm = false){
         if(!$adm){
             $query = 'SELECT * FROM transportes WHERE status = 1  ORDER BY idTransporte ASC LIMIT ? OFFSET ? ';

@@ -5,6 +5,13 @@ class Produto_model extends CI_Model {
         parent::__construct();
     }
     
+    public function buscaProdutoPorId($id){
+    
+        $query = 'SELECT * FROM produtos WHERE idProduto = ? LIMIT 1 ';
+                                      
+        return $this->db->query($query, array($id))->row();
+    }
+
     public function buscaProdutos($limit,$start,$adm = false){
         if(!$adm){
             $query = 'SELECT * from produtos WHERE status = 1 ORDER BY idProduto ASC LIMIT ? OFFSET ? ';
